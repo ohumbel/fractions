@@ -21,4 +21,8 @@ public class Quotient {
 	public String getDenominator() {
 		return denominator;
 	}
+	
+	public String toString() {
+		return numerator.concat("/").concat(denominator);
+	}
 }

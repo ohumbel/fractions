@@ -14,4 +14,9 @@ public class QuotientTest {
 		assertEquals("3", r.getDenominator());
 	}
 
+	@Test 
+	public void testToString() {
+		Quotient q = new Quotient("3", "4");
+		assertEquals("3/4", q.toString());
+	}
 }
