@@ -2,6 +2,7 @@ package st.extreme.math;
 
 import static org.junit.Assert.*;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class QuotientTest {
@@ -14,9 +15,28 @@ public class QuotientTest {
 		assertEquals("3", r.getDenominator());
 	}
 
-	@Test 
+	@Test
 	public void testToString() {
 		Quotient q = new Quotient("3", "4");
 		assertEquals("3/4", q.toString());
+	}
+
+	@Test
+	public void testFromString_Integer() {
+		Quotient q = Quotient.fromString("0");
+		assertEquals("0", q.getNumerator());
+		assertEquals("1", q.getDenominator());
+		q = Quotient.fromString("1");
+		assertEquals("1", q.getNumerator());
+		assertEquals("1", q.getDenominator());
+		q = Quotient.fromString("-1");
+		assertEquals("-1", q.getNumerator());
+		assertEquals("1", q.getDenominator());
+	}
+
+	@Test
+	@Ignore
+	public void testFromString_WithDecimals() {
+		fail("implement");
 	}
 }

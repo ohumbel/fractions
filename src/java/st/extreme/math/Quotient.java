@@ -2,6 +2,8 @@ package st.extreme.math;
 
 public class Quotient {
 
+	private static final String ONE = "1";
+
 	private String numerator;
 	private String denominator;
 
@@ -17,12 +19,16 @@ public class Quotient {
 	public String getNumerator() {
 		return numerator;
 	}
-	
+
 	public String getDenominator() {
 		return denominator;
 	}
-	
+
 	public String toString() {
 		return numerator.concat("/").concat(denominator);
+	}
+
+	public static Quotient fromString(String number) {
+		return new Quotient(number, ONE);
 	}
 }
