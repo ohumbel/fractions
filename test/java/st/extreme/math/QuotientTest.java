@@ -278,6 +278,38 @@ public class QuotientTest {
 	}
 
 	@Test
+	public void testValueOf_int() {
+		Quotient q = Quotient.valueOf(7);
+		assertEquals("7", q.getNumerator());
+		assertEquals("1", q.getDenominator());
+		assertTrue(q.isPositive());
+	}
+
+	@Test
+	public void testValueOf_long() {
+		Quotient q = Quotient.valueOf(-7L);
+		assertEquals("7", q.getNumerator());
+		assertEquals("1", q.getDenominator());
+		assertFalse(q.isPositive());
+	}
+
+	@Test
+	public void testValueOf_float() {
+		Quotient q = Quotient.valueOf(-1.85493F);
+		assertEquals("185493", q.getNumerator());
+		assertEquals("100000", q.getDenominator());
+		assertFalse(q.isPositive());
+	}
+
+	@Test
+	public void testValueOf_double() {
+		Quotient q = Quotient.valueOf(-1.8549399020399203D);
+		assertEquals("18549399020399202", q.getNumerator());
+		assertEquals("10000000000000000", q.getDenominator());
+		assertFalse(q.isPositive());
+	}
+
+	@Test
 	public void testValueOf_BigDecimal() {
 		BigDecimal bigDecimal = new BigDecimal("-847292.1120022");
 		Quotient q = Quotient.valueOf(bigDecimal);

@@ -88,6 +88,34 @@ public class Quotient implements Comparable<Quotient> {
 	}
 
 	/**
+	 * Create a new quotient from an int input
+	 */
+	public static Quotient valueOf(int i) {
+		return valueOf(Integer.valueOf(i));
+	}
+
+	/**
+	 * Create a new quotient from a long input
+	 */
+	public static Quotient valueOf(long l) {
+		return valueOf(Long.valueOf(l));
+	}
+
+	/**
+	 * Create a new quotient from a double input
+	 */
+	public static Quotient valueOf(double d) {
+		return valueOf(Double.valueOf(d));
+	}
+
+	/**
+	 * Create a new quotient from a float input
+	 */
+	public static Quotient valueOf(float f) {
+		return valueOf(Float.valueOf(f));
+	}
+
+	/**
 	 * Create a new quotient from {@link Number} input
 	 */
 	public static Quotient valueOf(Number number) {
