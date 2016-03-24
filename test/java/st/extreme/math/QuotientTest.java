@@ -242,6 +242,98 @@ public class QuotientTest {
 		assertNumberFormatException(".3+");
 	}
 
+	@Test
+	public void testBigDecimalValue() {
+		Quotient q = Quotient.valueOf("-1234.5678");
+		assertEquals("-1234.5678", q.bigDecimalValue().toPlainString());
+
+		String numerator = "-12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
+		String denominator = "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789";
+		String input = numerator.concat(".").concat(denominator);
+		q = Quotient.valueOf(input);
+		assertEquals(input, q.bigDecimalValue().toPlainString());
+	}
+
+	@Test
+	public void testCompareTo_equal() {
+		Quotient q1 = new Quotient("12", "40", true);
+		Quotient q2 = new Quotient("12", "40", true);
+		assertEquals(0, q1.compareTo(q2));
+		assertEquals(0, q2.compareTo(q1));
+		Quotient q3 = new Quotient("12", "40", true);
+		assertEquals(0, q1.compareTo(q3));
+		assertEquals(0, q2.compareTo(q3));
+	}
+
+	@Test
+	public void testCompareTo_greater() {
+		Quotient q1;
+		Quotient q2;
+		q1 = new Quotient("13", "40", true);
+		q2 = new Quotient("12", "40", true);
+		assertTrue(q1.compareTo(q2) > 0);
+		q1 = new Quotient("13", "40", false);
+		q2 = new Quotient("12", "40", false);
+		assertTrue(q2.compareTo(q1) > 0);
+	}
+
+	@Test
+	public void testCompareTo_less() {
+		Quotient q1;
+		Quotient q2;
+		q1 = new Quotient("13", "40", true);
+		q2 = new Quotient("12", "40", true);
+		assertTrue(q2.compareTo(q1) < 0);
+		q1 = new Quotient("13", "40", false);
+		q2 = new Quotient("12", "40", false);
+		assertTrue(q1.compareTo(q2) < 0);
+	}
+
+	@Test
+	public void testEquals() {
+		Quotient q1 = new Quotient("12", "40", true);
+		Quotient q2 = new Quotient("12", "40", true);
+		assertEquals(q1, q2);
+		assertEquals(q2, q1);
+		Quotient q3 = new Quotient("12", "40", true);
+		assertEquals(q1, q3);
+		assertEquals(q2, q3);
+	}
+
+	@Test
+	public void testEquals_notEqual() {
+		Quotient q1;
+		Quotient q2;
+		q1 = new Quotient("12", "40", true);
+		q2 = new Quotient("12", "40", false);
+		assertNotEquals(q1, q2);
+		q2 = new Quotient("12", "41", true);
+		assertNotEquals(q1, q2);
+		q2 = new Quotient("12", "41", false);
+		assertNotEquals(q1, q2);
+		q2 = new Quotient("11", "40", true);
+		assertNotEquals(q1, q2);
+		q2 = new Quotient("11", "40", false);
+		assertNotEquals(q1, q2);
+	}
+
+	@Test
+	public void testHashCode_equal() {
+		Quotient q1;
+		Quotient q2;
+		q1 = new Quotient("7", "8", false);
+		q2 = new Quotient("7", "8", false);
+		assertEquals(q1.hashCode(), q2.hashCode());
+	}
+
+	@Test
+	public void testHashCode_multipleCalls() {
+		Quotient q1 = new Quotient("94382991", "882932", true);
+		int firstHash = q1.hashCode();
+		assertEquals(firstHash, q1.hashCode());
+		assertEquals(firstHash, q1.hashCode());
+	}
+
 	private void assertNumberFormatException(String input) {
 		try {
 			Quotient.valueOf(input);

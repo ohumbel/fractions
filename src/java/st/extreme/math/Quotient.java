@@ -1,6 +1,12 @@
 package st.extreme.math;
 
-public class Quotient {
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
+
+public class Quotient implements Comparable<Quotient> {
+
+	private static final MathContext MATH_CONTEXT = new MathContext(500, RoundingMode.HALF_UP);
 
 	private static final String ONE = "1";
 	private static final String ZERO = "0";
@@ -148,5 +154,34 @@ public class Quotient {
 		} else {
 			return new Quotient(numerator.toString(), denominator.toString(), isPositive);
 		}
+	}
+
+	public BigDecimal bigDecimalValue() {
+		String signedNumerator;
+		if (isPositive()) {
+			signedNumerator = numerator;
+		} else {
+			signedNumerator = String.valueOf(MINUS_CHAR).concat(numerator);
+		}
+		return new BigDecimal(signedNumerator).divide(new BigDecimal(denominator), MATH_CONTEXT);
+	}
+
+	@Override
+	public int compareTo(Quotient o) {
+		return bigDecimalValue().compareTo(o.bigDecimalValue());
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Quotient)) {
+			return false;
+		} else {
+			return compareTo((Quotient) obj) == 0;
+		}
+	}
+
+	@Override
+	public int hashCode() {
+		return bigDecimalValue().hashCode();
 	}
 }
