@@ -1,6 +1,12 @@
 package st.extreme.math;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.math.BigDecimal;
 
 import org.junit.Test;
 
@@ -53,7 +59,7 @@ public class QuotientTest {
 		assertEquals("1", q.getDenominator());
 		assertTrue(q.isPositive());
 
-		q = Quotient.valueOf(null);
+		q = Quotient.valueOf((String) null);
 		assertEquals("0", q.getNumerator());
 		assertEquals("1", q.getDenominator());
 		assertTrue(q.isPositive());
@@ -92,6 +98,11 @@ public class QuotientTest {
 		q = Quotient.valueOf("-001");
 		assertEquals("1", q.getNumerator());
 		assertEquals("1", q.getDenominator());
+		assertFalse(q.isPositive());
+
+		q = Quotient.valueOf("-0.00000001");
+		assertEquals("1", q.getNumerator());
+		assertEquals("100000000", q.getDenominator());
 		assertFalse(q.isPositive());
 	}
 
@@ -240,6 +251,39 @@ public class QuotientTest {
 		assertNumberFormatException("1x");
 		assertNumberFormatException(".2-");
 		assertNumberFormatException(".3+");
+	}
+
+	@Test
+	public void testValueOf_Long() {
+		Long longVal = Long.valueOf(-123456789012345L);
+		Quotient q = Quotient.valueOf(longVal);
+		assertEquals("123456789012345", q.getNumerator());
+		assertEquals("1", q.getDenominator());
+		assertFalse(q.isPositive());
+	}
+
+	@Test
+	public void testValueOf_Double() {
+		Double doubleVal = Double.valueOf("-1.75");
+		Quotient q = Quotient.valueOf(doubleVal);
+		assertEquals("175", q.getNumerator());
+		assertEquals("100", q.getDenominator());
+		assertFalse(q.isPositive());
+
+		doubleVal = Double.valueOf(doubleVal.doubleValue() / 250.0);
+		q = Quotient.valueOf(doubleVal);
+		assertEquals("7", q.getNumerator());
+		assertEquals("1000", q.getDenominator());
+		assertFalse(q.isPositive());
+	}
+
+	@Test
+	public void testValueOf_BigDecimal() {
+		BigDecimal bigDecimal = new BigDecimal("-847292.1120022");
+		Quotient q = Quotient.valueOf(bigDecimal);
+		assertEquals("8472921120022", q.getNumerator());
+		assertEquals("10000000", q.getDenominator());
+		assertFalse(q.isPositive());
 	}
 
 	@Test

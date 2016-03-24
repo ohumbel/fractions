@@ -88,18 +88,32 @@ public class Quotient implements Comparable<Quotient> {
 	}
 
 	/**
-	 * Create a new quotient from a string input
+	 * Create a new quotient from {@link Number} input
+	 */
+	public static Quotient valueOf(Number number) {
+		return valueOf(number.toString());
+	}
+
+	/**
+	 * Create a new quotient from {@link BigDecimal} input
+	 */
+	public static Quotient valueOf(BigDecimal bigDecimal) {
+		return valueOf(bigDecimal.toPlainString());
+	}
+
+	/**
+	 * Create a new quotient from a {@link String} input
 	 * 
-	 * @param number
+	 * @param numberString
 	 *            in the format [sign][digits].[digits]
 	 * 
-	 * @return a quotient representing the passed in number value
+	 * @return a quotient representing the passed in numeric value
 	 */
-	public static Quotient valueOf(String number) {
-		if (number == null || number.isEmpty() || ZERO.equals(number)) {
+	public static Quotient valueOf(String numberString) {
+		if (numberString == null || numberString.isEmpty() || ZERO.equals(numberString)) {
 			return new Quotient(ZERO, ONE);
 		}
-		char[] chars = number.toCharArray();
+		char[] chars = numberString.toCharArray();
 		boolean isPositive = true;
 		StringBuilder numerator = new StringBuilder();
 		StringBuilder denominator = new StringBuilder();
@@ -121,11 +135,6 @@ public class Quotient implements Comparable<Quotient> {
 				beforeDecimal = false;
 				break;
 			case D0_CHAR:
-				if (numerator.length() == 0 && beforeDecimal) {
-					// skip leading zeroes
-					break;
-				}
-				// intentially no break
 			case D1_CHAR:
 			case D2_CHAR:
 			case D3_CHAR:
@@ -135,9 +144,12 @@ public class Quotient implements Comparable<Quotient> {
 			case D7_CHAR:
 			case D8_CHAR:
 			case D9_CHAR:
-				numerator.append(c);
 				if (!beforeDecimal) {
 					denominator.append(ZERO);
+				}
+				// skip leading zeroes in numerator
+				if (numerator.length() > 0 || D0_CHAR != c) {
+					numerator.append(c);
 				}
 				break;
 			default:
