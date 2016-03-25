@@ -410,6 +410,17 @@ public class QuotientTest {
 		assertEquals(firstHash, q1.hashCode());
 	}
 
+	@Test
+	public void testMultiply() {
+		Quotient q1 = new Quotient("2", "3");
+		Quotient q2 = new Quotient("4", "5");
+		assertEquals("8/15", q1.multiply(q2).toString());
+
+		q1 = new Quotient("-3", "7");
+		q2 = new Quotient("8", "9");
+		assertEquals("-24/63", q1.multiply(q2).toString());
+	}
+
 	private void assertNumberFormatException(String input) {
 		try {
 			Quotient.valueOf(input);

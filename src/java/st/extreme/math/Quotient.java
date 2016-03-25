@@ -1,6 +1,7 @@
 package st.extreme.math;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
@@ -155,8 +156,8 @@ public class Quotient implements Comparable<Quotient> {
 				// intentially no break
 			case PLUS_CHAR:
 				if (pos > 0) {
-					throw new NumberFormatException("illegal character ".concat(String.valueOf(c))
-							.concat(" at position ").concat(String.valueOf(pos)));
+					throw new NumberFormatException("illegal character ".concat(String.valueOf(c)).concat(
+							" at position ").concat(String.valueOf(pos)));
 				}
 				break;
 			case DOT_CHAR:
@@ -223,5 +224,13 @@ public class Quotient implements Comparable<Quotient> {
 	@Override
 	public int hashCode() {
 		return bigDecimalValue().hashCode();
+	}
+
+	public Quotient multiply(Quotient q) {
+		// first naive implementation using BigInteger
+		String multipliedNumerator = new BigInteger(numerator).multiply(new BigInteger(q.getNumerator())).toString();
+		String multipliedDenominator = new BigInteger(denominator).multiply(new BigInteger(q.getDenominator()))
+				.toString();
+		return new Quotient(multipliedNumerator, multipliedDenominator, isPositive() && q.isPositive());
 	}
 }
