@@ -233,4 +233,8 @@ public class Quotient implements Comparable<Quotient> {
 				.toString();
 		return new Quotient(multipliedNumerator, multipliedDenominator, isPositive() && q.isPositive());
 	}
+
+	public Quotient divide(Quotient q) {
+		return multiply(q.reciprocal());
+	}
 }

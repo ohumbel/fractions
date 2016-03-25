@@ -421,6 +421,17 @@ public class QuotientTest {
 		assertEquals("-24/63", q1.multiply(q2).toString());
 	}
 
+	@Test
+	public void testDivide() {
+		Quotient q1 = new Quotient("2", "3");
+		Quotient q2 = new Quotient("4", "5");
+		assertEquals("10/12", q1.divide(q2).toString());
+
+		q1 = new Quotient("-3", "7");
+		q2 = new Quotient("8", "9");
+		assertEquals("-27/56", q1.divide(q2).toString());
+	}
+
 	private void assertNumberFormatException(String input) {
 		try {
 			Quotient.valueOf(input);
