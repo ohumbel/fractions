@@ -13,6 +13,34 @@ import org.junit.Test;
 public class QuotientTest {
 
 	@Test
+	public void testConstructor_IllegalCharacter() {
+		try {
+			new Quotient(".", "4");
+			fail("NumberFormatException expected");
+		} catch (NumberFormatException nfe) {
+			// ok
+		}
+		try {
+			new Quotient("4", ".");
+			fail("NumberFormatException expected");
+		} catch (NumberFormatException nfe) {
+			// ok
+		}
+		try {
+			new Quotient("-4", "5");
+			fail("NumberFormatException expected");
+		} catch (NumberFormatException nfe) {
+			// ok
+		}
+		try {
+			new Quotient("4", "+5");
+			fail("NumberFormatException expected");
+		} catch (NumberFormatException nfe) {
+			// ok
+		}
+	}
+
+	@Test
 	public void testReciprocal() {
 		Quotient q = new Quotient("3", "4");
 		Quotient r = q.reciprocal();
@@ -424,7 +452,7 @@ public class QuotientTest {
 		Quotient q2 = new Quotient("4", "5");
 		assertEquals("8/15", q1.multiply(q2).toString());
 
-		q1 = new Quotient("-3", "7");
+		q1 = new Quotient("3", "7", false);
 		q2 = new Quotient("8", "9");
 		assertEquals("-24/63", q1.multiply(q2).toString());
 	}
@@ -435,7 +463,7 @@ public class QuotientTest {
 		Quotient q2 = new Quotient("4", "5");
 		assertEquals("10/12", q1.divide(q2).toString());
 
-		q1 = new Quotient("-3", "7");
+		q1 = new Quotient("3", "7", false);
 		q2 = new Quotient("8", "9");
 		assertEquals("-27/56", q1.divide(q2).toString());
 	}

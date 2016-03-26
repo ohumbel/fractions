@@ -4,10 +4,14 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Quotient implements Comparable<Quotient> {
 
 	private static final MathContext MATH_CONTEXT = new MathContext(500, RoundingMode.HALF_UP);
+
+	private static final Pattern INTEGER_PATTERN = Pattern.compile("(0|([1-9][0-9]*))");
 
 	private static final String ONE = "1";
 	private static final String ZERO = "0";
@@ -48,6 +52,14 @@ public class Quotient implements Comparable<Quotient> {
 	 * @param positive
 	 */
 	Quotient(String numerator, String denominator, boolean positive) {
+		Matcher numeratorMatcher = INTEGER_PATTERN.matcher(numerator);
+		if (!numeratorMatcher.matches()) {
+			throw new NumberFormatException(buildNumberFormatExceptionMessage(numerator));
+		}
+		Matcher denominatorMatcher = INTEGER_PATTERN.matcher(denominator);
+		if (!denominatorMatcher.matches()) {
+			throw new NumberFormatException(buildNumberFormatExceptionMessage(numerator));
+		}
 		this.numerator = numerator;
 		this.denominator = denominator;
 		this.positive = positive;
@@ -142,6 +154,7 @@ public class Quotient implements Comparable<Quotient> {
 		if (numberString == null || numberString.isEmpty() || ZERO.equals(numberString)) {
 			return new Quotient(ZERO, ONE);
 		}
+		// TODO use regex to validate?
 		char[] chars = numberString.toCharArray();
 		boolean isPositive = true;
 		StringBuilder numerator = new StringBuilder();
@@ -239,6 +252,10 @@ public class Quotient implements Comparable<Quotient> {
 	private static String buildNumberFormatExceptionMessage(String numberString, int pos, char c) {
 		return "'".concat(numberString).concat("': illegal character ").concat(String.valueOf(c)).concat(
 				" at position ").concat(String.valueOf(pos));
+	}
+
+	private static String buildNumberFormatExceptionMessage(String numberString) {
+		return "illegal number '".concat(numberString).concat("'");
 	}
 
 }
