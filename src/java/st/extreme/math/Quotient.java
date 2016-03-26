@@ -156,8 +156,7 @@ public class Quotient implements Comparable<Quotient> {
 				// intentially no break
 			case PLUS_CHAR:
 				if (pos > 0) {
-					throw new NumberFormatException("illegal character ".concat(String.valueOf(c)).concat(
-							" at position ").concat(String.valueOf(pos)));
+					throw new NumberFormatException(buildNumberFormatExceptionMessage(numberString, pos, c));
 				}
 				break;
 			case DOT_CHAR:
@@ -182,8 +181,7 @@ public class Quotient implements Comparable<Quotient> {
 				}
 				break;
 			default:
-				throw new NumberFormatException("illegal character ".concat(String.valueOf(c)).concat(" at position ")
-						.concat(String.valueOf(pos)));
+				throw new NumberFormatException(buildNumberFormatExceptionMessage(numberString, pos, c));
 			}
 			pos++;
 		}
@@ -237,4 +235,10 @@ public class Quotient implements Comparable<Quotient> {
 	public Quotient divide(Quotient q) {
 		return multiply(q.reciprocal());
 	}
+
+	private static String buildNumberFormatExceptionMessage(String numberString, int pos, char c) {
+		return "'".concat(numberString).concat("': illegal character ").concat(String.valueOf(c)).concat(
+				" at position ").concat(String.valueOf(pos));
+	}
+
 }
