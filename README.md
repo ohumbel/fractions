@@ -1,4 +1,4 @@
-# quotient-math
+# fractions
 
 An attempt to add, subtract, multiply and divide with exact precision in Java.
 
@@ -8,9 +8,9 @@ The handling of `BigDecimal` is a bit cumbersome. The programmer needs to specif
 
 ## Idea
 
-Every decimal value in the form `12345.6789` can be represented as a rational number, quotient or [fraction](https://en.wikipedia.org/wiki/Fraction_%28mathematics%29). In this example, it would be `123456789 / 10000`. 
+Every decimal value in the form `12345.6789` can be represented as a rational number, also called quotient or [fraction](https://en.wikipedia.org/wiki/Fraction_%28mathematics%29). In this example, it would be `123456789 / 10000`. 
 
-Arithmetics with quotients can be reduced to *integer* multiplications, additions and subtractions. And those can be performed with **exact** precision.
+Arithmetics with fractions can be reduced to *integer* multiplications, additions and subtractions. And those can be performed with **exact** precision.
 
 ## Still unclear
 - what should the internal storage format for numerator and denominator be: `String` or `BigInteger` ?
