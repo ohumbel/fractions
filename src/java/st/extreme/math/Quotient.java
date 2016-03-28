@@ -74,7 +74,7 @@ public class Quotient implements Comparable<Quotient>, Serializable {
 	 * @return a new quotient with the reciprocal value of this quotient
 	 */
 	public Quotient reciprocal() {
-		return new Quotient(denominator, numerator);
+		return new Quotient(denominator, numerator, positive);
 	}
 
 	public String getNumerator() {
