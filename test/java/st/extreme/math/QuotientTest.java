@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 import org.junit.Test;
 
@@ -26,17 +27,15 @@ public class QuotientTest {
 		} catch (NumberFormatException nfe) {
 			// ok
 		}
+	}
+
+	@Test
+	public void testConstructor_divisionByZero() {
 		try {
-			new Quotient("-4", "5");
-			fail("NumberFormatException expected");
-		} catch (NumberFormatException nfe) {
-			// ok
-		}
-		try {
-			new Quotient("4", "+5");
-			fail("NumberFormatException expected");
-		} catch (NumberFormatException nfe) {
-			// ok
+			new Quotient("1", "0");
+			fail("ArithmeticException expected");
+		} catch (ArithmeticException ae) {
+			assertTrue(ae.getMessage().contains("division by zero"));
 		}
 	}
 
@@ -44,17 +43,17 @@ public class QuotientTest {
 	public void testReciprocal() {
 		Quotient q = new Quotient("3", "4");
 		Quotient r = q.reciprocal();
-		assertEquals("4", r.getNumerator());
-		assertEquals("3", r.getDenominator());
+		assertEquals(new BigInteger("4"), r.getNumerator());
+		assertEquals(new BigInteger("3"), r.getDenominator());
 		assertEquals(q.isPositive(), r.isPositive());
 	}
 
 	@Test
 	public void testReciprocal_Negative() {
-		Quotient q = new Quotient("3", "4", false);
+		Quotient q = new Quotient("-3", "4");
 		Quotient r = q.reciprocal();
-		assertEquals("4", r.getNumerator());
-		assertEquals("3", r.getDenominator());
+		assertEquals(new BigInteger("4"), r.getNumerator());
+		assertEquals(new BigInteger("-3"), r.getDenominator());
 		assertEquals(q.isPositive(), r.isPositive());
 	}
 
@@ -62,221 +61,221 @@ public class QuotientTest {
 	public void testToString() {
 		Quotient q = new Quotient("3", "4");
 		assertEquals("3/4", q.toString());
-		q = new Quotient("3", "4", false);
+		q = new Quotient("3", "-4");
 		assertEquals("-3/4", q.toString());
 	}
 
 	@Test
 	public void testValueOf_Integer() {
 		Quotient q = Quotient.valueOf("0");
-		assertEquals("0", q.getNumerator());
-		assertEquals("1", q.getDenominator());
+		assertEquals(BigInteger.ZERO, q.getNumerator());
+		assertEquals(BigInteger.ONE, q.getDenominator());
 		assertTrue(q.isPositive());
 
 		q = Quotient.valueOf("1");
-		assertEquals("1", q.getNumerator());
-		assertEquals("1", q.getDenominator());
+		assertEquals(BigInteger.ONE, q.getNumerator());
+		assertEquals(BigInteger.ONE, q.getDenominator());
 		assertTrue(q.isPositive());
 
 		q = Quotient.valueOf("+1");
-		assertEquals("1", q.getNumerator());
-		assertEquals("1", q.getDenominator());
+		assertEquals(BigInteger.ONE, q.getNumerator());
+		assertEquals(BigInteger.ONE, q.getDenominator());
 		assertTrue(q.isPositive());
 
 		q = Quotient.valueOf("-1");
-		assertEquals("1", q.getNumerator());
-		assertEquals("1", q.getDenominator());
+		assertEquals(new BigInteger("-1"), q.getNumerator());
+		assertEquals(BigInteger.ONE, q.getDenominator());
 		assertFalse(q.isPositive());
 	}
 
 	@Test
 	public void testValueOf_noString() {
 		Quotient q = Quotient.valueOf("");
-		assertEquals("0", q.getNumerator());
-		assertEquals("1", q.getDenominator());
+		assertEquals(BigInteger.ZERO, q.getNumerator());
+		assertEquals(BigInteger.ONE, q.getDenominator());
 		assertTrue(q.isPositive());
 
 		q = Quotient.valueOf((String) null);
-		assertEquals("0", q.getNumerator());
-		assertEquals("1", q.getDenominator());
+		assertEquals(BigInteger.ZERO, q.getNumerator());
+		assertEquals(BigInteger.ONE, q.getDenominator());
 		assertTrue(q.isPositive());
 	}
 
 	@Test
 	public void testValueOf_Signs() {
 		Quotient q = Quotient.valueOf("-1");
-		assertEquals("1", q.getNumerator());
-		assertEquals("1", q.getDenominator());
+		assertEquals(new BigInteger("-1"), q.getNumerator());
+		assertEquals(BigInteger.ONE, q.getDenominator());
 		assertFalse(q.isPositive());
 
 		q = Quotient.valueOf("+1");
-		assertEquals("1", q.getNumerator());
-		assertEquals("1", q.getDenominator());
+		assertEquals(BigInteger.ONE, q.getNumerator());
+		assertEquals(BigInteger.ONE, q.getDenominator());
 		assertTrue(q.isPositive());
 	}
 
 	@Test
 	public void testValueOf_LeadingZeroes() {
 		Quotient q = Quotient.valueOf("000");
-		assertEquals("0", q.getNumerator());
-		assertEquals("1", q.getDenominator());
+		assertEquals(BigInteger.ZERO, q.getNumerator());
+		assertEquals(BigInteger.ONE, q.getDenominator());
 		assertTrue(q.isPositive());
 
 		q = Quotient.valueOf("001");
-		assertEquals("1", q.getNumerator());
-		assertEquals("1", q.getDenominator());
+		assertEquals(BigInteger.ONE, q.getNumerator());
+		assertEquals(BigInteger.ONE, q.getDenominator());
 		assertTrue(q.isPositive());
 
 		q = Quotient.valueOf("+001");
-		assertEquals("1", q.getNumerator());
-		assertEquals("1", q.getDenominator());
+		assertEquals(BigInteger.ONE, q.getNumerator());
+		assertEquals(BigInteger.ONE, q.getDenominator());
 		assertTrue(q.isPositive());
 
 		q = Quotient.valueOf("-001");
-		assertEquals("1", q.getNumerator());
-		assertEquals("1", q.getDenominator());
+		assertEquals(new BigInteger("-1"), q.getNumerator());
+		assertEquals(BigInteger.ONE, q.getDenominator());
 		assertFalse(q.isPositive());
 
 		q = Quotient.valueOf("-0.00000001");
-		assertEquals("1", q.getNumerator());
-		assertEquals("100000000", q.getDenominator());
+		assertEquals(new BigInteger("-1"), q.getNumerator());
+		assertEquals(new BigInteger("100000000"), q.getDenominator());
 		assertFalse(q.isPositive());
 	}
 
 	@Test
 	public void testValueOf_WithDecimals() {
 		Quotient q = Quotient.valueOf("1.5");
-		assertEquals("15", q.getNumerator());
-		assertEquals("10", q.getDenominator());
+		assertEquals(new BigInteger("15"), q.getNumerator());
+		assertEquals(new BigInteger("10"), q.getDenominator());
 		assertTrue(q.isPositive());
 
 		q = Quotient.valueOf("-1.5");
-		assertEquals("15", q.getNumerator());
-		assertEquals("10", q.getDenominator());
+		assertEquals(new BigInteger("-15"), q.getNumerator());
+		assertEquals(new BigInteger("10"), q.getDenominator());
 		assertFalse(q.isPositive());
 
 		q = Quotient.valueOf("-1234.5678");
-		assertEquals("12345678", q.getNumerator());
-		assertEquals("10000", q.getDenominator());
+		assertEquals(new BigInteger("-12345678"), q.getNumerator());
+		assertEquals(new BigInteger("10000"), q.getDenominator());
 		assertFalse(q.isPositive());
 
 		// maybe we could eliminate the same number of trailing zeroes
 		q = Quotient.valueOf("1.000");
-		assertEquals("1000", q.getNumerator());
-		assertEquals("1000", q.getDenominator());
+		assertEquals(new BigInteger("1000"), q.getNumerator());
+		assertEquals(new BigInteger("1000"), q.getDenominator());
 		assertTrue(q.isPositive());
 	}
 
 	@Test
 	public void testValueOf_MinimalInput() {
 		Quotient q = Quotient.valueOf(".5");
-		assertEquals("5", q.getNumerator());
-		assertEquals("10", q.getDenominator());
+		assertEquals(new BigInteger("5"), q.getNumerator());
+		assertEquals(new BigInteger("10"), q.getDenominator());
 		assertTrue(q.isPositive());
 
 		q = Quotient.valueOf(".");
-		assertEquals("0", q.getNumerator());
-		assertEquals("1", q.getDenominator());
+		assertEquals(BigInteger.ZERO, q.getNumerator());
+		assertEquals(BigInteger.ONE, q.getDenominator());
 		assertTrue(q.isPositive());
 
 		q = Quotient.valueOf(".0");
-		assertEquals("0", q.getNumerator());
-		assertEquals("1", q.getDenominator());
+		assertEquals(BigInteger.ZERO, q.getNumerator());
+		assertEquals(new BigInteger("10"), q.getDenominator()); // ok
 		assertTrue(q.isPositive());
 
 		q = Quotient.valueOf(".1");
-		assertEquals("1", q.getNumerator());
-		assertEquals("10", q.getDenominator());
+		assertEquals(BigInteger.ONE, q.getNumerator());
+		assertEquals(new BigInteger("10"), q.getDenominator());
 		assertTrue(q.isPositive());
 
 		q = Quotient.valueOf("0.");
-		assertEquals("0", q.getNumerator());
-		assertEquals("1", q.getDenominator());
+		assertEquals(BigInteger.ZERO, q.getNumerator());
+		assertEquals(BigInteger.ONE, q.getDenominator());
 		assertTrue(q.isPositive());
 
 		q = Quotient.valueOf("1.");
-		assertEquals("1", q.getNumerator());
-		assertEquals("1", q.getDenominator());
+		assertEquals(BigInteger.ONE, q.getNumerator());
+		assertEquals(BigInteger.ONE, q.getDenominator());
 		assertTrue(q.isPositive());
 
 		q = Quotient.valueOf("-");
-		assertEquals("0", q.getNumerator());
-		assertEquals("1", q.getDenominator());
-		assertFalse(q.isPositive());
+		assertEquals(BigInteger.ZERO, q.getNumerator());
+		assertEquals(BigInteger.ONE, q.getDenominator());
+		assertTrue(q.isPositive());
 
 		q = Quotient.valueOf("-0");
-		assertEquals("0", q.getNumerator());
-		assertEquals("1", q.getDenominator());
-		assertFalse(q.isPositive());
+		assertEquals(BigInteger.ZERO, q.getNumerator());
+		assertEquals(BigInteger.ONE, q.getDenominator());
+		assertTrue(q.isPositive());
 
 		q = Quotient.valueOf("-1");
-		assertEquals("1", q.getNumerator());
-		assertEquals("1", q.getDenominator());
+		assertEquals(new BigInteger("-1"), q.getNumerator());
+		assertEquals(BigInteger.ONE, q.getDenominator());
 		assertFalse(q.isPositive());
 
 		q = Quotient.valueOf("+");
-		assertEquals("0", q.getNumerator());
-		assertEquals("1", q.getDenominator());
+		assertEquals(BigInteger.ZERO, q.getNumerator());
+		assertEquals(BigInteger.ONE, q.getDenominator());
 		assertTrue(q.isPositive());
 
 		q = Quotient.valueOf("+0");
-		assertEquals("0", q.getNumerator());
-		assertEquals("1", q.getDenominator());
+		assertEquals(BigInteger.ZERO, q.getNumerator());
+		assertEquals(BigInteger.ONE, q.getDenominator());
 		assertTrue(q.isPositive());
 
 		q = Quotient.valueOf("+1");
-		assertEquals("1", q.getNumerator());
-		assertEquals("1", q.getDenominator());
+		assertEquals(BigInteger.ONE, q.getNumerator());
+		assertEquals(BigInteger.ONE, q.getDenominator());
 		assertTrue(q.isPositive());
 
 		q = Quotient.valueOf("+.");
-		assertEquals("0", q.getNumerator());
-		assertEquals("1", q.getDenominator());
+		assertEquals(BigInteger.ZERO, q.getNumerator());
+		assertEquals(BigInteger.ONE, q.getDenominator());
 		assertTrue(q.isPositive());
 
 		q = Quotient.valueOf("+.0");
-		assertEquals("0", q.getNumerator());
-		assertEquals("1", q.getDenominator());
+		assertEquals(BigInteger.ZERO, q.getNumerator());
+		assertEquals(new BigInteger("10"), q.getDenominator()); // ok
 		assertTrue(q.isPositive());
 
 		q = Quotient.valueOf("+.1");
-		assertEquals("1", q.getNumerator());
-		assertEquals("10", q.getDenominator());
+		assertEquals(BigInteger.ONE, q.getNumerator());
+		assertEquals(new BigInteger("10"), q.getDenominator());
 		assertTrue(q.isPositive());
 
 		q = Quotient.valueOf("+0.");
-		assertEquals("0", q.getNumerator());
-		assertEquals("1", q.getDenominator());
+		assertEquals(BigInteger.ZERO, q.getNumerator());
+		assertEquals(BigInteger.ONE, q.getDenominator());
 		assertTrue(q.isPositive());
 
 		q = Quotient.valueOf("+1.");
-		assertEquals("1", q.getNumerator());
-		assertEquals("1", q.getDenominator());
+		assertEquals(BigInteger.ONE, q.getNumerator());
+		assertEquals(BigInteger.ONE, q.getDenominator());
 		assertTrue(q.isPositive());
 
 		q = Quotient.valueOf("-.");
-		assertEquals("0", q.getNumerator());
-		assertEquals("1", q.getDenominator());
-		assertFalse(q.isPositive());
+		assertEquals(BigInteger.ZERO, q.getNumerator());
+		assertEquals(BigInteger.ONE, q.getDenominator());
+		assertTrue(q.isPositive());
 
 		q = Quotient.valueOf("-.0");
-		assertEquals("0", q.getNumerator());
-		assertEquals("1", q.getDenominator());
-		assertFalse(q.isPositive());
+		assertEquals(BigInteger.ZERO, q.getNumerator());
+		assertEquals(new BigInteger("10"), q.getDenominator()); // ok
+		assertTrue(q.isPositive());
 
 		q = Quotient.valueOf("-.1");
-		assertEquals("1", q.getNumerator());
-		assertEquals("10", q.getDenominator());
+		assertEquals(new BigInteger("-1"), q.getNumerator());
+		assertEquals(new BigInteger("10"), q.getDenominator());
 		assertFalse(q.isPositive());
 
 		q = Quotient.valueOf("-0.");
-		assertEquals("0", q.getNumerator());
-		assertEquals("1", q.getDenominator());
-		assertFalse(q.isPositive());
+		assertEquals(BigInteger.ZERO, q.getNumerator());
+		assertEquals(BigInteger.ONE, q.getDenominator());
+		assertTrue(q.isPositive());
 
 		q = Quotient.valueOf("-1.");
-		assertEquals("1", q.getNumerator());
-		assertEquals("1", q.getDenominator());
+		assertEquals(new BigInteger("-1"), q.getNumerator());
+		assertEquals(BigInteger.ONE, q.getDenominator());
 		assertFalse(q.isPositive());
 	}
 
@@ -294,8 +293,8 @@ public class QuotientTest {
 	public void testValueOf_Long() {
 		Long longVal = Long.valueOf(-123456789012345L);
 		Quotient q = Quotient.valueOf(longVal);
-		assertEquals("123456789012345", q.getNumerator());
-		assertEquals("1", q.getDenominator());
+		assertEquals(new BigInteger("-123456789012345"), q.getNumerator());
+		assertEquals(BigInteger.ONE, q.getDenominator());
 		assertFalse(q.isPositive());
 	}
 
@@ -303,46 +302,46 @@ public class QuotientTest {
 	public void testValueOf_Double() {
 		Double doubleVal = Double.valueOf("-1.75");
 		Quotient q = Quotient.valueOf(doubleVal);
-		assertEquals("175", q.getNumerator());
-		assertEquals("100", q.getDenominator());
+		assertEquals(new BigInteger("-175"), q.getNumerator());
+		assertEquals(new BigInteger("100"), q.getDenominator());
 		assertFalse(q.isPositive());
 
 		doubleVal = Double.valueOf(doubleVal.doubleValue() / 250.0);
 		q = Quotient.valueOf(doubleVal);
-		assertEquals("7", q.getNumerator());
-		assertEquals("1000", q.getDenominator());
+		assertEquals(new BigInteger("-7"), q.getNumerator());
+		assertEquals(new BigInteger("1000"), q.getDenominator());
 		assertFalse(q.isPositive());
 	}
 
 	@Test
 	public void testValueOf_int() {
 		Quotient q = Quotient.valueOf(7);
-		assertEquals("7", q.getNumerator());
-		assertEquals("1", q.getDenominator());
+		assertEquals(new BigInteger("7"), q.getNumerator());
+		assertEquals(BigInteger.ONE, q.getDenominator());
 		assertTrue(q.isPositive());
 	}
 
 	@Test
 	public void testValueOf_long() {
 		Quotient q = Quotient.valueOf(-7L);
-		assertEquals("7", q.getNumerator());
-		assertEquals("1", q.getDenominator());
+		assertEquals(new BigInteger("-7"), q.getNumerator());
+		assertEquals(BigInteger.ONE, q.getDenominator());
 		assertFalse(q.isPositive());
 	}
 
 	@Test
 	public void testValueOf_float() {
 		Quotient q = Quotient.valueOf(-1.85493F);
-		assertEquals("185493", q.getNumerator());
-		assertEquals("100000", q.getDenominator());
+		assertEquals(new BigInteger("-185493"), q.getNumerator());
+		assertEquals(new BigInteger("100000"), q.getDenominator());
 		assertFalse(q.isPositive());
 	}
 
 	@Test
 	public void testValueOf_double() {
 		Quotient q = Quotient.valueOf(-1.8549399020399203D);
-		assertEquals("18549399020399202", q.getNumerator());
-		assertEquals("10000000000000000", q.getDenominator());
+		assertEquals(new BigInteger("-18549399020399202"), q.getNumerator());
+		assertEquals(new BigInteger("10000000000000000"), q.getDenominator());
 		assertFalse(q.isPositive());
 	}
 
@@ -350,8 +349,8 @@ public class QuotientTest {
 	public void testValueOf_BigDecimal() {
 		BigDecimal bigDecimal = new BigDecimal("-847292.1120022");
 		Quotient q = Quotient.valueOf(bigDecimal);
-		assertEquals("8472921120022", q.getNumerator());
-		assertEquals("10000000", q.getDenominator());
+		assertEquals(new BigInteger("-8472921120022"), q.getNumerator());
+		assertEquals(new BigInteger("10000000"), q.getDenominator());
 		assertFalse(q.isPositive());
 	}
 
@@ -377,11 +376,11 @@ public class QuotientTest {
 
 	@Test
 	public void testCompareTo_equal() {
-		Quotient q1 = new Quotient("12", "40", true);
-		Quotient q2 = new Quotient("12", "40", true);
+		Quotient q1 = new Quotient("12", "40");
+		Quotient q2 = new Quotient("12", "40");
 		assertEquals(0, q1.compareTo(q2));
 		assertEquals(0, q2.compareTo(q1));
-		Quotient q3 = new Quotient("12", "40", true);
+		Quotient q3 = new Quotient("12", "40");
 		assertEquals(0, q1.compareTo(q3));
 		assertEquals(0, q2.compareTo(q3));
 	}
@@ -390,11 +389,11 @@ public class QuotientTest {
 	public void testCompareTo_greater() {
 		Quotient q1;
 		Quotient q2;
-		q1 = new Quotient("13", "40", true);
-		q2 = new Quotient("12", "40", true);
+		q1 = new Quotient("13", "40");
+		q2 = new Quotient("12", "40");
 		assertTrue(q1.compareTo(q2) > 0);
-		q1 = new Quotient("13", "40", false);
-		q2 = new Quotient("12", "40", false);
+		q1 = new Quotient("-13", "40");
+		q2 = new Quotient("12", "-40");
 		assertTrue(q2.compareTo(q1) > 0);
 	}
 
@@ -402,21 +401,21 @@ public class QuotientTest {
 	public void testCompareTo_less() {
 		Quotient q1;
 		Quotient q2;
-		q1 = new Quotient("13", "40", true);
-		q2 = new Quotient("12", "40", true);
+		q1 = new Quotient("13", "40");
+		q2 = new Quotient("12", "40");
 		assertTrue(q2.compareTo(q1) < 0);
-		q1 = new Quotient("13", "40", false);
-		q2 = new Quotient("12", "40", false);
+		q1 = new Quotient("-13", "40");
+		q2 = new Quotient("12", "-40");
 		assertTrue(q1.compareTo(q2) < 0);
 	}
 
 	@Test
 	public void testEquals() {
-		Quotient q1 = new Quotient("12", "40", true);
-		Quotient q2 = new Quotient("12", "40", true);
+		Quotient q1 = new Quotient("12", "40");
+		Quotient q2 = new Quotient("12", "40");
 		assertEquals(q1, q2);
 		assertEquals(q2, q1);
-		Quotient q3 = new Quotient("12", "40", true);
+		Quotient q3 = new Quotient("12", "40");
 		assertEquals(q1, q3);
 		assertEquals(q2, q3);
 	}
@@ -425,16 +424,16 @@ public class QuotientTest {
 	public void testEquals_notEqual() {
 		Quotient q1;
 		Quotient q2;
-		q1 = new Quotient("12", "40", true);
-		q2 = new Quotient("12", "40", false);
+		q1 = new Quotient("12", "40");
+		q2 = new Quotient("-12", "40");
 		assertNotEquals(q1, q2);
-		q2 = new Quotient("12", "41", true);
+		q2 = new Quotient("12", "41");
 		assertNotEquals(q1, q2);
-		q2 = new Quotient("12", "41", false);
+		q2 = new Quotient("-12", "41");
 		assertNotEquals(q1, q2);
-		q2 = new Quotient("11", "40", true);
+		q2 = new Quotient("11", "40");
 		assertNotEquals(q1, q2);
-		q2 = new Quotient("11", "40", false);
+		q2 = new Quotient("11", "-40");
 		assertNotEquals(q1, q2);
 	}
 
@@ -442,14 +441,14 @@ public class QuotientTest {
 	public void testHashCode_equal() {
 		Quotient q1;
 		Quotient q2;
-		q1 = new Quotient("7", "8", false);
-		q2 = new Quotient("7", "8", false);
+		q1 = new Quotient("-7", "8");
+		q2 = new Quotient("-7", "8");
 		assertEquals(q1.hashCode(), q2.hashCode());
 	}
 
 	@Test
 	public void testHashCode_multipleCalls() {
-		Quotient q1 = new Quotient("94382991", "882932", true);
+		Quotient q1 = new Quotient("94382991", "882932");
 		int firstHash = q1.hashCode();
 		assertEquals(firstHash, q1.hashCode());
 		assertEquals(firstHash, q1.hashCode());
@@ -461,7 +460,7 @@ public class QuotientTest {
 		Quotient q2 = new Quotient("4", "5");
 		assertEquals("8/15", q1.multiply(q2).toString());
 
-		q1 = new Quotient("3", "7", false);
+		q1 = new Quotient("-3", "7");
 		q2 = new Quotient("8", "9");
 		assertEquals("-24/63", q1.multiply(q2).toString());
 	}
@@ -472,9 +471,21 @@ public class QuotientTest {
 		Quotient q2 = new Quotient("4", "5");
 		assertEquals("10/12", q1.divide(q2).toString());
 
-		q1 = new Quotient("3", "7", false);
+		q1 = new Quotient("3", "-7");
 		q2 = new Quotient("8", "9");
 		assertEquals("-27/56", q1.divide(q2).toString());
+	}
+
+	@Test
+	public void testDivide_divisionByZero() {
+		Quotient q1 = new Quotient("2", "3");
+		Quotient q2 = new Quotient("0", "1");
+		try {
+			q1.divide(q2);
+			fail("ArithmeticException expected");
+		} catch (ArithmeticException ae) {
+			assertTrue(ae.getMessage().contains("division by zero"));
+		}
 	}
 
 	private void assertNumberFormatException(String input) {

@@ -1,6 +1,5 @@
 package st.extreme.math;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
@@ -8,64 +7,44 @@ import java.math.RoundingMode;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Quotient implements Comparable<Quotient>, Serializable {
+public class Quotient implements Comparable<Quotient> {
 
 	private static final MathContext MATH_CONTEXT = new MathContext(500, RoundingMode.HALF_UP);
-	private static final Pattern INTEGER_PATTERN = Pattern.compile("(0|([1-9][0-9]*))");
-	private static final long serialVersionUID = 6724599299245677524L;
+	private static final Pattern DECIMAL_PART_PATTERN = Pattern.compile("([0-9]+)");
 
 	private static final String ONE = "1";
 	private static final String ZERO = "0";
+	private static final String MINUS = "-";
+	private static final String PLUS = "+";
+	private static final String DOT = ".";
 
-	private static final char MINUS_CHAR = '-';
-	private static final char PLUS_CHAR = '+';
-	private static final char DOT_CHAR = '.';
-	private static final char D0_CHAR = '0';
-	private static final char D1_CHAR = '1';
-	private static final char D2_CHAR = '2';
-	private static final char D3_CHAR = '3';
-	private static final char D4_CHAR = '4';
-	private static final char D5_CHAR = '5';
-	private static final char D6_CHAR = '6';
-	private static final char D7_CHAR = '7';
-	private static final char D8_CHAR = '8';
-	private static final char D9_CHAR = '9';
-
-	private final String numerator;
-	private final String denominator;
-	private final boolean positive;
+	private final BigInteger numerator;
+	private final BigInteger denominator;
 
 	private transient BigDecimal bigDecimalValue;
 
 	/**
-	 * create a positive quotient
+	 * Create a quotient from two String values
 	 * 
 	 * @param numerator
 	 * @param denominator
 	 */
 	Quotient(String numerator, String denominator) {
-		this(numerator, denominator, true);
+		this(new BigInteger(numerator), new BigInteger(denominator));
 	}
 
 	/**
-	 * create a quotient with a sign
+	 * Create a quotient from two BigInteger values
 	 * 
 	 * @param numerator
 	 * @param denominator
-	 * @param positive
 	 */
-	Quotient(String numerator, String denominator, boolean positive) {
-		Matcher numeratorMatcher = INTEGER_PATTERN.matcher(numerator);
-		if (!numeratorMatcher.matches()) {
-			throw new NumberFormatException(buildNumberFormatExceptionMessage(numerator));
-		}
-		Matcher denominatorMatcher = INTEGER_PATTERN.matcher(denominator);
-		if (!denominatorMatcher.matches()) {
-			throw new NumberFormatException(buildNumberFormatExceptionMessage(numerator));
-		}
+	Quotient(BigInteger numerator, BigInteger denominator) {
 		this.numerator = numerator;
+		if (BigInteger.ZERO.equals(denominator)) {
+			throwDivisionByZero();
+		}
 		this.denominator = denominator;
-		this.positive = positive;
 	}
 
 	/**
@@ -74,19 +53,21 @@ public class Quotient implements Comparable<Quotient>, Serializable {
 	 * @return a new quotient with the reciprocal value of this quotient
 	 */
 	public Quotient reciprocal() {
-		return new Quotient(denominator, numerator, positive);
+		return new Quotient(denominator, numerator);
 	}
 
-	public String getNumerator() {
+	public BigInteger getNumerator() {
 		return numerator;
 	}
 
-	public String getDenominator() {
+	public BigInteger getDenominator() {
 		return denominator;
 	}
 
 	public boolean isPositive() {
-		return positive;
+		int numeratorSignum = numerator.signum();
+		// let zero be positive
+		return numeratorSignum == denominator.signum() || numeratorSignum == 0;
 	}
 
 	/**
@@ -95,11 +76,11 @@ public class Quotient implements Comparable<Quotient>, Serializable {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		if (!isPositive()) {
-			builder.append(MINUS_CHAR);
+			builder.append(MINUS);
 		}
-		builder.append(numerator);
+		builder.append(numerator.abs().toString());
 		builder.append('/');
-		builder.append(denominator);
+		builder.append(denominator.abs().toString());
 		return builder.toString();
 	}
 
@@ -154,73 +135,57 @@ public class Quotient implements Comparable<Quotient>, Serializable {
 	 * @return a quotient representing the passed in numeric value
 	 */
 	public static Quotient valueOf(String numberString) {
-		if (numberString == null || numberString.isEmpty() || ZERO.equals(numberString)) {
-			return new Quotient(ZERO, ONE);
+		if (isZeroStringInput(numberString)) {
+			return new Quotient(BigInteger.ZERO, BigInteger.ONE);
 		}
-		// TODO use regex to validate?
-		char[] chars = numberString.toCharArray();
-		boolean isPositive = true;
-		StringBuilder numerator = new StringBuilder();
-		StringBuilder denominator = new StringBuilder();
-		denominator.append(ONE);
-		int pos = 0;
-		boolean beforeDecimal = true;
-		for (char c : chars) {
-			switch (c) {
-			case MINUS_CHAR:
-				isPositive = false;
-				// intentially no break
-			case PLUS_CHAR:
-				if (pos > 0) {
-					throw new NumberFormatException(buildNumberFormatExceptionMessage(numberString, pos, c));
-				}
-				break;
-			case DOT_CHAR:
-				beforeDecimal = false;
-				break;
-			case D0_CHAR:
-			case D1_CHAR:
-			case D2_CHAR:
-			case D3_CHAR:
-			case D4_CHAR:
-			case D5_CHAR:
-			case D6_CHAR:
-			case D7_CHAR:
-			case D8_CHAR:
-			case D9_CHAR:
-				if (!beforeDecimal) {
-					denominator.append(ZERO);
-				}
-				// skip leading zeroes in numerator
-				if (numerator.length() > 0 || D0_CHAR != c) {
-					numerator.append(c);
-				}
-				break;
-			default:
-				throw new NumberFormatException(buildNumberFormatExceptionMessage(numberString, pos, c));
+		String[] values = numberString.split("\\.");
+		String integerPart = values[0];
+		if (values.length == 1) {
+			if (isZeroStringInput(integerPart)) {
+				return new Quotient(BigInteger.ZERO, BigInteger.ONE);
+			} else {
+				return new Quotient(new BigInteger(integerPart), BigInteger.ONE);
 			}
-			pos++;
-		}
-		if (numerator.length() == 0) {
-			numerator.append(ZERO);
-		}
-		if (ZERO.equals(numerator.toString())) {
-			return new Quotient(numerator.toString(), ONE, isPositive);
 		} else {
-			return new Quotient(numerator.toString(), denominator.toString(), isPositive);
+			String decimalPart = values[1];
+			Matcher decimalPartMatcher = DECIMAL_PART_PATTERN.matcher(decimalPart);
+			if (!decimalPartMatcher.matches()) {
+				throw new NumberFormatException(buildNumberFormatExceptionMessage(decimalPart));
+			}
+			StringBuilder numerator = new StringBuilder(integerPart);
+			numerator.append(decimalPart);
+			StringBuilder denominator = new StringBuilder();
+			denominator.append(ONE);
+			int decimals = decimalPart.length();
+			for (int i = 0; i < decimals; i++) {
+				denominator.append(ZERO);
+			}
+			return new Quotient(numerator.toString(), denominator.toString());
 		}
+	}
+
+	private static boolean isZeroStringInput(String numberString) {
+		boolean isZero = false;
+		if (numberString == null || numberString.isEmpty()) {
+			isZero = true;
+		} else {
+			if (numberString.length() == 1) {
+				switch (numberString) {
+				case ZERO:
+				case DOT:
+				case MINUS:
+				case PLUS:
+					isZero = true;
+				}
+			}
+		}
+		return isZero;
 	}
 
 	public BigDecimal bigDecimalValue() {
 		// because of immutability, we can lazily evaluate the big decimal value
 		if (bigDecimalValue == null) {
-			String signedNumerator;
-			if (isPositive()) {
-				signedNumerator = numerator;
-			} else {
-				signedNumerator = String.valueOf(MINUS_CHAR).concat(numerator);
-			}
-			bigDecimalValue = new BigDecimal(signedNumerator).divide(new BigDecimal(denominator), MATH_CONTEXT);
+			bigDecimalValue = new BigDecimal(numerator).divide(new BigDecimal(denominator), MATH_CONTEXT);
 		}
 		return bigDecimalValue;
 	}
@@ -244,25 +209,23 @@ public class Quotient implements Comparable<Quotient>, Serializable {
 		return bigDecimalValue().hashCode();
 	}
 
-	public Quotient multiply(Quotient q) {
-		// first naive implementation using BigInteger
-		String multipliedNumerator = new BigInteger(numerator).multiply(new BigInteger(q.getNumerator())).toString();
-		String multipliedDenominator = new BigInteger(denominator).multiply(new BigInteger(q.getDenominator()))
-				.toString();
-		return new Quotient(multipliedNumerator, multipliedDenominator, isPositive() && q.isPositive());
+	public Quotient multiply(Quotient value) {
+		return new Quotient(numerator.multiply(value.getNumerator()), denominator.multiply(value.getDenominator()));
 	}
 
-	public Quotient divide(Quotient q) {
-		return multiply(q.reciprocal());
-	}
-
-	private static String buildNumberFormatExceptionMessage(String numberString, int pos, char c) {
-		return "'".concat(numberString).concat("': illegal character ").concat(String.valueOf(c))
-				.concat(" at position ").concat(String.valueOf(pos));
+	public Quotient divide(Quotient value) {
+		if (BigInteger.ZERO.equals(value.getNumerator())) {
+			throwDivisionByZero();
+		}
+		return multiply(value.reciprocal());
 	}
 
 	private static String buildNumberFormatExceptionMessage(String numberString) {
-		return "illegal number '".concat(numberString).concat("'");
+		return "illegal number format '".concat(numberString).concat("'.");
+	}
+
+	private void throwDivisionByZero() {
+		throw new ArithmeticException("division by zero is not allowed.");
 	}
 
 }
