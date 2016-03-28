@@ -651,6 +651,48 @@ public class QuotientTest {
     assertEquals(new BigInteger("21"), result.getDenominator());
   }
 
+  @Test
+  public void testNegate() {
+    Quotient q;
+
+    q = new Quotient("4", "3");
+    assertEquals(new BigInteger("-4"), q.negate().getNumerator());
+    assertEquals(new BigInteger("3"), q.negate().getDenominator());
+
+    q = new Quotient("-4", "3");
+    assertEquals(new BigInteger("4"), q.negate().getNumerator());
+    assertEquals(new BigInteger("3"), q.negate().getDenominator());
+
+    q = new Quotient("4", "-3");
+    assertEquals(new BigInteger("4"), q.negate().getNumerator());
+    assertEquals(new BigInteger("3"), q.negate().getDenominator());
+
+    q = new Quotient("-4", "-3");
+    assertEquals(new BigInteger("-4"), q.negate().getNumerator());
+    assertEquals(new BigInteger("3"), q.negate().getDenominator());
+  }
+
+  @Test
+  public void testAbs() {
+    Quotient q;
+
+    q = new Quotient("4", "3");
+    assertEquals(new BigInteger("4"), q.abs().getNumerator());
+    assertEquals(new BigInteger("3"), q.abs().getDenominator());
+
+    q = new Quotient("-4", "3");
+    assertEquals(new BigInteger("4"), q.abs().getNumerator());
+    assertEquals(new BigInteger("3"), q.abs().getDenominator());
+
+    q = new Quotient("4", "-3");
+    assertEquals(new BigInteger("4"), q.abs().getNumerator());
+    assertEquals(new BigInteger("3"), q.abs().getDenominator());
+
+    q = new Quotient("-4", "-3");
+    assertEquals(new BigInteger("4"), q.abs().getNumerator());
+    assertEquals(new BigInteger("3"), q.abs().getDenominator());
+  }
+
   private void assertNumberFormatException(String input) {
     try {
       Quotient.valueOf(input);

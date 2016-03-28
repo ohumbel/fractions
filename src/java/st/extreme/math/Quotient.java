@@ -255,6 +255,14 @@ public class Quotient implements Comparable<Quotient> {
         denominator.multiply(value.denominator));
   }
 
+  public Quotient negate() {
+    return new Quotient(numerator.negate(), denominator);
+  }
+
+  public Quotient abs() {
+    return new Quotient(numerator.abs(), denominator);
+  }
+
   private static String buildNumberFormatExceptionMessage(String numberString) {
     return "illegal number format '".concat(numberString).concat("'.");
   }
