@@ -488,6 +488,130 @@ public class QuotientTest {
     }
   }
 
+  @Test
+  public void testAdd_same_denominator() {
+    Quotient q1;
+    Quotient q2;
+    Quotient result;
+
+    q1 = new Quotient("2", "3");
+    q2 = new Quotient("3", "3");
+    result = q1.add(q2);
+    assertEquals(new BigInteger("5"), result.getNumerator());
+    assertEquals(new BigInteger("3"), result.getDenominator());
+
+    q1 = new Quotient("-2", "3");
+    q2 = new Quotient("3", "3");
+    result = q1.add(q2);
+    assertEquals(new BigInteger("1"), result.getNumerator());
+    assertEquals(new BigInteger("3"), result.getDenominator());
+
+    q1 = new Quotient("2", "3");
+    q2 = new Quotient("-3", "3");
+    result = q1.add(q2);
+    assertEquals(new BigInteger("-1"), result.getNumerator());
+    assertEquals(new BigInteger("3"), result.getDenominator());
+
+    q1 = new Quotient("-2", "3");
+    q2 = new Quotient("-3", "3");
+    result = q1.add(q2);
+    assertEquals(new BigInteger("-5"), result.getNumerator());
+    assertEquals(new BigInteger("3"), result.getDenominator());
+  }
+
+  @Test
+  public void testAdd() {
+    Quotient q1;
+    Quotient q2;
+    Quotient result;
+
+    q1 = new Quotient("3", "7");
+    q2 = new Quotient("2", "3");
+    result = q1.add(q2);
+    assertEquals(new BigInteger("23"), result.getNumerator());
+    assertEquals(new BigInteger("21"), result.getDenominator());
+
+    q1 = new Quotient("-3", "7");
+    q2 = new Quotient("2", "3");
+    result = q1.add(q2);
+    assertEquals(new BigInteger("5"), result.getNumerator());
+    assertEquals(new BigInteger("21"), result.getDenominator());
+
+    q1 = new Quotient("3", "7");
+    q2 = new Quotient("-2", "3");
+    result = q1.add(q2);
+    assertEquals(new BigInteger("-5"), result.getNumerator());
+    assertEquals(new BigInteger("21"), result.getDenominator());
+
+    q1 = new Quotient("-3", "7");
+    q2 = new Quotient("-2", "3");
+    result = q1.add(q2);
+    assertEquals(new BigInteger("-23"), result.getNumerator());
+    assertEquals(new BigInteger("21"), result.getDenominator());
+  }
+
+  @Test
+  public void testSubtract_same_denominator() {
+    Quotient q1;
+    Quotient q2;
+    Quotient result;
+
+    q1 = new Quotient("3", "3");
+    q2 = new Quotient("2", "3");
+    result = q1.subtract(q2);
+    assertEquals(new BigInteger("1"), result.getNumerator());
+    assertEquals(new BigInteger("3"), result.getDenominator());
+
+    q1 = new Quotient("-3", "3");
+    q2 = new Quotient("2", "3");
+    result = q1.subtract(q2);
+    assertEquals(new BigInteger("-5"), result.getNumerator());
+    assertEquals(new BigInteger("3"), result.getDenominator());
+
+    q1 = new Quotient("3", "3");
+    q2 = new Quotient("-2", "3");
+    result = q1.subtract(q2);
+    assertEquals(new BigInteger("5"), result.getNumerator());
+    assertEquals(new BigInteger("3"), result.getDenominator());
+
+    q1 = new Quotient("-3", "3");
+    q2 = new Quotient("-2", "3");
+    result = q1.subtract(q2);
+    assertEquals(new BigInteger("-1"), result.getNumerator());
+    assertEquals(new BigInteger("3"), result.getDenominator());
+  }
+
+  @Test
+  public void testSubtract() {
+    Quotient q1;
+    Quotient q2;
+    Quotient result;
+
+    q1 = new Quotient("3", "7");
+    q2 = new Quotient("2", "3");
+    result = q1.subtract(q2);
+    assertEquals(new BigInteger("-5"), result.getNumerator());
+    assertEquals(new BigInteger("21"), result.getDenominator());
+
+    q1 = new Quotient("-3", "7");
+    q2 = new Quotient("2", "3");
+    result = q1.subtract(q2);
+    assertEquals(new BigInteger("-23"), result.getNumerator());
+    assertEquals(new BigInteger("21"), result.getDenominator());
+
+    q1 = new Quotient("3", "7");
+    q2 = new Quotient("-2", "3");
+    result = q1.subtract(q2);
+    assertEquals(new BigInteger("23"), result.getNumerator());
+    assertEquals(new BigInteger("21"), result.getDenominator());
+
+    q1 = new Quotient("-3", "7");
+    q2 = new Quotient("-2", "3");
+    result = q1.subtract(q2);
+    assertEquals(new BigInteger("5"), result.getNumerator());
+    assertEquals(new BigInteger("21"), result.getDenominator());
+  }
+
   private void assertNumberFormatException(String input) {
     try {
       Quotient.valueOf(input);

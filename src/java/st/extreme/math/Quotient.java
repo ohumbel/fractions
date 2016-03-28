@@ -210,14 +210,30 @@ public class Quotient implements Comparable<Quotient> {
   }
 
   public Quotient multiply(Quotient value) {
-    return new Quotient(numerator.multiply(value.getNumerator()), denominator.multiply(value.getDenominator()));
+    return new Quotient(numerator.multiply(value.numerator), denominator.multiply(value.denominator));
   }
 
   public Quotient divide(Quotient value) {
-    if (BigInteger.ZERO.equals(value.getNumerator())) {
+    if (BigInteger.ZERO.equals(value.numerator)) {
       throwDivisionByZero();
     }
     return multiply(value.reciprocal());
+  }
+
+  public Quotient add(Quotient value) {
+    if (denominator.equals(value.denominator)) {
+      return new Quotient(numerator.add(value.numerator), denominator);
+    }
+    return new Quotient(numerator.multiply(value.denominator).add(value.numerator.multiply(denominator)),
+        denominator.multiply(value.denominator));
+  }
+
+  public Quotient subtract(Quotient value) {
+    if (denominator.equals(value.denominator)) {
+      return new Quotient(numerator.subtract(value.numerator), denominator);
+    }
+    return new Quotient(numerator.multiply(value.denominator).subtract(value.numerator.multiply(denominator)),
+        denominator.multiply(value.denominator));
   }
 
   private static String buildNumberFormatExceptionMessage(String numberString) {
