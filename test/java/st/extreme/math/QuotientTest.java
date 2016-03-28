@@ -52,8 +52,8 @@ public class QuotientTest {
   public void testReciprocal_Negative() {
     Quotient q = new Quotient("-3", "4");
     Quotient r = q.reciprocal();
-    assertEquals(new BigInteger("4"), r.getNumerator());
-    assertEquals(new BigInteger("-3"), r.getDenominator());
+    assertEquals(new BigInteger("-4"), r.getNumerator());
+    assertEquals(new BigInteger("3"), r.getDenominator()); // we always keep the denominator positive
     assertEquals(q.isPositive(), r.isPositive());
   }
 
@@ -61,8 +61,12 @@ public class QuotientTest {
   public void testToString() {
     Quotient q = new Quotient("3", "4");
     assertEquals("3/4", q.toString());
+    q = new Quotient("-3", "4");
+    assertEquals("-3/4", q.toString());
     q = new Quotient("3", "-4");
     assertEquals("-3/4", q.toString());
+    q = new Quotient("-3", "-4");
+    assertEquals("3/4", q.toString());
   }
 
   @Test
@@ -376,37 +380,72 @@ public class QuotientTest {
 
   @Test
   public void testCompareTo_equal() {
-    Quotient q1 = new Quotient("12", "40");
-    Quotient q2 = new Quotient("12", "40");
+    Quotient q1;
+    Quotient q2;
+
+    q1 = new Quotient("12", "40");
+    q2 = new Quotient("12", "40");
     assertEquals(0, q1.compareTo(q2));
     assertEquals(0, q2.compareTo(q1));
     Quotient q3 = new Quotient("12", "40");
     assertEquals(0, q1.compareTo(q3));
     assertEquals(0, q2.compareTo(q3));
+
+    q1 = new Quotient("12", "-40");
+    q2 = new Quotient("12", "-40");
+    assertEquals(0, q1.compareTo(q2));
+    assertEquals(0, q2.compareTo(q1));
+
+    q1 = new Quotient("-12", "40");
+    q2 = new Quotient("12", "-40");
+    assertEquals(0, q1.compareTo(q2));
+    assertEquals(0, q2.compareTo(q1));
+
+    q1 = new Quotient("12", "-40");
+    q2 = new Quotient("-12", "40");
+    assertEquals(0, q1.compareTo(q2));
+    assertEquals(0, q2.compareTo(q1));
+
+    q1 = new Quotient("-12", "-40");
+    q2 = new Quotient("-12", "-40");
+    assertEquals(0, q1.compareTo(q2));
+    assertEquals(0, q2.compareTo(q1));
   }
 
   @Test
-  public void testCompareTo_greater() {
+  public void testCompareTo_not_equal() {
     Quotient q1;
     Quotient q2;
+
     q1 = new Quotient("13", "40");
     q2 = new Quotient("12", "40");
     assertTrue(q1.compareTo(q2) > 0);
-    q1 = new Quotient("-13", "40");
-    q2 = new Quotient("12", "-40");
-    assertTrue(q2.compareTo(q1) > 0);
-  }
-
-  @Test
-  public void testCompareTo_less() {
-    Quotient q1;
-    Quotient q2;
-    q1 = new Quotient("13", "40");
-    q2 = new Quotient("12", "40");
     assertTrue(q2.compareTo(q1) < 0);
+
+    q1 = new Quotient("-13", "40");
+    q2 = new Quotient("-12", "40");
+    assertTrue(q1.compareTo(q2) < 0);
+    assertTrue(q2.compareTo(q1) > 0);
+
+    q1 = new Quotient("13", "-40");
+    q2 = new Quotient("12", "-40");
+    assertTrue(q1.compareTo(q2) < 0);
+    assertTrue(q2.compareTo(q1) > 0);
+
     q1 = new Quotient("-13", "40");
     q2 = new Quotient("12", "-40");
     assertTrue(q1.compareTo(q2) < 0);
+    assertTrue(q2.compareTo(q1) > 0);
+
+    q1 = new Quotient("13", "-40");
+    q2 = new Quotient("-12", "40");
+    assertTrue(q1.compareTo(q2) < 0);
+    assertTrue(q2.compareTo(q1) > 0);
+
+    q1 = new Quotient("-13", "-40");
+    q2 = new Quotient("-12", "-40");
+    assertTrue(q1.compareTo(q2) > 0);
+    assertTrue(q2.compareTo(q1) < 0);
   }
 
   @Test
@@ -441,8 +480,8 @@ public class QuotientTest {
   public void testHashCode_equal() {
     Quotient q1;
     Quotient q2;
-    q1 = new Quotient("-7", "8");
-    q2 = new Quotient("-7", "8");
+    q1 = new Quotient("-8", "7");
+    q2 = new Quotient("-8000", "7000");
     assertEquals(q1.hashCode(), q2.hashCode());
   }
 

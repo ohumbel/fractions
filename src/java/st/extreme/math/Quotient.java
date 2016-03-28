@@ -9,7 +9,11 @@ import java.util.regex.Pattern;
 
 public class Quotient implements Comparable<Quotient> {
 
-  private static final MathContext MATH_CONTEXT = new MathContext(500, RoundingMode.HALF_UP);
+  /**
+   * The default {@link MathContext} for conversions into {@link BigDecimal}. Currently we use a precision of <code>500</code>.
+   */
+  private static final MathContext DEFAULT_MATH_CONTEXT = new MathContext(500, RoundingMode.HALF_UP);
+
   private static final Pattern DECIMAL_PART_PATTERN = Pattern.compile("([0-9]+)");
 
   private static final String ONE = "1";
@@ -21,7 +25,7 @@ public class Quotient implements Comparable<Quotient> {
   private final BigInteger numerator;
   private final BigInteger denominator;
 
-  private transient BigDecimal bigDecimalValue;
+  private BigDecimal bigDecimalValue;
 
   /**
    * Create a quotient from two String values
@@ -40,11 +44,18 @@ public class Quotient implements Comparable<Quotient> {
    * @param denominator
    */
   Quotient(BigInteger numerator, BigInteger denominator) {
-    this.numerator = numerator;
     if (BigInteger.ZERO.equals(denominator)) {
       throwDivisionByZero();
     }
-    this.denominator = denominator;
+    if (denominator.signum() < 0) {
+      // because of "cross multiplying" in compareTo(), always keep the denominator positive
+      this.numerator = numerator.negate();
+      this.denominator = denominator.negate();
+
+    } else {
+      this.numerator = numerator;
+      this.denominator = denominator;
+    }
   }
 
   /**
@@ -75,12 +86,9 @@ public class Quotient implements Comparable<Quotient> {
    */
   public String toString() {
     StringBuilder builder = new StringBuilder();
-    if (!isPositive()) {
-      builder.append(MINUS);
-    }
-    builder.append(numerator.abs().toString());
+    builder.append(numerator.toString());
     builder.append('/');
-    builder.append(denominator.abs().toString());
+    builder.append(denominator.toString());
     return builder.toString();
   }
 
@@ -182,17 +190,26 @@ public class Quotient implements Comparable<Quotient> {
     return isZero;
   }
 
+  /**
+   * Convert to a {@link BigDecimal} value, using the {@link Quotient#DEFAULT_MATH_CONTEXT}.
+   * 
+   * @return a <strong>not exact</strong> representation of this fraction as a {@link BigDecimal} value.
+   */
   public BigDecimal bigDecimalValue() {
     // because of immutability, we can lazily evaluate the big decimal value
     if (bigDecimalValue == null) {
-      bigDecimalValue = new BigDecimal(numerator).divide(new BigDecimal(denominator), MATH_CONTEXT);
+      bigDecimalValue = new BigDecimal(numerator).divide(new BigDecimal(denominator), DEFAULT_MATH_CONTEXT);
     }
     return bigDecimalValue;
   }
 
   @Override
   public int compareTo(Quotient other) {
-    return bigDecimalValue().compareTo(other.bigDecimalValue());
+    if (denominator.equals(other.denominator)) {
+      return numerator.compareTo(other.numerator);
+    } else {
+      return numerator.multiply(other.denominator).compareTo(other.numerator.multiply(denominator));
+    }
   }
 
   @Override
