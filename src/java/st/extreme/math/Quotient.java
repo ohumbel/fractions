@@ -223,6 +223,8 @@ public class Quotient implements Comparable<Quotient> {
 
   @Override
   public int hashCode() {
+    // This fulfills the contract: equal fractions produce the same big decimal value.
+    // It is allowed to produce the same hash code for non equal values (e.g. differing beyond the default math context precision).
     return bigDecimalValue().hashCode();
   }
 
