@@ -1,5 +1,6 @@
 package st.extreme.math;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
@@ -7,11 +8,11 @@ import java.math.RoundingMode;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Quotient implements Comparable<Quotient> {
+public class Quotient implements Comparable<Quotient>, Serializable {
 
 	private static final MathContext MATH_CONTEXT = new MathContext(500, RoundingMode.HALF_UP);
-
 	private static final Pattern INTEGER_PATTERN = Pattern.compile("(0|([1-9][0-9]*))");
+	private static final long serialVersionUID = 6724599299245677524L;
 
 	private static final String ONE = "1";
 	private static final String ZERO = "0";
@@ -30,9 +31,11 @@ public class Quotient implements Comparable<Quotient> {
 	private static final char D8_CHAR = '8';
 	private static final char D9_CHAR = '9';
 
-	private String numerator;
-	private String denominator;
-	private boolean positive;
+	private final String numerator;
+	private final String denominator;
+	private final boolean positive;
+
+	private transient BigDecimal bigDecimalValue;
 
 	/**
 	 * create a positive quotient
@@ -209,26 +212,30 @@ public class Quotient implements Comparable<Quotient> {
 	}
 
 	public BigDecimal bigDecimalValue() {
-		String signedNumerator;
-		if (isPositive()) {
-			signedNumerator = numerator;
-		} else {
-			signedNumerator = String.valueOf(MINUS_CHAR).concat(numerator);
+		// because of immutability, we can lazily evaluate the big decimal value
+		if (bigDecimalValue == null) {
+			String signedNumerator;
+			if (isPositive()) {
+				signedNumerator = numerator;
+			} else {
+				signedNumerator = String.valueOf(MINUS_CHAR).concat(numerator);
+			}
+			bigDecimalValue = new BigDecimal(signedNumerator).divide(new BigDecimal(denominator), MATH_CONTEXT);
 		}
-		return new BigDecimal(signedNumerator).divide(new BigDecimal(denominator), MATH_CONTEXT);
+		return bigDecimalValue;
 	}
 
 	@Override
-	public int compareTo(Quotient o) {
-		return bigDecimalValue().compareTo(o.bigDecimalValue());
+	public int compareTo(Quotient other) {
+		return bigDecimalValue().compareTo(other.bigDecimalValue());
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (!(obj instanceof Quotient)) {
+	public boolean equals(Object object) {
+		if (!(object instanceof Quotient)) {
 			return false;
 		} else {
-			return compareTo((Quotient) obj) == 0;
+			return compareTo((Quotient) object) == 0;
 		}
 	}
 
@@ -250,8 +257,8 @@ public class Quotient implements Comparable<Quotient> {
 	}
 
 	private static String buildNumberFormatExceptionMessage(String numberString, int pos, char c) {
-		return "'".concat(numberString).concat("': illegal character ").concat(String.valueOf(c)).concat(
-				" at position ").concat(String.valueOf(pos));
+		return "'".concat(numberString).concat("': illegal character ").concat(String.valueOf(c))
+				.concat(" at position ").concat(String.valueOf(pos));
 	}
 
 	private static String buildNumberFormatExceptionMessage(String numberString) {
