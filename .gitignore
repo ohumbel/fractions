@@ -14,5 +14,6 @@ hs_err_pid*
 # output folder
 /bin/
 
-# gradle temp files
+# gradle
 /.gradle/
+/build/
