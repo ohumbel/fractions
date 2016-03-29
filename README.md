@@ -1,6 +1,6 @@
 # fractions
 
-An attempt to add, subtract, multiply and divide with exact precision in Java.
+An attempt to `add`, `subtract`, `multiply`, `divide` and `pow(int)` with exact precision in Java.
 
 
 ## Motivation
@@ -14,7 +14,7 @@ The only point where the programmer has to make some assumptions about precision
 
 ## Idea
 
-Every decimal value in the form `12345.6789` can be represented as a rational number, also called quotient or [fraction](https://en.wikipedia.org/wiki/Fraction_%28mathematics%29). In this example, it would be `123456789 / 10000`. 
+Every decimal value in the form `12345.6789` can be represented as a rational number, also called [fraction](https://en.wikipedia.org/wiki/Fraction_%28mathematics%29). In this example, it would be `123456789 / 10000`. 
 
-Arithmetics with fractions can be reduced to *integer* multiplications, additions and subtractions. And those can be performed with **exact** precision.
+Arithmetics with fractions can be reduced to *integer* multiplications, *integer* additions and *integer* subtractions. And those can be performed with **exact** precision.
 

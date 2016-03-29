@@ -27,4 +27,9 @@ public class FractionUsageTest {
     assertEquals("1000", result.toPlainString());
   }
 
+  @Test
+  public void testReadmeValue() {
+    Fraction readmeValue = new Fraction("123456789", "10000");
+    assertEquals("12345.6789", readmeValue.toPlainString());
+  }
 }
