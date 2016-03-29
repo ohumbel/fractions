@@ -1,3 +1,5 @@
+[![Apache License](https://img.shields.io/badge/license-Apache-orange.svg)](https://github.com/ohumbel/fractions/blob/master/LICENSE)
+
 # fractions
 
 An attempt to `add`, `subtract`, `multiply`, `divide` and `pow(int)` with exact precision in Java.
