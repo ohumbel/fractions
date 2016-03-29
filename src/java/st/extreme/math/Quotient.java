@@ -92,6 +92,10 @@ public class Quotient implements Comparable<Quotient> {
     return builder.toString();
   }
 
+  public String toPlainString() {
+    return bigDecimalValue().toPlainString();
+  }
+
   /**
    * Create a new quotient from an int input
    */

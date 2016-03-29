@@ -70,6 +70,18 @@ public class QuotientTest {
   }
 
   @Test
+  public void testToPlainString() {
+    Quotient q = new Quotient("3", "4");
+    assertEquals("0.75", q.toPlainString());
+    q = new Quotient("-3", "4");
+    assertEquals("-0.75", q.toPlainString());
+    q = new Quotient("3", "-4");
+    assertEquals("-0.75", q.toPlainString());
+    q = new Quotient("-3", "-4");
+    assertEquals("0.75", q.toPlainString());
+  }
+
+  @Test
   public void testValueOf_Integer() {
     Quotient q = Quotient.valueOf("0");
     assertEquals(BigInteger.ZERO, q.getNumerator());
