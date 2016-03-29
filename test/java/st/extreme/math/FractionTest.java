@@ -11,7 +11,7 @@ import java.math.BigInteger;
 
 import org.junit.Test;
 
-public class QuotientTest {
+public class FractionTest {
 
   @Test
   public void testConstructor_IllegalCharacter() {
