@@ -58,6 +58,16 @@ public class FractionTest {
   }
 
   @Test
+  public void testReciprocal_divisionByZero() {
+    try {
+      new Fraction("1", "0").reciprocal();
+      fail("ArithmeticException expected");
+    } catch (ArithmeticException ae) {
+      assertTrue(ae.getMessage().contains("division by zero"));
+    }
+  }
+
+  @Test
   public void testToString() {
     Fraction q = new Fraction("3", "4");
     assertEquals("3/4", q.toString());
@@ -754,6 +764,16 @@ public class FractionTest {
     power = q.pow(3);
     assertEquals(new BigInteger("-8"), power.getNumerator());
     assertEquals(new BigInteger("27"), power.getDenominator());
+
+    q = new Fraction("0", "1");
+    power = q.pow(2);
+    assertEquals(BigInteger.ZERO, power.getNumerator());
+    assertEquals(BigInteger.ONE, power.getDenominator());
+
+    q = new Fraction("0", "1");
+    power = q.pow(3);
+    assertEquals(BigInteger.ZERO, power.getNumerator());
+    assertEquals(BigInteger.ONE, power.getDenominator());
   }
 
   @Test
@@ -780,6 +800,16 @@ public class FractionTest {
     power = q.pow(-3);
     assertEquals(new BigInteger("-27"), power.getNumerator());
     assertEquals(new BigInteger("8"), power.getDenominator());
+
+    q = new Fraction("0", "1");
+    power = q.pow(-2);
+    assertEquals(BigInteger.ZERO, power.getNumerator());
+    assertEquals(BigInteger.ONE, power.getDenominator());
+
+    q = new Fraction("0", "1");
+    power = q.pow(-3);
+    assertEquals(BigInteger.ZERO, power.getNumerator());
+    assertEquals(BigInteger.ONE, power.getDenominator());
   }
 
   private void assertNumberFormatException(String input) {

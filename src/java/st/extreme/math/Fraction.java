@@ -237,9 +237,6 @@ public class Fraction implements Comparable<Fraction> {
   }
 
   public Fraction divide(Fraction value) {
-    if (BigInteger.ZERO.equals(value.numerator)) {
-      throwDivisionByZero();
-    }
     return multiply(value.reciprocal());
   }
 
@@ -270,6 +267,9 @@ public class Fraction implements Comparable<Fraction> {
   public Fraction pow(int exponent) {
     if (exponent == 0) {
       return new Fraction(BigInteger.ONE, BigInteger.ONE);
+    }
+    if (BigInteger.ZERO.equals(numerator)) {
+      return new Fraction(BigInteger.ZERO, BigInteger.ONE);
     }
     if (exponent < 0) {
       return reciprocal().pow(-exponent);
