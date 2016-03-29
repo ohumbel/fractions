@@ -10,17 +10,27 @@ import java.util.regex.Pattern;
 public class Fraction implements Comparable<Fraction> {
 
   /**
+   * The fraction representing the value <code>1</code>
+   */
+  public static final Fraction ONE = new Fraction(BigInteger.ONE, BigInteger.ONE);
+
+  /**
+   * The fraction representing the value <code>0</code>
+   */
+  public static final Fraction ZERO = new Fraction(BigInteger.ZERO, BigInteger.ONE);
+
+  /**
    * The default {@link MathContext} for conversions into {@link BigDecimal}. Currently we use a precision of <code>500</code>.
    */
   private static final MathContext DEFAULT_MATH_CONTEXT = new MathContext(500, RoundingMode.HALF_UP);
 
   private static final Pattern DECIMAL_PART_PATTERN = Pattern.compile("([0-9]+)");
 
-  private static final String ONE = "1";
-  private static final String ZERO = "0";
-  private static final String MINUS = "-";
-  private static final String PLUS = "+";
-  private static final String DOT = ".";
+  private static final String STRING_ONE = "1";
+  private static final String STRING_ZERO = "0";
+  private static final String STRING_MINUS = "-";
+  private static final String STRING_PLUS = "+";
+  private static final String STRING_DOT = ".";
 
   private final BigInteger numerator;
   private final BigInteger denominator;
@@ -148,13 +158,13 @@ public class Fraction implements Comparable<Fraction> {
    */
   public static Fraction valueOf(String numberString) {
     if (isZeroStringInput(numberString)) {
-      return new Fraction(BigInteger.ZERO, BigInteger.ONE);
+      return ZERO;
     }
     String[] values = numberString.split("\\.");
     String integerPart = values[0];
     if (values.length == 1) {
       if (isZeroStringInput(integerPart)) {
-        return new Fraction(BigInteger.ZERO, BigInteger.ONE);
+        return ZERO;
       } else {
         return new Fraction(new BigInteger(integerPart), BigInteger.ONE);
       }
@@ -167,10 +177,10 @@ public class Fraction implements Comparable<Fraction> {
       StringBuilder numerator = new StringBuilder(integerPart);
       numerator.append(decimalPart);
       StringBuilder denominator = new StringBuilder();
-      denominator.append(ONE);
+      denominator.append(STRING_ONE);
       int decimals = decimalPart.length();
       for (int i = 0; i < decimals; i++) {
-        denominator.append(ZERO);
+        denominator.append(STRING_ZERO);
       }
       return new Fraction(numerator.toString(), denominator.toString());
     }
@@ -183,10 +193,10 @@ public class Fraction implements Comparable<Fraction> {
     } else {
       if (numberString.length() == 1) {
         switch (numberString) {
-        case ZERO:
-        case DOT:
-        case MINUS:
-        case PLUS:
+        case STRING_ZERO:
+        case STRING_DOT:
+        case STRING_MINUS:
+        case STRING_PLUS:
           isZero = true;
         }
       }
@@ -266,10 +276,10 @@ public class Fraction implements Comparable<Fraction> {
 
   public Fraction pow(int exponent) {
     if (exponent == 0) {
-      return new Fraction(BigInteger.ONE, BigInteger.ONE);
+      return ONE;
     }
     if (BigInteger.ZERO.equals(numerator)) {
-      return new Fraction(BigInteger.ZERO, BigInteger.ONE);
+      return ZERO;
     }
     if (exponent < 0) {
       return reciprocal().pow(-exponent);
