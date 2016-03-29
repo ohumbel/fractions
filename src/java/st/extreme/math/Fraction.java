@@ -7,7 +7,7 @@ import java.math.RoundingMode;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Quotient implements Comparable<Quotient> {
+public class Fraction implements Comparable<Fraction> {
 
   /**
    * The default {@link MathContext} for conversions into {@link BigDecimal}. Currently we use a precision of <code>500</code>.
@@ -28,22 +28,22 @@ public class Quotient implements Comparable<Quotient> {
   private BigDecimal bigDecimalValue;
 
   /**
-   * Create a quotient from two String values
+   * Create a fraction from two String values
    * 
    * @param numerator
    * @param denominator
    */
-  Quotient(String numerator, String denominator) {
+  Fraction(String numerator, String denominator) {
     this(new BigInteger(numerator), new BigInteger(denominator));
   }
 
   /**
-   * Create a quotient from two BigInteger values
+   * Create a fraction from two BigInteger values
    * 
    * @param numerator
    * @param denominator
    */
-  Quotient(BigInteger numerator, BigInteger denominator) {
+  Fraction(BigInteger numerator, BigInteger denominator) {
     if (BigInteger.ZERO.equals(denominator)) {
       throwDivisionByZero();
     }
@@ -59,12 +59,12 @@ public class Quotient implements Comparable<Quotient> {
   }
 
   /**
-   * Create a quotient with the reciprocal value
+   * Create a fraction with the reciprocal value
    * 
-   * @return a new quotient with the reciprocal value of this quotient
+   * @return a new fraction with the reciprocal value of this fraction
    */
-  public Quotient reciprocal() {
-    return new Quotient(denominator, numerator);
+  public Fraction reciprocal() {
+    return new Fraction(denominator, numerator);
   }
 
   public BigInteger getNumerator() {
@@ -97,66 +97,66 @@ public class Quotient implements Comparable<Quotient> {
   }
 
   /**
-   * Create a new quotient from an int input
+   * Create a new fraction from an int input
    */
-  public static Quotient valueOf(int i) {
+  public static Fraction valueOf(int i) {
     return valueOf(Integer.valueOf(i));
   }
 
   /**
-   * Create a new quotient from a long input
+   * Create a new fraction from a long input
    */
-  public static Quotient valueOf(long l) {
+  public static Fraction valueOf(long l) {
     return valueOf(Long.valueOf(l));
   }
 
   /**
-   * Create a new quotient from a double input
+   * Create a new fraction from a double input
    */
-  public static Quotient valueOf(double d) {
+  public static Fraction valueOf(double d) {
     return valueOf(Double.valueOf(d));
   }
 
   /**
-   * Create a new quotient from a float input
+   * Create a new fraction from a float input
    */
-  public static Quotient valueOf(float f) {
+  public static Fraction valueOf(float f) {
     return valueOf(Float.valueOf(f));
   }
 
   /**
-   * Create a new quotient from {@link Number} input
+   * Create a new fraction from {@link Number} input
    */
-  public static Quotient valueOf(Number number) {
+  public static Fraction valueOf(Number number) {
     return valueOf(number.toString());
   }
 
   /**
-   * Create a new quotient from {@link BigDecimal} input
+   * Create a new fraction from {@link BigDecimal} input
    */
-  public static Quotient valueOf(BigDecimal bigDecimal) {
+  public static Fraction valueOf(BigDecimal bigDecimal) {
     return valueOf(bigDecimal.toPlainString());
   }
 
   /**
-   * Create a new quotient from a {@link String} input
+   * Create a new fraction from a {@link String} input
    * 
    * @param numberString
    *          in the format [sign][digits].[digits]
    * 
-   * @return a quotient representing the passed in numeric value
+   * @return a fraction representing the passed in numeric value
    */
-  public static Quotient valueOf(String numberString) {
+  public static Fraction valueOf(String numberString) {
     if (isZeroStringInput(numberString)) {
-      return new Quotient(BigInteger.ZERO, BigInteger.ONE);
+      return new Fraction(BigInteger.ZERO, BigInteger.ONE);
     }
     String[] values = numberString.split("\\.");
     String integerPart = values[0];
     if (values.length == 1) {
       if (isZeroStringInput(integerPart)) {
-        return new Quotient(BigInteger.ZERO, BigInteger.ONE);
+        return new Fraction(BigInteger.ZERO, BigInteger.ONE);
       } else {
-        return new Quotient(new BigInteger(integerPart), BigInteger.ONE);
+        return new Fraction(new BigInteger(integerPart), BigInteger.ONE);
       }
     } else {
       String decimalPart = values[1];
@@ -172,7 +172,7 @@ public class Quotient implements Comparable<Quotient> {
       for (int i = 0; i < decimals; i++) {
         denominator.append(ZERO);
       }
-      return new Quotient(numerator.toString(), denominator.toString());
+      return new Fraction(numerator.toString(), denominator.toString());
     }
   }
 
@@ -195,7 +195,7 @@ public class Quotient implements Comparable<Quotient> {
   }
 
   /**
-   * Convert to a {@link BigDecimal} value, using the {@link Quotient#DEFAULT_MATH_CONTEXT}.
+   * Convert to a {@link BigDecimal} value, using the {@link Fraction#DEFAULT_MATH_CONTEXT}.
    * 
    * @return a <strong>not exact</strong> representation of this fraction as a {@link BigDecimal} value.
    */
@@ -208,7 +208,7 @@ public class Quotient implements Comparable<Quotient> {
   }
 
   @Override
-  public int compareTo(Quotient other) {
+  public int compareTo(Fraction other) {
     if (denominator.equals(other.denominator)) {
       return numerator.compareTo(other.numerator);
     } else {
@@ -218,10 +218,10 @@ public class Quotient implements Comparable<Quotient> {
 
   @Override
   public boolean equals(Object object) {
-    if (!(object instanceof Quotient)) {
+    if (!(object instanceof Fraction)) {
       return false;
     } else {
-      return compareTo((Quotient) object) == 0;
+      return compareTo((Fraction) object) == 0;
     }
   }
 
@@ -232,49 +232,49 @@ public class Quotient implements Comparable<Quotient> {
     return bigDecimalValue().hashCode();
   }
 
-  public Quotient multiply(Quotient value) {
-    return new Quotient(numerator.multiply(value.numerator), denominator.multiply(value.denominator));
+  public Fraction multiply(Fraction value) {
+    return new Fraction(numerator.multiply(value.numerator), denominator.multiply(value.denominator));
   }
 
-  public Quotient divide(Quotient value) {
+  public Fraction divide(Fraction value) {
     if (BigInteger.ZERO.equals(value.numerator)) {
       throwDivisionByZero();
     }
     return multiply(value.reciprocal());
   }
 
-  public Quotient add(Quotient value) {
+  public Fraction add(Fraction value) {
     if (denominator.equals(value.denominator)) {
-      return new Quotient(numerator.add(value.numerator), denominator);
+      return new Fraction(numerator.add(value.numerator), denominator);
     }
-    return new Quotient(numerator.multiply(value.denominator).add(value.numerator.multiply(denominator)),
+    return new Fraction(numerator.multiply(value.denominator).add(value.numerator.multiply(denominator)),
         denominator.multiply(value.denominator));
   }
 
-  public Quotient subtract(Quotient value) {
+  public Fraction subtract(Fraction value) {
     if (denominator.equals(value.denominator)) {
-      return new Quotient(numerator.subtract(value.numerator), denominator);
+      return new Fraction(numerator.subtract(value.numerator), denominator);
     }
-    return new Quotient(numerator.multiply(value.denominator).subtract(value.numerator.multiply(denominator)),
+    return new Fraction(numerator.multiply(value.denominator).subtract(value.numerator.multiply(denominator)),
         denominator.multiply(value.denominator));
   }
 
-  public Quotient negate() {
-    return new Quotient(numerator.negate(), denominator);
+  public Fraction negate() {
+    return new Fraction(numerator.negate(), denominator);
   }
 
-  public Quotient abs() {
-    return new Quotient(numerator.abs(), denominator);
+  public Fraction abs() {
+    return new Fraction(numerator.abs(), denominator);
   }
 
-  public Quotient pow(int exponent) {
+  public Fraction pow(int exponent) {
     if (exponent == 0) {
-      return new Quotient(BigInteger.ONE, BigInteger.ONE);
+      return new Fraction(BigInteger.ONE, BigInteger.ONE);
     }
     if (exponent < 0) {
       return reciprocal().pow(-exponent);
     }
-    return new Quotient(numerator.pow(exponent), denominator.pow(exponent));
+    return new Fraction(numerator.pow(exponent), denominator.pow(exponent));
   }
 
   private static String buildNumberFormatExceptionMessage(String numberString) {
