@@ -263,6 +263,16 @@ public class Quotient implements Comparable<Quotient> {
     return new Quotient(numerator.abs(), denominator);
   }
 
+  public Quotient pow(int exponent) {
+    if (exponent == 0) {
+      return new Quotient(BigInteger.ONE, BigInteger.ONE);
+    }
+    if (exponent < 0) {
+      return reciprocal().pow(-exponent);
+    }
+    return new Quotient(numerator.pow(exponent), denominator.pow(exponent));
+  }
+
   private static String buildNumberFormatExceptionMessage(String numberString) {
     return "illegal number format '".concat(numberString).concat("'.");
   }
@@ -270,5 +280,4 @@ public class Quotient implements Comparable<Quotient> {
   private void throwDivisionByZero() {
     throw new ArithmeticException("division by zero is not allowed.");
   }
-
 }

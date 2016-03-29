@@ -693,6 +693,83 @@ public class QuotientTest {
     assertEquals(new BigInteger("3"), q.abs().getDenominator());
   }
 
+  @Test
+  public void testPow_zero_exponent() {
+    Quotient q;
+
+    q = Quotient.valueOf("0");
+    assertEquals(BigInteger.ONE, q.pow(0).getNumerator());
+    assertEquals(BigInteger.ONE, q.pow(0).getDenominator());
+
+    q = Quotient.valueOf("1");
+    assertEquals(BigInteger.ONE, q.pow(0).getNumerator());
+    assertEquals(BigInteger.ONE, q.pow(0).getDenominator());
+
+    q = Quotient.valueOf("-1");
+    assertEquals(BigInteger.ONE, q.pow(0).getNumerator());
+    assertEquals(BigInteger.ONE, q.pow(0).getDenominator());
+
+    q = Quotient.valueOf("2");
+    assertEquals(BigInteger.ONE, q.pow(0).getNumerator());
+    assertEquals(BigInteger.ONE, q.pow(0).getDenominator());
+
+    q = Quotient.valueOf("-2");
+    assertEquals(BigInteger.ONE, q.pow(0).getNumerator());
+    assertEquals(BigInteger.ONE, q.pow(0).getDenominator());
+  }
+
+  @Test
+  public void testPow_positive_exponent() {
+    Quotient q;
+    Quotient power;
+
+    q = new Quotient("1", "4");
+    power = q.pow(2);
+    assertEquals(BigInteger.ONE, power.getNumerator());
+    assertEquals(new BigInteger("16"), power.getDenominator());
+
+    q = new Quotient("-1", "4");
+    power = q.pow(2);
+    assertEquals(BigInteger.ONE, power.getNumerator());
+    assertEquals(new BigInteger("16"), power.getDenominator());
+
+    q = new Quotient("2", "3");
+    power = q.pow(3);
+    assertEquals(new BigInteger("8"), power.getNumerator());
+    assertEquals(new BigInteger("27"), power.getDenominator());
+
+    q = new Quotient("-2", "3");
+    power = q.pow(3);
+    assertEquals(new BigInteger("-8"), power.getNumerator());
+    assertEquals(new BigInteger("27"), power.getDenominator());
+  }
+
+  @Test
+  public void testPow_negative_exponent() {
+    Quotient q;
+    Quotient power;
+
+    q = new Quotient("1", "4");
+    power = q.pow(-2);
+    assertEquals(new BigInteger("16"), power.getNumerator());
+    assertEquals(BigInteger.ONE, power.getDenominator());
+
+    q = new Quotient("-1", "4");
+    power = q.pow(-2);
+    assertEquals(new BigInteger("16"), power.getNumerator());
+    assertEquals(BigInteger.ONE, power.getDenominator());
+
+    q = new Quotient("2", "3");
+    power = q.pow(-3);
+    assertEquals(new BigInteger("27"), power.getNumerator());
+    assertEquals(new BigInteger("8"), power.getDenominator());
+
+    q = new Quotient("-2", "3");
+    power = q.pow(-3);
+    assertEquals(new BigInteger("-27"), power.getNumerator());
+    assertEquals(new BigInteger("8"), power.getDenominator());
+  }
+
   private void assertNumberFormatException(String input) {
     try {
       Quotient.valueOf(input);
