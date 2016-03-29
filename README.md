@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/ohumbel/fractions.svg)](https://travis-ci.org/ohumbel/fractions)
 [![Apache License](https://img.shields.io/badge/license-Apache-orange.svg)](https://github.com/ohumbel/fractions/blob/master/LICENSE)
 
 # fractions
