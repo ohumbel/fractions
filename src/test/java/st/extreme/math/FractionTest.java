@@ -68,27 +68,27 @@ public class FractionTest {
   }
 
   @Test
-  public void testToString() {
+  public void testToFractionString() {
     Fraction q = new Fraction("3", "4");
-    assertEquals("3/4", q.toString());
+    assertEquals("3/4", q.toFractionString());
     q = new Fraction("-3", "4");
-    assertEquals("-3/4", q.toString());
+    assertEquals("-3/4", q.toFractionString());
     q = new Fraction("3", "-4");
-    assertEquals("-3/4", q.toString());
+    assertEquals("-3/4", q.toFractionString());
     q = new Fraction("-3", "-4");
-    assertEquals("3/4", q.toString());
+    assertEquals("3/4", q.toFractionString());
   }
 
   @Test
-  public void testToPlainString() {
+  public void testToString() {
     Fraction q = new Fraction("3", "4");
-    assertEquals("0.75", q.toPlainString());
+    assertEquals("0.75", q.toString());
     q = new Fraction("-3", "4");
-    assertEquals("-0.75", q.toPlainString());
+    assertEquals("-0.75", q.toString());
     q = new Fraction("3", "-4");
-    assertEquals("-0.75", q.toPlainString());
+    assertEquals("-0.75", q.toString());
     q = new Fraction("-3", "-4");
-    assertEquals("0.75", q.toPlainString());
+    assertEquals("0.75", q.toString());
   }
 
   @Test
@@ -519,22 +519,22 @@ public class FractionTest {
   public void testMultiply() {
     Fraction q1 = new Fraction("2", "3");
     Fraction q2 = new Fraction("4", "5");
-    assertEquals("8/15", q1.multiply(q2).toString());
+    assertEquals("8/15", q1.multiply(q2).toFractionString());
 
     q1 = new Fraction("-3", "7");
     q2 = new Fraction("8", "9");
-    assertEquals("-24/63", q1.multiply(q2).toString());
+    assertEquals("-24/63", q1.multiply(q2).toFractionString());
   }
 
   @Test
   public void testDivide() {
     Fraction q1 = new Fraction("2", "3");
     Fraction q2 = new Fraction("4", "5");
-    assertEquals("10/12", q1.divide(q2).toString());
+    assertEquals("10/12", q1.divide(q2).toFractionString());
 
     q1 = new Fraction("3", "-7");
     q2 = new Fraction("8", "9");
-    assertEquals("-27/56", q1.divide(q2).toString());
+    assertEquals("-27/56", q1.divide(q2).toFractionString());
   }
 
   @Test

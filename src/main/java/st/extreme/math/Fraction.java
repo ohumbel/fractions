@@ -92,9 +92,11 @@ public class Fraction implements Comparable<Fraction> {
   }
 
   /**
-   * @return a human readable representation
+   * A fraction representation, such as <code>-2/3</code>.
+   * 
+   * @return a human readable representation of this fraction
    */
-  public String toString() {
+  public String toFractionString() {
     StringBuilder builder = new StringBuilder();
     builder.append(numerator.toString());
     builder.append('/');
@@ -102,7 +104,12 @@ public class Fraction implements Comparable<Fraction> {
     return builder.toString();
   }
 
-  public String toPlainString() {
+  /**
+   * A numerical representation of this fraction, such as -1.75, like in {@link BigDecimal#toPlainString()}.
+   * 
+   * @return a numerical representation of this fraction
+   */
+  public String toString() {
     return bigDecimalValue().toPlainString();
   }
 
