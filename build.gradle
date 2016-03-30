@@ -8,6 +8,8 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.+'
 }
 
+sourceCompatibility = 1.7
+
 task wrapper(type: Wrapper) {
     gradleVersion = '2.0'
 }
