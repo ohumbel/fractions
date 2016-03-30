@@ -7,7 +7,7 @@ import java.math.RoundingMode;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Fraction implements Comparable<Fraction> {
+public class Fraction extends Number implements Comparable<Fraction> {
 
   /**
    * The fraction representing the value <code>1</code>
@@ -24,8 +24,8 @@ public class Fraction implements Comparable<Fraction> {
    */
   private static final MathContext DEFAULT_MATH_CONTEXT = new MathContext(500, RoundingMode.HALF_UP);
 
+  private static final long serialVersionUID = 1295910738820044783L;
   private static final Pattern DECIMAL_PART_PATTERN = Pattern.compile("([0-9]+)");
-
   private static final String STRING_ONE = "1";
   private static final String STRING_ZERO = "0";
   private static final String STRING_MINUS = "-";
@@ -34,26 +34,27 @@ public class Fraction implements Comparable<Fraction> {
 
   private final BigInteger numerator;
   private final BigInteger denominator;
-
   private BigDecimal bigDecimalValue;
 
   /**
-   * Create a fraction from two String values
+   * Create a fraction from two {@link String} values.
+   * <p>
+   * Both values should be accepted by {@link BigInteger#BigInteger(String)}.
    * 
    * @param numerator
    * @param denominator
    */
-  Fraction(String numerator, String denominator) {
+  public Fraction(String numerator, String denominator) {
     this(new BigInteger(numerator), new BigInteger(denominator));
   }
 
   /**
-   * Create a fraction from two BigInteger values
+   * Create a fraction from two {@link BigInteger} values.
    * 
    * @param numerator
    * @param denominator
    */
-  Fraction(BigInteger numerator, BigInteger denominator) {
+  public Fraction(BigInteger numerator, BigInteger denominator) {
     if (BigInteger.ZERO.equals(denominator)) {
       throwDivisionByZero();
     }
@@ -66,6 +67,71 @@ public class Fraction implements Comparable<Fraction> {
       this.numerator = numerator;
       this.denominator = denominator;
     }
+  }
+
+  /**
+   * Converts this fraction into an <code>int</code> value.
+   * 
+   * @see {@link BigDecimal#intValue()}
+   */
+  @Override
+  public int intValue() {
+    return bigDecimalValue().intValue();
+  }
+
+  /**
+   * Converts this fraction into a <code>long</code> value.
+   * 
+   * @see {@link BigDecimal#longValue()}
+   */
+  @Override
+  public long longValue() {
+    return bigDecimalValue().longValue();
+  }
+
+  /**
+   * Converts this fraction into a <code>float</code> value.
+   * 
+   * @see {@link BigDecimal#floatValue()}
+   */
+  @Override
+  public float floatValue() {
+    return bigDecimalValue().floatValue();
+  }
+
+  /**
+   * Converts this fraction into a <code>double</code> value.
+   * 
+   * @see {@link BigDecimal#doubleValue()}
+   */
+  @Override
+  public double doubleValue() {
+    return bigDecimalValue().doubleValue();
+  }
+
+  @Override
+  public int compareTo(Fraction other) {
+    if (denominator.equals(other.denominator)) {
+      return numerator.compareTo(other.numerator);
+    } else {
+      return numerator.multiply(other.denominator).compareTo(other.numerator.multiply(denominator));
+    }
+  }
+
+  @Override
+  public boolean equals(Object object) {
+    if (!(object instanceof Fraction)) {
+      return false;
+    } else {
+      return compareTo((Fraction) object) == 0;
+    }
+  }
+
+  @Override
+  public int hashCode() {
+    // This fulfills the contract: equal fractions produce the same big decimal value.
+    // It is allowed to produce the same hash code for non equal values (e.g. differing beyond the default math context precision).
+    return bigDecimalValue().hashCode();
   }
 
   /**
@@ -222,31 +288,6 @@ public class Fraction implements Comparable<Fraction> {
       bigDecimalValue = new BigDecimal(numerator).divide(new BigDecimal(denominator), DEFAULT_MATH_CONTEXT);
     }
     return bigDecimalValue;
-  }
-
-  @Override
-  public int compareTo(Fraction other) {
-    if (denominator.equals(other.denominator)) {
-      return numerator.compareTo(other.numerator);
-    } else {
-      return numerator.multiply(other.denominator).compareTo(other.numerator.multiply(denominator));
-    }
-  }
-
-  @Override
-  public boolean equals(Object object) {
-    if (!(object instanceof Fraction)) {
-      return false;
-    } else {
-      return compareTo((Fraction) object) == 0;
-    }
-  }
-
-  @Override
-  public int hashCode() {
-    // This fulfills the contract: equal fractions produce the same big decimal value.
-    // It is allowed to produce the same hash code for non equal values (e.g. differing beyond the default math context precision).
-    return bigDecimalValue().hashCode();
   }
 
   public Fraction multiply(Fraction value) {

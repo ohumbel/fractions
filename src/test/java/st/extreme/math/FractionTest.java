@@ -812,6 +812,44 @@ public class FractionTest {
     assertEquals(BigInteger.ONE, power.getDenominator());
   }
 
+  @Test
+  public void testIntValue() {
+    Fraction f;
+    f = new Fraction("3", "5");
+    assertEquals(0, f.intValue());
+    f = new Fraction("-6", "5");
+    assertEquals(-1, f.intValue());
+  }
+
+  @Test
+  public void testLongValue() {
+    Fraction f;
+    f = new Fraction("26", "5");
+    assertEquals(5, f.longValue());
+    f = new Fraction("-24", "5");
+    assertEquals(-4, f.longValue());
+  }
+
+  @Test
+  public void testFloatValue() {
+    float epsilon = 0.000001f;
+    Fraction f;
+    f = new Fraction("26", "8");
+    assertEquals(Float.valueOf("3.25").floatValue(), f.floatValue(), epsilon);
+    f = new Fraction("-23", "8");
+    assertEquals(Float.valueOf("-2.875").floatValue(), f.floatValue(), epsilon);
+  }
+
+  @Test
+  public void testDoubleValue() {
+    double epsilon = 0.000001f;
+    Fraction f;
+    f = new Fraction("26", "8");
+    assertEquals(Double.valueOf("3.25").doubleValue(), f.doubleValue(), epsilon);
+    f = new Fraction("-23", "8");
+    assertEquals(Double.valueOf("-2.875").doubleValue(), f.doubleValue(), epsilon);
+  }
+
   private void assertNumberFormatException(String input) {
     try {
       Fraction.valueOf(input);
