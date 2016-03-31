@@ -1,4 +1,5 @@
 apply plugin: 'java'
+apply plugin: 'eclipse'
 
 repositories {
     mavenCentral()
@@ -9,6 +10,13 @@ dependencies {
 }
 
 sourceCompatibility = 1.7
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Fractions in Java',
+                   'Implementation-Version': '1.0-SNAPSHOT'
+    }
+}
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.0'
