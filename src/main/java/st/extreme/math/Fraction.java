@@ -10,17 +10,17 @@ import java.util.regex.Pattern;
 public class Fraction extends Number implements Comparable<Fraction> {
 
   /**
-   * The {@link Fraction} representing the value <code>1</code>
+   * The {@link Fraction} representing the value {@code 1}
    */
   public static final Fraction ONE = new Fraction(BigInteger.ONE, BigInteger.ONE);
 
   /**
-   * The {@link Fraction} representing the value <code>0</code>
+   * The {@link Fraction} representing the value {@code 0}
    */
   public static final Fraction ZERO = new Fraction(BigInteger.ZERO, BigInteger.ONE);
 
   /**
-   * The default {@link MathContext} for conversions into {@link BigDecimal}. Currently we use a precision of <code>500</code>.
+   * The default {@link MathContext} for conversions into {@link BigDecimal}. Currently we use a precision of {@code 500}.
    */
   private static final MathContext DEFAULT_MATH_CONTEXT = new MathContext(500, RoundingMode.HALF_UP);
 
@@ -66,7 +66,6 @@ public class Fraction extends Number implements Comparable<Fraction> {
       // because of "cross multiplying" in compareTo(), always keep the denominator positive
       this.numerator = numerator.negate();
       this.denominator = denominator.negate();
-
     } else {
       this.numerator = numerator;
       this.denominator = denominator;
@@ -74,7 +73,7 @@ public class Fraction extends Number implements Comparable<Fraction> {
   }
 
   /**
-   * Converts this {@link Fraction} into an <code>int</code> value.
+   * Converts this {@link Fraction} into an {@code int} value.
    * 
    * @see BigDecimal#intValue()
    */
@@ -84,7 +83,7 @@ public class Fraction extends Number implements Comparable<Fraction> {
   }
 
   /**
-   * Converts this {@link Fraction} into a <code>long</code> value.
+   * Converts this {@link Fraction} into a {@code long} value.
    * 
    * @see BigDecimal#longValue()
    */
@@ -94,7 +93,7 @@ public class Fraction extends Number implements Comparable<Fraction> {
   }
 
   /**
-   * Converts this {@link Fraction} into a <code>float</code> value.
+   * Converts this {@link Fraction} into a {@code float} value.
    * 
    * @see BigDecimal#floatValue()
    */
@@ -104,7 +103,7 @@ public class Fraction extends Number implements Comparable<Fraction> {
   }
 
   /**
-   * Converts this {@link Fraction} into a <code>double</code> value.
+   * Converts this {@link Fraction} into a {@code double} value.
    * 
    * @see BigDecimal#doubleValue()
    */
@@ -163,7 +162,7 @@ public class Fraction extends Number implements Comparable<Fraction> {
   }
 
   /**
-   * A {@link Fraction} representation, such as <code>-2/3</code>.
+   * A {@link Fraction} representation, such as {@code -2/3}.
    * 
    * @return a human readable representation of this {@link Fraction}
    */
@@ -185,44 +184,44 @@ public class Fraction extends Number implements Comparable<Fraction> {
   }
 
   /**
-   * Create a new {@link Fraction} from an <code>int</code> input
+   * Create a new {@link Fraction} from an {@code int} input
    * 
    * @param i
    *          an {@code int} value.
-   * @return an {@code Fraction} instance representing {@code i}.
+   * @return a {@code Fraction} instance representing {@code i}.
    */
   public static Fraction valueOf(int i) {
     return valueOf(Integer.valueOf(i));
   }
 
   /**
-   * Create a new {@link Fraction} from a <code>long</code> input
+   * Create a new {@link Fraction} from a {@code long} input
    * 
    * @param l
-   *          an {@code long} value.
-   * @return an {@code Fraction} instance representing {@code l}.
+   *          a {@code long} value.
+   * @return a {@code Fraction} instance representing {@code l}.
    */
   public static Fraction valueOf(long l) {
     return valueOf(Long.valueOf(l));
   }
 
   /**
-   * Create a new {@link Fraction} from a <code>double</code> input
+   * Create a new {@link Fraction} from a {@code double} input
    * 
    * @param d
-   *          an {@code double} value.
-   * @return an {@code Fraction} instance representing {@code d}.
+   *          a {@code double} value.
+   * @return a {@code Fraction} instance representing {@code d}.
    */
   public static Fraction valueOf(double d) {
     return valueOf(Double.valueOf(d));
   }
 
   /**
-   * Create a new {@link Fraction} from a <code>float</code> input
+   * Create a new {@link Fraction} from a {@code float} input
    * 
    * @param f
-   *          an {@code float} value.
-   * @return an {@code Fraction} instance representing {@code f}.
+   *          a {@code float} value.
+   * @return a {@code Fraction} instance representing {@code f}.
    */
   public static Fraction valueOf(float f) {
     return valueOf(Float.valueOf(f));
@@ -232,8 +231,8 @@ public class Fraction extends Number implements Comparable<Fraction> {
    * Create a new {@link Fraction} from {@link Number} input
    * 
    * @param number
-   *          an {@link Number} value.
-   * @return an {@code Fraction} instance representing {@code number}.
+   *          a {@link Number} value.
+   * @return a {@code Fraction} instance representing {@code number}.
    */
   public static Fraction valueOf(Number number) {
     if (number instanceof BigDecimal) {
@@ -346,7 +345,7 @@ public class Fraction extends Number implements Comparable<Fraction> {
    * Determine if the input qualifies as {@link Fraction#ZERO}.
    * 
    * @param numberString
-   * @return <code>true</code> if the string is evaluated to zero, <code>false</code> otherwise.
+   * @return {@code true} if the string is evaluated to zero, {@code false} otherwise.
    */
   private static boolean isZeroStringInput(String numberString) {
     boolean isZero = false;
