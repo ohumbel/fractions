@@ -96,5 +96,6 @@ uploadArchives {
         }
     }
 }
+uploadArchives.onlyIf { project.hasProperty('signing.passwor') }
 
 
