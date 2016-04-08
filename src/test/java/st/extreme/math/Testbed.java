@@ -1,5 +1,6 @@
 package st.extreme.math;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.math.BigInteger;
@@ -11,6 +12,13 @@ import org.junit.Test;
 public class Testbed {
 
 	private static BigInteger[] BIG_INTEGERS = new BigInteger[10];
+
+	private static final BigInteger TWO = new BigInteger("2");
+	private static final BigInteger THREE = new BigInteger("3");
+	private static final BigInteger FIVE = new BigInteger("5");
+	private static final BigInteger SEVEN = new BigInteger("7");
+	private static final BigInteger ELEVEN = new BigInteger("11");
+
 	static {
 		BIG_INTEGERS[0] = new BigInteger("8482975720");
 		BIG_INTEGERS[1] = new BigInteger("7279040277722");
@@ -39,4 +47,25 @@ public class Testbed {
 		}
 	}
 
+	@Test
+	public void TestBigIntegerGcd() {
+		BigInteger b1;
+		BigInteger b2;
+
+		b1 = new BigInteger("2");
+		b2 = new BigInteger("3");
+		assertEquals(BigInteger.ONE, b1.gcd(b2));
+
+		b1 = new BigInteger("12");
+		b2 = new BigInteger("16");
+		assertEquals(new BigInteger("4"), b1.gcd(b2));
+
+		b1 = new BigInteger("175");
+		b2 = new BigInteger("210");
+		assertEquals(new BigInteger("35"), b1.gcd(b2));
+
+		b1 = TWO.multiply(TWO).multiply(THREE).multiply(FIVE).multiply(FIVE).multiply(SEVEN).multiply(ELEVEN);
+		b2 = TWO.multiply(TWO).multiply(TWO).multiply(FIVE).multiply(FIVE).multiply(ELEVEN).multiply(ELEVEN);
+		assertEquals(TWO.multiply(TWO).multiply(FIVE).multiply(FIVE).multiply(ELEVEN), b1.gcd(b2));
+	}
 }
