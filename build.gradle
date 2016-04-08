@@ -48,54 +48,54 @@ jar {
     }
 }
 
-uploadArchives {
-    repositories.mavenDeployer {
-        beforeDeployment { 
-            MavenDeployment deployment -> signing.signPom(deployment)
-        }
+//uploadArchives {
+//    repositories.mavenDeployer {
+//        beforeDeployment { 
+//            MavenDeployment deployment -> signing.signPom(deployment)
+//        }
 
-        repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2/') {
-            authentication(userName: ossrhUsername, password: ossrhPassword)
-        }
+//        repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2/') {
+//            authentication(userName: ossrhUsername, password: ossrhPassword)
+//        }
 
-        snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots/') {
-            authentication(userName: ossrhUsername, password: ossrhPassword)
-        }
+//        snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots/') {
+//            authentication(userName: ossrhUsername, password: ossrhPassword)
+//        }
 
-        pom.project {
-            name projectName
-            packaging 'jar'
-            description 'Rational calculations with exact precision.'
-            url 'https://github.com/ohumbel/fractions'
+//        pom.project {
+//            name projectName
+//            packaging 'jar'
+//            description 'Rational calculations with exact precision.'
+//            url 'https://github.com/ohumbel/fractions'
             
-            scm {
-                connection 'scm:git:git@github.com:ohumbel/fractions.git'
-                developerConnection 'scm:git:git@github.com:ohumbel/fractions.git'
-                url 'git@github.com:ohumbel/fractions.git'
-            }
+//            scm {
+//                connection 'scm:git:git@github.com:ohumbel/fractions.git'
+//                developerConnection 'scm:git:git@github.com:ohumbel/fractions.git'
+//                url 'git@github.com:ohumbel/fractions.git'
+//            }
 
-			licenses {
-                license {
-                    name 'Apache License, Version 2.0'
-                    url 'http://www.apache.org/licenses/LICENSE-2.0'
-                }
-			}
+//			licenses {
+//                license {
+//                    name 'Apache License, Version 2.0'
+//                    url 'http://www.apache.org/licenses/LICENSE-2.0'
+//                }
+//			}
 
-            developers {[
-                developer {
-                    id 'ohumbel'
-                    name 'Otmar Humbel'
-                    email 'ohumbel@gmail.com'
-                },
-                developer {
-                    id 'reinhapa'
-                    name 'Patrick Reinhart'
-                    email 'patrick@reini.net'
-                }
-            ]}
-        }
-    }
-}
-uploadArchives.onlyIf { project.hasProperty('signing.passwor') }
+//            developers {[
+//                developer {
+//                    id 'ohumbel'
+//                    name 'Otmar Humbel'
+//                    email 'ohumbel@gmail.com'
+//                },
+//                developer {
+//                    id 'reinhapa'
+//                    name 'Patrick Reinhart'
+//                    email 'patrick@reini.net'
+//                }
+//            ]}
+//        }
+//    }
+//}
+
 
 
