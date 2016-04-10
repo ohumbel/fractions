@@ -4,7 +4,7 @@
 
 # fractions
 
-An attempt to `add`, `subtract`, `multiply`, `divide` and `pow(int)` with exact precision in Java.
+Rational calculation: an attempt to `add`, `subtract`, `multiply`, `divide` and `pow(int)` with exact precision in Java.
 
 
 ## Motivation
