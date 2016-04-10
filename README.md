@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/ohumbel/fractions.svg)](https://travis-ci.org/ohumbel/fractions)
-[![Apache License, Version 2.0](https://img.shields.io/badge/license-Apache-orange.svg)](https://github.com/ohumbel/fractions/blob/master/LICENSE)
+[![Apache License](https://img.shields.io/badge/license-Apache%202.0-orange.svg)](https://github.com/ohumbel/fractions/blob/master/LICENSE)
 [![Supported Versions](https://img.shields.io/badge/Java-7%2C%208-blue.svg)](https://travis-ci.org/ohumbel/fractions)
 
 # fractions
