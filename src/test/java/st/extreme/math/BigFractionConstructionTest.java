@@ -45,10 +45,18 @@ public class BigFractionConstructionTest {
 
   @Test
   public void testStringConstructor_Sign() {
-    BigFraction bf = new BigFraction("2", "-3");
+    BigFraction bf;
+
+    bf = new BigFraction("2", "-3");
     // expect the sign in the numerator
     assertEquals(MINUS_TWO, bf.getNumerator());
     assertEquals(THREE, bf.getDenominator());
+    assertEquals(-1, bf.signum());
+
+    bf = new BigFraction("-2", "-3");
+    assertEquals(TWO, bf.getNumerator());
+    assertEquals(THREE, bf.getDenominator());
+    assertEquals(1, bf.signum());
   }
 
   @Test
@@ -77,10 +85,18 @@ public class BigFractionConstructionTest {
 
   @Test
   public void testBigIntegerConstructor_Sign() {
-    BigFraction bf = new BigFraction(TWO, MINUS_THREE);
+    BigFraction bf;
+
+    bf = new BigFraction(TWO, MINUS_THREE);
     // expect the sign in the numerator
     assertEquals(MINUS_TWO, bf.getNumerator());
     assertEquals(THREE, bf.getDenominator());
+    assertEquals(-1, bf.signum());
+
+    bf = new BigFraction(MINUS_TWO, MINUS_THREE);
+    assertEquals(TWO, bf.getNumerator());
+    assertEquals(THREE, bf.getDenominator());
+    assertEquals(1, bf.signum());
   }
 
 }
