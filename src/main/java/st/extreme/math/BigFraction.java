@@ -155,10 +155,13 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
     return denominator;
   }
 
-  public boolean isPositive() {
-    int numeratorSignum = numerator.signum();
-    // let zero be positive
-    return numeratorSignum == denominator.signum() || numeratorSignum == 0;
+  /**
+   * Returns the signum function of this {@link BigFraction}.
+   *
+   * @return {@code -1}, {@code 0} or {@code 1} as the value of this {@link BigFraction} is negative, zero or positive.
+   */
+  public int signum() {
+    return numerator.signum();
   }
 
   /**

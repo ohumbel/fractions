@@ -16,7 +16,7 @@ public class BigFractionTest {
     BigFraction r = q.reciprocal();
     assertEquals(new BigInteger("4"), r.getNumerator());
     assertEquals(new BigInteger("3"), r.getDenominator());
-    assertEquals(q.isPositive(), r.isPositive());
+    assertEquals(q.signum(), r.signum());
   }
 
   @Test
@@ -25,7 +25,7 @@ public class BigFractionTest {
     BigFraction r = q.reciprocal();
     assertEquals(new BigInteger("-4"), r.getNumerator());
     assertEquals(new BigInteger("3"), r.getDenominator()); // we always keep the denominator positive
-    assertEquals(q.isPositive(), r.isPositive());
+    assertEquals(q.signum(), r.signum());
   }
 
   @Test
@@ -333,5 +333,12 @@ public class BigFractionTest {
     power = q.pow(-3);
     assertEquals(BigInteger.ZERO, power.getNumerator());
     assertEquals(BigInteger.ONE, power.getDenominator());
+  }
+
+  @Test
+  public void testSignum() {
+    assertEquals(0, new BigFraction("0", "10").signum());
+    assertEquals(1, new BigFraction("10", "10").signum());
+    assertEquals(-1, new BigFraction("-10", "10").signum());
   }
 }
