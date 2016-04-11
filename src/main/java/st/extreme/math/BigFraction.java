@@ -194,7 +194,7 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
    * @return a {@code BigFraction} instance representing {@code i}.
    */
   public static BigFraction valueOf(int i) {
-    return valueOf(Integer.valueOf(i));
+    return new BigFraction(BigInteger.valueOf(i), BigInteger.ONE);
   }
 
   /**
@@ -205,7 +205,7 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
    * @return a {@code BigFraction} instance representing {@code l}.
    */
   public static BigFraction valueOf(long l) {
-    return valueOf(Long.valueOf(l));
+    return new BigFraction(BigInteger.valueOf(l), BigInteger.ONE);
   }
 
   /**
@@ -240,6 +240,9 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
   public static BigFraction valueOf(Number number) {
     if (number instanceof BigDecimal) {
       return valueOf(((BigDecimal) number).toPlainString());
+    }
+    if (number instanceof Integer || number instanceof Long) {
+      return new BigFraction(BigInteger.valueOf(number.longValue()), BigInteger.ONE);
     }
     return valueOf(number.toString());
   }
