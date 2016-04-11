@@ -113,40 +113,7 @@ public class BigFractionValueOfTest {
 
   @Test
   public void testValueOf_MinimalInput() {
-    BigFraction q = BigFraction.valueOf(".5");
-    assertEquals(new BigInteger("5"), q.getNumerator());
-    assertEquals(new BigInteger("10"), q.getDenominator());
-    assertEquals(1, q.signum());
-
-    q = BigFraction.valueOf(".");
-    assertEquals(BigInteger.ZERO, q.getNumerator());
-    assertEquals(BigInteger.ONE, q.getDenominator());
-    assertEquals(0, q.signum());
-
-    q = BigFraction.valueOf(".0");
-    assertEquals(BigInteger.ZERO, q.getNumerator());
-    assertEquals(new BigInteger("10"), q.getDenominator()); // ok
-    assertEquals(0, q.signum());
-
-    q = BigFraction.valueOf(".1");
-    assertEquals(BigInteger.ONE, q.getNumerator());
-    assertEquals(new BigInteger("10"), q.getDenominator());
-    assertEquals(1, q.signum());
-
-    q = BigFraction.valueOf("0.");
-    assertEquals(BigInteger.ZERO, q.getNumerator());
-    assertEquals(BigInteger.ONE, q.getDenominator());
-    assertEquals(0, q.signum());
-
-    q = BigFraction.valueOf("1.");
-    assertEquals(BigInteger.ONE, q.getNumerator());
-    assertEquals(BigInteger.ONE, q.getDenominator());
-    assertEquals(1, q.signum());
-
-    q = BigFraction.valueOf("-");
-    assertEquals(BigInteger.ZERO, q.getNumerator());
-    assertEquals(BigInteger.ONE, q.getDenominator());
-    assertEquals(0, q.signum());
+    BigFraction q;
 
     q = BigFraction.valueOf("-0");
     assertEquals(BigInteger.ZERO, q.getNumerator());
@@ -158,11 +125,6 @@ public class BigFractionValueOfTest {
     assertEquals(BigInteger.ONE, q.getDenominator());
     assertEquals(-1, q.signum());
 
-    q = BigFraction.valueOf("+");
-    assertEquals(BigInteger.ZERO, q.getNumerator());
-    assertEquals(BigInteger.ONE, q.getDenominator());
-    assertEquals(0, q.signum());
-
     q = BigFraction.valueOf("+0");
     assertEquals(BigInteger.ZERO, q.getNumerator());
     assertEquals(BigInteger.ONE, q.getDenominator());
@@ -172,66 +134,27 @@ public class BigFractionValueOfTest {
     assertEquals(BigInteger.ONE, q.getNumerator());
     assertEquals(BigInteger.ONE, q.getDenominator());
     assertEquals(1, q.signum());
-
-    q = BigFraction.valueOf("+.");
-    assertEquals(BigInteger.ZERO, q.getNumerator());
-    assertEquals(BigInteger.ONE, q.getDenominator());
-    assertEquals(0, q.signum());
-
-    q = BigFraction.valueOf("+.0");
-    assertEquals(BigInteger.ZERO, q.getNumerator());
-    assertEquals(new BigInteger("10"), q.getDenominator()); // ok
-    assertEquals(0, q.signum());
-
-    q = BigFraction.valueOf("+.1");
-    assertEquals(BigInteger.ONE, q.getNumerator());
-    assertEquals(new BigInteger("10"), q.getDenominator());
-    assertEquals(1, q.signum());
-
-    q = BigFraction.valueOf("+0.");
-    assertEquals(BigInteger.ZERO, q.getNumerator());
-    assertEquals(BigInteger.ONE, q.getDenominator());
-    assertEquals(0, q.signum());
-
-    q = BigFraction.valueOf("+1.");
-    assertEquals(BigInteger.ONE, q.getNumerator());
-    assertEquals(BigInteger.ONE, q.getDenominator());
-    assertEquals(1, q.signum());
-
-    q = BigFraction.valueOf("-.");
-    assertEquals(BigInteger.ZERO, q.getNumerator());
-    assertEquals(BigInteger.ONE, q.getDenominator());
-    assertEquals(0, q.signum());
-
-    q = BigFraction.valueOf("-.0");
-    assertEquals(BigInteger.ZERO, q.getNumerator());
-    assertEquals(new BigInteger("10"), q.getDenominator()); // ok
-    assertEquals(0, q.signum());
-
-    q = BigFraction.valueOf("-.1");
-    assertEquals(new BigInteger("-1"), q.getNumerator());
-    assertEquals(new BigInteger("10"), q.getDenominator());
-    assertEquals(-1, q.signum());
-
-    q = BigFraction.valueOf("-0.");
-    assertEquals(BigInteger.ZERO, q.getNumerator());
-    assertEquals(BigInteger.ONE, q.getDenominator());
-    assertEquals(0, q.signum());
-
-    q = BigFraction.valueOf("-1.");
-    assertEquals(new BigInteger("-1"), q.getNumerator());
-    assertEquals(BigInteger.ONE, q.getDenominator());
-    assertEquals(-1, q.signum());
   }
 
   @Test
   public void testValueOf_IllegalInput() {
     assertNumberFormatException("x");
+    assertNumberFormatException(".");
+    assertNumberFormatException("-");
+    assertNumberFormatException("+");
     assertNumberFormatException(".-");
     assertNumberFormatException(".+");
+    assertNumberFormatException("+.");
+    assertNumberFormatException("-.");
     assertNumberFormatException("1x");
+    assertNumberFormatException("1.");
+    assertNumberFormatException(".1");
     assertNumberFormatException(".2-");
     assertNumberFormatException(".3+");
+    assertNumberFormatException("+.1");
+    assertNumberFormatException("-.1");
+    assertNumberFormatException("+1.");
+    assertNumberFormatException("-1.");
   }
 
   @Test

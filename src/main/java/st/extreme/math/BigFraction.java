@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class BigFraction extends Number implements Comparable<BigFraction> {
@@ -25,12 +24,9 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
   private static final MathContext DEFAULT_MATH_CONTEXT = new MathContext(500, RoundingMode.HALF_UP);
 
   private static final long serialVersionUID = 1295910738820044783L;
-  private static final Pattern DECIMAL_PART_PATTERN = Pattern.compile("([0-9]+)");
+  private static final Pattern NUMERIC_PATTERN = Pattern.compile("[-|+]?[0-9]+([.][0-9])?[0-9]*");
   private static final String STRING_ONE = "1";
   private static final String STRING_ZERO = "0";
-  private static final String STRING_MINUS = "-";
-  private static final String STRING_PLUS = "+";
-  private static final String STRING_DOT = ".";
 
   private final BigInteger numerator;
   private final BigInteger denominator;
@@ -259,6 +255,9 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
     if (isZeroStringInput(numberString)) {
       return ZERO;
     }
+    if (!NUMERIC_PATTERN.matcher(numberString).matches()) {
+      throw new NumberFormatException(buildNumberFormatExceptionMessage(numberString));
+    }
     String[] values = numberString.split("\\.");
     String integerPart = values[0];
     if (values.length == 1) {
@@ -269,10 +268,6 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
       }
     } else {
       String decimalPart = values[1];
-      Matcher decimalPartMatcher = DECIMAL_PART_PATTERN.matcher(decimalPart);
-      if (!decimalPartMatcher.matches()) {
-        throw new NumberFormatException(buildNumberFormatExceptionMessage(decimalPart));
-      }
       StringBuilder numerator = new StringBuilder(integerPart);
       numerator.append(decimalPart);
       StringBuilder denominator = new StringBuilder();
@@ -354,21 +349,10 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
    * @return {@code true} if the string is evaluated to zero, {@code false} otherwise.
    */
   private static boolean isZeroStringInput(String numberString) {
-    boolean isZero = false;
-    if (numberString == null || numberString.isEmpty()) {
-      isZero = true;
-    } else {
-      if (numberString.length() == 1) {
-        switch (numberString) {
-        case STRING_ZERO:
-        case STRING_DOT:
-        case STRING_MINUS:
-        case STRING_PLUS:
-          isZero = true;
-        }
-      }
+    if (numberString == null || numberString.isEmpty() || STRING_ZERO.equals(numberString)) {
+      return true;
     }
-    return isZero;
+    return false;
   }
 
   private void throwDivisionByZero() {
