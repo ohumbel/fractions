@@ -1,6 +1,7 @@
 package st.extreme.math;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -30,4 +31,15 @@ public class BigFractionRepresentationTest {
     assertEquals("0.75", q.toString());
   }
 
+  @Test
+  public void testToString_periodical() {
+    BigFraction q = new BigFraction("1", "7");
+    String period = "142857";
+    StringBuilder expected = new StringBuilder();
+    expected.append("0.");
+    for (int i = 0; i < 20; i++) {
+      expected.append(period);
+    }
+    assertTrue(q.toString().startsWith(expected.toString()));
+  }
 }

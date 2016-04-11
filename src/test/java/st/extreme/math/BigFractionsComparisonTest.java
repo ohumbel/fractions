@@ -112,6 +112,7 @@ public class BigFractionsComparisonTest {
     BigFraction q2;
     q1 = new BigFraction("-8", "7");
     q2 = new BigFraction("-8000", "7000");
+    assertTrue(q1.equals(q2));
     assertEquals(q1.hashCode(), q2.hashCode());
   }
 

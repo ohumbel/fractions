@@ -1,6 +1,7 @@
 package st.extreme.math;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -57,11 +58,15 @@ public class BigFractionNumberTest {
   }
 
   @Test
-  public void testBigDecimalValue_periodic() {
+  public void testBigDecimalValue_periodical() {
     BigFraction q = new BigFraction("1", "7");
-    assertEquals(
-        "0.14285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714",
-        q.bigDecimalValue().toPlainString());
+    String period = "142857";
+    StringBuilder expected = new StringBuilder();
+    expected.append("0.");
+    for (int i = 0; i < 20; i++) {
+      expected.append(period);
+    }
+    assertTrue(q.bigDecimalValue().toPlainString().startsWith(expected.toString()));
   }
 
 }
