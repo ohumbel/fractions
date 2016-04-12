@@ -18,14 +18,25 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
    */
   public static final BigFraction ZERO = new BigFraction(BigInteger.ZERO, BigInteger.ONE);
 
+  /** The pattern a decimal input String has to match */
+  static final Pattern DECIMAL_PATTERN = Pattern.compile("0|([-|+]?(0\\.[0-9][0-9]*))|([-|+]?([1-9][0-9]*)(\\.[0-9])?[0-9]*)");
+
+  /** The pattern a fraction input String has to match */
+  static final Pattern FRACTION_PATTERN = Pattern.compile("(0|([-|+]?[1-9][0-9]*))/([-|+]?[1-9][0-9]*)");
+
   /**
-   * The default {@link MathContext} for conversions into {@link BigDecimal}. Currently we use a precision of {@code 500}.
+   * The default {@link MathContext} for conversions into {@link BigDecimal}.<br>
+   * Currently we use a precision of {@code 500}.
    */
   private static final MathContext DEFAULT_MATH_CONTEXT = new MathContext(500, RoundingMode.HALF_UP);
 
+  /** The serial version id */
   private static final long serialVersionUID = 1295910738820044783L;
-  private static final Pattern NUMERIC_PATTERN = Pattern.compile("[-|+]?[0-9]+([.][0-9])?[0-9]*");
+
+  /** String constant for the digit {@code 1} */
   private static final String STRING_ONE = "1";
+
+  /** String constant for the digit {@code 0} */
   private static final String STRING_ZERO = "0";
 
   private final BigInteger numerator;
@@ -244,39 +255,45 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
   }
 
   /**
-   * Create a new {@link BigFraction} from a {@link String} input
+   * Create a new {@link BigFraction} from a {@link String} input.
+   * <p>
+   * The input can have the following formats:
+   * <ul>
+   * <li>{@code 123}
+   * <li>{@code -123}
+   * <li>{@code -123.678}
+   * <li>{@code 2/3}
+   * <li>{@code -2/3}
+   * <li>{@code 2/-3}
+   * <li>{@code -2/-3}
+   * </ul>
    * 
    * @param numberString
-   *          in the format [sign][digits].[digits]
+   *          in one of the formats described above
    * 
-   * @return a {@link BigFraction} representing the passed in numeric value
+   * @return The new {@link BigFraction} representing the passed in value
+   * 
+   * @throws NumberFormatException
+   *           if the input does not represent a valid fraction
    */
   public static BigFraction valueOf(String numberString) {
     if (isZeroStringInput(numberString)) {
       return ZERO;
     }
-    if (!NUMERIC_PATTERN.matcher(numberString).matches()) {
+    boolean matchesDecimal = DECIMAL_PATTERN.matcher(numberString).matches();
+    final boolean matchesFraction;
+    if (matchesDecimal) {
+      matchesFraction = false;
+    } else {
+      matchesFraction = FRACTION_PATTERN.matcher(numberString).matches();
+    }
+    if (!matchesDecimal && !matchesFraction) {
       throw new NumberFormatException(buildNumberFormatExceptionMessage(numberString));
     }
-    String[] values = numberString.split("\\.");
-    String integerPart = values[0];
-    if (values.length == 1) {
-      if (isZeroStringInput(integerPart)) {
-        return ZERO;
-      } else {
-        return new BigFraction(new BigInteger(integerPart), BigInteger.ONE);
-      }
+    if (matchesDecimal) {
+      return valueOfDecimalString(numberString);
     } else {
-      String decimalPart = values[1];
-      StringBuilder numerator = new StringBuilder(integerPart);
-      numerator.append(decimalPart);
-      StringBuilder denominator = new StringBuilder();
-      denominator.append(STRING_ONE);
-      int decimals = decimalPart.length();
-      for (int i = 0; i < decimals; i++) {
-        denominator.append(STRING_ZERO);
-      }
-      return new BigFraction(numerator.toString(), denominator.toString());
+      return valueOfFractionString(numberString);
     }
   }
 
@@ -358,4 +375,43 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
   private void throwDivisionByZero() {
     throw new ArithmeticException("division by zero is not allowed.");
   }
+
+  /**
+   * @param decimalString
+   *          The caller has to make sure that {@code decimalString} matches {@link DECIMAL_PATTERN}
+   * @return the new {@link BigFraction} with the value of {@code decimalString}
+   */
+  private static BigFraction valueOfDecimalString(String decimalString) {
+    String[] values = decimalString.split("\\.");
+    String integerPart = values[0];
+    if (values.length == 1) {
+      if (isZeroStringInput(integerPart)) {
+        return ZERO;
+      } else {
+        return new BigFraction(new BigInteger(integerPart), BigInteger.ONE);
+      }
+    } else {
+      String decimalPart = values[1];
+      StringBuilder numerator = new StringBuilder(integerPart);
+      numerator.append(decimalPart);
+      StringBuilder denominator = new StringBuilder();
+      denominator.append(STRING_ONE);
+      int decimals = decimalPart.length();
+      for (int i = 0; i < decimals; i++) {
+        denominator.append(STRING_ZERO);
+      }
+      return new BigFraction(numerator.toString(), denominator.toString());
+    }
+  }
+
+  /**
+   * @param fractionString
+   *          The caller has to make sure that {@code fractionString} matches {@link FRACTION_PATTERN}
+   * @return the new {@link BigFraction} with the value of {@code fractionString}
+   */
+  private static BigFraction valueOfFractionString(String fractionString) {
+    String[] values = fractionString.split("/");
+    return new BigFraction(values[0], values[1]);
+  }
+
 }

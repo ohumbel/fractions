@@ -60,34 +60,6 @@ public class BigFractionValueOfTest {
   }
 
   @Test
-  public void testValueOf_LeadingZeroes() {
-    BigFraction q = BigFraction.valueOf("000");
-    assertEquals(BigInteger.ZERO, q.getNumerator());
-    assertEquals(BigInteger.ONE, q.getDenominator());
-    assertEquals(0, q.signum());
-
-    q = BigFraction.valueOf("001");
-    assertEquals(BigInteger.ONE, q.getNumerator());
-    assertEquals(BigInteger.ONE, q.getDenominator());
-    assertEquals(1, q.signum());
-
-    q = BigFraction.valueOf("+001");
-    assertEquals(BigInteger.ONE, q.getNumerator());
-    assertEquals(BigInteger.ONE, q.getDenominator());
-    assertEquals(1, q.signum());
-
-    q = BigFraction.valueOf("-001");
-    assertEquals(new BigInteger("-1"), q.getNumerator());
-    assertEquals(BigInteger.ONE, q.getDenominator());
-    assertEquals(-1, q.signum());
-
-    q = BigFraction.valueOf("-0.00000001");
-    assertEquals(new BigInteger("-1"), q.getNumerator());
-    assertEquals(new BigInteger("100000000"), q.getDenominator());
-    assertEquals(-1, q.signum());
-  }
-
-  @Test
   public void testValueOf_WithDecimals() {
     BigFraction q = BigFraction.valueOf("1.5");
     assertEquals(new BigInteger("15"), q.getNumerator());
@@ -109,26 +81,31 @@ public class BigFractionValueOfTest {
     assertEquals(new BigInteger("1000"), q.getNumerator());
     assertEquals(new BigInteger("1000"), q.getDenominator());
     assertEquals(1, q.signum());
+
+    q = BigFraction.valueOf("-0.00000001");
+    assertEquals(new BigInteger("-1"), q.getNumerator());
+    assertEquals(new BigInteger("100000000"), q.getDenominator());
+    assertEquals(-1, q.signum());
+
+    q = BigFraction.valueOf("-0.000");
+    assertEquals(BigInteger.ZERO, q.getNumerator());
+    assertEquals(new BigInteger("1000"), q.getDenominator()); // ok
+    assertEquals(0, q.signum());
+
+    q = BigFraction.valueOf("+0.000");
+    assertEquals(BigInteger.ZERO, q.getNumerator());
+    assertEquals(new BigInteger("1000"), q.getDenominator()); // ok
+    assertEquals(0, q.signum());
   }
 
   @Test
   public void testValueOf_MinimalInput() {
     BigFraction q;
 
-    q = BigFraction.valueOf("-0");
-    assertEquals(BigInteger.ZERO, q.getNumerator());
-    assertEquals(BigInteger.ONE, q.getDenominator());
-    assertEquals(0, q.signum());
-
     q = BigFraction.valueOf("-1");
     assertEquals(new BigInteger("-1"), q.getNumerator());
     assertEquals(BigInteger.ONE, q.getDenominator());
     assertEquals(-1, q.signum());
-
-    q = BigFraction.valueOf("+0");
-    assertEquals(BigInteger.ZERO, q.getNumerator());
-    assertEquals(BigInteger.ONE, q.getDenominator());
-    assertEquals(0, q.signum());
 
     q = BigFraction.valueOf("+1");
     assertEquals(BigInteger.ONE, q.getNumerator());
@@ -155,6 +132,61 @@ public class BigFractionValueOfTest {
     assertNumberFormatException("-.1");
     assertNumberFormatException("+1.");
     assertNumberFormatException("-1.");
+    assertNumberFormatException("-0");
+    assertNumberFormatException("+0");
+    assertNumberFormatException("000");
+    assertNumberFormatException("001");
+    assertNumberFormatException("+001");
+    assertNumberFormatException("-001");
+  }
+
+  @Test
+  public void testValueOf_Fraction() {
+    BigFraction q;
+
+    q = BigFraction.valueOf("2/3");
+    assertEquals(new BigInteger("2"), q.getNumerator());
+    assertEquals(new BigInteger("3"), q.getDenominator());
+    assertEquals(1, q.signum());
+
+    q = BigFraction.valueOf("-2/3");
+    assertEquals(new BigInteger("-2"), q.getNumerator());
+    assertEquals(new BigInteger("3"), q.getDenominator());
+    assertEquals(-1, q.signum());
+
+    q = BigFraction.valueOf("2/-3");
+    assertEquals(new BigInteger("-2"), q.getNumerator());
+    assertEquals(new BigInteger("3"), q.getDenominator());
+    assertEquals(-1, q.signum());
+
+    q = BigFraction.valueOf("-2/-3");
+    assertEquals(new BigInteger("2"), q.getNumerator());
+    assertEquals(new BigInteger("3"), q.getDenominator());
+    assertEquals(1, q.signum());
+  }
+
+  @Test
+  public void testValueOf_Fraction_IllegalInput() {
+    assertNumberFormatException("a/b");
+    assertNumberFormatException("2/");
+    assertNumberFormatException("/3");
+    assertNumberFormatException("02/03");
+    assertNumberFormatException("-02/+03");
+    assertNumberFormatException("2.5/");
+    assertNumberFormatException("/3.7");
+    assertNumberFormatException("/");
+    assertNumberFormatException(".");
+    assertNumberFormatException("-/+");
+    assertNumberFormatException("1/0");
+    assertNumberFormatException("-1/0");
+    assertNumberFormatException("+1/0");
+    assertNumberFormatException("0/0");
+    assertNumberFormatException("+0/1");
+    assertNumberFormatException("-0/1");
+  }
+
+  @Test
+  public void testValueOf_Fraction_DivisionByZero() {
   }
 
   @Test
