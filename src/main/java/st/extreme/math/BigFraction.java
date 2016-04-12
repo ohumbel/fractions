@@ -130,11 +130,12 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
 
   @Override
   public boolean equals(Object object) {
-    if (!(object instanceof BigFraction)) {
-      // should be comparable to another Number
-      return false;
-    } else {
+    if (object instanceof BigFraction) {
       return compareTo((BigFraction) object) == 0;
+    } else if (object instanceof Number) {
+      return compareTo(BigFraction.valueOf((Number) object)) == 0;
+    } else {
+      return false;
     }
   }
 

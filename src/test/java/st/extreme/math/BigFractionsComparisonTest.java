@@ -4,6 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
 import org.junit.Test;
 
 public class BigFractionsComparisonTest {
@@ -104,6 +107,35 @@ public class BigFractionsComparisonTest {
     assertNotEquals(q1, q2);
     q2 = new BigFraction("11", "-40");
     assertNotEquals(q1, q2);
+  }
+
+  @Test
+  public void testEquals_Number() {
+    BigFraction bf;
+
+    bf = BigFraction.valueOf("1/4");
+    assertEquals(bf, new BigDecimal("0.25"));
+    assertNotEquals(bf, new BigDecimal("-0.25"));
+    assertEquals(bf, Double.valueOf("0.25"));
+    assertEquals(bf, 0.25d);
+    assertNotEquals(bf, Double.valueOf("-0.25"));
+    assertNotEquals(bf, -0.25d);
+    assertEquals(bf, Float.valueOf("0.25"));
+    assertEquals(bf, 0.25f);
+    assertNotEquals(bf, Float.valueOf("-0.25"));
+    assertNotEquals(bf, -0.25f);
+
+    bf = BigFraction.valueOf("4");
+    assertEquals(bf, new BigInteger("4"));
+    assertNotEquals(bf, new BigInteger("-4"));
+    assertEquals(bf, Long.valueOf("4"));
+    assertNotEquals(bf, Long.valueOf("-4"));
+    assertEquals(bf, 4L);
+    assertNotEquals(bf, -4L);
+    assertEquals(bf, Integer.valueOf("4"));
+    assertNotEquals(bf, Integer.valueOf("-4"));
+    assertEquals(bf, 4);
+    assertNotEquals(bf, -4);
   }
 
   @Test
