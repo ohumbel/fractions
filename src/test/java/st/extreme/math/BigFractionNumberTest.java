@@ -3,6 +3,10 @@ package st.extreme.math;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
+
 import org.junit.Test;
 
 public class BigFractionNumberTest {
@@ -67,6 +71,14 @@ public class BigFractionNumberTest {
       expected.append(period);
     }
     assertTrue(q.bigDecimalValue().toPlainString().startsWith(expected.toString()));
+  }
+
+  @Test
+  public void testBigDecimalValue_MathContext() {
+    BigFraction bf = BigFraction.valueOf("8/9");
+    MathContext mathContext = new MathContext(10, RoundingMode.DOWN);
+    BigDecimal bd = bf.bigDecimalValue(mathContext);
+    assertEquals("0.8888888888", bd.toPlainString());
   }
 
 }

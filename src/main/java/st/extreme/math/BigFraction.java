@@ -41,7 +41,6 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
 
   private final BigInteger numerator;
   private final BigInteger denominator;
-  private BigDecimal bigDecimalValue;
 
   /**
    * Create a {@link BigFraction} from two {@link String} values.
@@ -301,14 +300,22 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
   /**
    * Convert to a {@link BigDecimal} value, using the {@link BigFraction#DEFAULT_MATH_CONTEXT}.
    * 
-   * @return a <strong>not exact</strong> representation of this {@link BigFraction} as a {@link BigDecimal} value.
+   * @return a maybe <strong>not exact</strong> representation of this {@link BigFraction} as a {@link BigDecimal} value.
    */
   public BigDecimal bigDecimalValue() {
-    // because of immutability, we can lazily evaluate the big decimal value
-    if (bigDecimalValue == null) {
-      bigDecimalValue = new BigDecimal(numerator).divide(new BigDecimal(denominator), DEFAULT_MATH_CONTEXT);
-    }
-    return bigDecimalValue;
+    return bigDecimalValue(DEFAULT_MATH_CONTEXT);
+  }
+
+  /**
+   * Convert to a {@link BigDecimal} value, using the given {@link MathContext}.
+   * 
+   * @param mathContext
+   *          The desired target {@link MathContext}
+   * 
+   * @return a maybe <strong>not exact</strong> representation of this {@link BigFraction} as a {@link BigDecimal} value.
+   */
+  public BigDecimal bigDecimalValue(MathContext mathContext) {
+    return new BigDecimal(numerator).divide(new BigDecimal(denominator), mathContext);
   }
 
   public BigFraction multiply(BigFraction value) {
