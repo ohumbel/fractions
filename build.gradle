@@ -2,6 +2,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'signing'
 apply plugin: 'maven'
+apply plugin: 'jacoco'
 
 repositories {
     mavenCentral()
@@ -98,6 +99,14 @@ uploadArchives {
     }
 }
 
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
+
+check.dependsOn jacocoTestReport
 
 
 
