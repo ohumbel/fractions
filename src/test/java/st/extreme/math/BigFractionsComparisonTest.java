@@ -139,6 +139,12 @@ public class BigFractionsComparisonTest {
   }
 
   @Test
+  public void testEquals_someCompletelyOtherObject() {
+    BigFraction bf = BigFraction.valueOf("1/4");
+    assertNotEquals(bf, "0.25");
+  }
+
+  @Test
   public void testHashCode_equal() {
     BigFraction q1;
     BigFraction q2;

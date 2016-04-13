@@ -66,7 +66,7 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
    */
   public BigFraction(BigInteger numerator, BigInteger denominator) {
     if (BigInteger.ZERO.equals(denominator)) {
-      throwDivisionByZero();
+      throw new ArithmeticException("division by zero is not allowed.");
     }
     if (denominator.signum() < 0) {
       // because of "cross multiplying" in compareTo(), always keep the denominator positive
@@ -380,10 +380,6 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
     return false;
   }
 
-  private void throwDivisionByZero() {
-    throw new ArithmeticException("division by zero is not allowed.");
-  }
-
   /**
    * @param decimalString
    *          The caller has to make sure that {@code decimalString} matches {@link DECIMAL_PATTERN}
@@ -393,11 +389,7 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
     String[] values = decimalString.split("\\.");
     String integerPart = values[0];
     if (values.length == 1) {
-      if (isZeroStringInput(integerPart)) {
-        return ZERO;
-      } else {
-        return new BigFraction(new BigInteger(integerPart), BigInteger.ONE);
-      }
+      return new BigFraction(new BigInteger(integerPart), BigInteger.ONE);
     } else {
       String decimalPart = values[1];
       StringBuilder numerator = new StringBuilder(integerPart);

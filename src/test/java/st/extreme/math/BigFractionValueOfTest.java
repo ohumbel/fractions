@@ -114,6 +114,26 @@ public class BigFractionValueOfTest {
   }
 
   @Test
+  public void testValueOf_ZeroOutput() {
+    BigFraction q;
+
+    q = BigFraction.valueOf("0");
+    assertEquals(BigInteger.ZERO, q.getNumerator());
+    assertEquals(BigInteger.ONE, q.getDenominator());
+    assertEquals(0, q.signum());
+
+    q = BigFraction.valueOf("");
+    assertEquals(BigInteger.ZERO, q.getNumerator());
+    assertEquals(BigInteger.ONE, q.getDenominator());
+    assertEquals(0, q.signum());
+
+    q = BigFraction.valueOf((String) null);
+    assertEquals(BigInteger.ZERO, q.getNumerator());
+    assertEquals(BigInteger.ONE, q.getDenominator());
+    assertEquals(0, q.signum());
+  }
+
+  @Test
   public void testValueOf_IllegalInput() {
     assertNumberFormatException("x");
     assertNumberFormatException(".");
