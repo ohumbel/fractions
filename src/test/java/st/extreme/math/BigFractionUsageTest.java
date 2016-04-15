@@ -2,8 +2,6 @@ package st.extreme.math;
 
 import static org.junit.Assert.assertEquals;
 
-import java.math.BigDecimal;
-
 import org.junit.Test;
 
 public class BigFractionUsageTest {
@@ -22,9 +20,9 @@ public class BigFractionUsageTest {
     BigFraction factor2 = quantityOrigin.divide(quantity);
     assertEquals("34567/23456", factor2.toFractionString());
     result = result.multiply(factor2);
-    assertEquals("810803552000/810803552", result.toFractionString());
-    assertEquals(new BigDecimal("1000"), result.bigDecimalValue());
+    assertEquals("1000", result.toFractionString());
     assertEquals("1000", result.toString());
+    assertEquals(BigFraction.valueOf("1000"), result);
   }
 
   @Test

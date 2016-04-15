@@ -10,12 +10,17 @@ import org.junit.Test;
 
 public class BigFractionConstructionTest {
 
+  private static final BigInteger MINUS_TEN = new BigInteger("-10");
+  private static final BigInteger MINUS_FIVE = new BigInteger("-5");
   private static final BigInteger MINUS_THREE = new BigInteger("-3");
   private static final BigInteger MINUS_TWO = new BigInteger("-2");
+  private static final BigInteger MINUS_ONE = new BigInteger("-1");
   private static final BigInteger ZERO = new BigInteger("0");
   private static final BigInteger ONE = new BigInteger("1");
   private static final BigInteger TWO = new BigInteger("2");
   private static final BigInteger THREE = new BigInteger("3");
+  private static final BigInteger FIVE = new BigInteger("5");
+  private static final BigInteger TEN = new BigInteger("10");
 
   @Test
   public void testStringConstructor_IllegalCharacter() {
@@ -96,6 +101,26 @@ public class BigFractionConstructionTest {
     bf = new BigFraction(MINUS_TWO, MINUS_THREE);
     assertEquals(TWO, bf.getNumerator());
     assertEquals(THREE, bf.getDenominator());
+    assertEquals(1, bf.signum());
+  }
+
+  @Test
+  public void testBigIntegerConstructor_Cancellation() {
+    BigFraction bf;
+
+    bf = new BigFraction(FIVE, TEN);
+    assertEquals(ONE, bf.getNumerator());
+    assertEquals(TWO, bf.getDenominator());
+    assertEquals(1, bf.signum());
+
+    bf = new BigFraction(FIVE, MINUS_TEN);
+    assertEquals(MINUS_ONE, bf.getNumerator());
+    assertEquals(TWO, bf.getDenominator());
+    assertEquals(-1, bf.signum());
+
+    bf = new BigFraction(MINUS_FIVE, MINUS_TEN);
+    assertEquals(ONE, bf.getNumerator());
+    assertEquals(TWO, bf.getDenominator());
     assertEquals(1, bf.signum());
   }
 

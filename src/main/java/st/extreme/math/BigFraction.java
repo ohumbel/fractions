@@ -68,14 +68,19 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
     if (BigInteger.ZERO.equals(denominator)) {
       throw new ArithmeticException("division by zero is not allowed.");
     }
+    // because of "cross multiplying" in compareTo(), always keep the denominator positive
     if (denominator.signum() < 0) {
-      // because of "cross multiplying" in compareTo(), always keep the denominator positive
-      this.numerator = numerator.negate();
-      this.denominator = denominator.negate();
-    } else {
-      this.numerator = numerator;
-      this.denominator = denominator;
+      numerator = numerator.negate();
+      denominator = denominator.negate();
     }
+    // cancel if possible
+    BigInteger gcd = numerator.gcd(denominator);
+    if (gcd.compareTo(BigInteger.ONE) > 0) {
+      numerator = numerator.divide(gcd);
+      denominator = denominator.divide(gcd);
+    }
+    this.numerator = numerator;
+    this.denominator = denominator;
   }
 
   /**
@@ -140,9 +145,7 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
 
   @Override
   public int hashCode() {
-    // This fulfills the contract: equal BigFractions produce the same big decimal value.
-    // It is allowed to produce the same hash code for non equal values (e.g. differing beyond the default math context precision).
-    return bigDecimalValue().hashCode();
+    return 31 * denominator.hashCode() + numerator.hashCode();
   }
 
   /**
@@ -179,8 +182,10 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
   public String toFractionString() {
     StringBuilder builder = new StringBuilder();
     builder.append(numerator.toString());
-    builder.append('/');
-    builder.append(denominator.toString());
+    if (BigInteger.ONE.compareTo(denominator) != 0) {
+      builder.append('/');
+      builder.append(denominator.toString());
+    }
     return builder.toString();
   }
 
@@ -319,7 +324,23 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
   }
 
   public BigFraction multiply(BigFraction value) {
-    return new BigFraction(numerator.multiply(value.numerator), denominator.multiply(value.denominator));
+    boolean cancelUpperLeftLowerRight = false;
+    boolean cancelLowerLeftUpperRight = false;
+    if (numerator.equals(value.denominator)) {
+      cancelUpperLeftLowerRight = true;
+    }
+    if (denominator.equals(value.numerator)) {
+      cancelLowerLeftUpperRight = true;
+    }
+    if (cancelUpperLeftLowerRight && cancelLowerLeftUpperRight) {
+      return ONE;
+    } else if (cancelUpperLeftLowerRight) {
+      return new BigFraction(value.numerator, denominator);
+    } else if (cancelLowerLeftUpperRight) {
+      return new BigFraction(numerator, value.denominator);
+    } else {
+      return new BigFraction(numerator.multiply(value.numerator), denominator.multiply(value.denominator));
+    }
   }
 
   public BigFraction divide(BigFraction value) {

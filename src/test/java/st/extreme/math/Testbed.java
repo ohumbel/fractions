@@ -48,12 +48,13 @@ public class Testbed {
   }
 
   @Test
+  @Ignore
   public void TestBigIntegerGcd() {
     BigInteger b1;
     BigInteger b2;
 
-    b1 = new BigInteger("2");
-    b2 = new BigInteger("3");
+    b1 = TWO;
+    b2 = THREE;
     assertEquals(BigInteger.ONE, b1.gcd(b2));
 
     b1 = new BigInteger("12");
@@ -67,5 +68,28 @@ public class Testbed {
     b1 = TWO.multiply(TWO).multiply(THREE).multiply(FIVE).multiply(FIVE).multiply(SEVEN).multiply(ELEVEN);
     b2 = TWO.multiply(TWO).multiply(TWO).multiply(FIVE).multiply(FIVE).multiply(ELEVEN).multiply(ELEVEN);
     assertEquals(TWO.multiply(TWO).multiply(FIVE).multiply(FIVE).multiply(ELEVEN), b1.gcd(b2));
+  }
+
+  @Test
+  @Ignore
+  public void TestBigIntegerGcd_CornerCases() {
+    BigInteger b1;
+    BigInteger b2;
+
+    b1 = THREE;
+    b2 = THREE;
+    assertEquals(THREE, b1.gcd(b2));
+
+    b1 = BigInteger.ZERO;
+    b2 = BigInteger.ONE;
+    assertEquals(BigInteger.ONE, b1.gcd(b2));
+
+    b1 = BigInteger.ZERO;
+    b2 = ELEVEN;
+    assertEquals(ELEVEN, b1.gcd(b2));
+
+    b1 = BigInteger.ZERO;
+    b2 = BigInteger.ZERO;
+    assertEquals(BigInteger.ZERO, b1.gcd(b2));
   }
 }

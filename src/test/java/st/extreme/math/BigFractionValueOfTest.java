@@ -62,24 +62,24 @@ public class BigFractionValueOfTest {
   @Test
   public void testValueOf_WithDecimals() {
     BigFraction q = BigFraction.valueOf("1.5");
-    assertEquals(new BigInteger("15"), q.getNumerator());
-    assertEquals(new BigInteger("10"), q.getDenominator());
+    assertEquals(new BigInteger("3"), q.getNumerator());
+    assertEquals(new BigInteger("2"), q.getDenominator());
     assertEquals(1, q.signum());
 
     q = BigFraction.valueOf("-1.5");
-    assertEquals(new BigInteger("-15"), q.getNumerator());
-    assertEquals(new BigInteger("10"), q.getDenominator());
+    assertEquals(new BigInteger("-3"), q.getNumerator());
+    assertEquals(new BigInteger("2"), q.getDenominator());
     assertEquals(-1, q.signum());
 
     q = BigFraction.valueOf("-1234.5678");
-    assertEquals(new BigInteger("-12345678"), q.getNumerator());
-    assertEquals(new BigInteger("10000"), q.getDenominator());
+    assertEquals(new BigInteger("-6172839"), q.getNumerator());
+    assertEquals(new BigInteger("5000"), q.getDenominator());
     assertEquals(-1, q.signum());
 
     // maybe we could eliminate the same number of trailing zeroes
     q = BigFraction.valueOf("1.000");
-    assertEquals(new BigInteger("1000"), q.getNumerator());
-    assertEquals(new BigInteger("1000"), q.getDenominator());
+    assertEquals(new BigInteger("1"), q.getNumerator());
+    assertEquals(new BigInteger("1"), q.getDenominator());
     assertEquals(1, q.signum());
 
     q = BigFraction.valueOf("-0.00000001");
@@ -89,12 +89,12 @@ public class BigFractionValueOfTest {
 
     q = BigFraction.valueOf("-0.000");
     assertEquals(BigInteger.ZERO, q.getNumerator());
-    assertEquals(new BigInteger("1000"), q.getDenominator()); // ok
+    assertEquals(new BigInteger("1"), q.getDenominator());
     assertEquals(0, q.signum());
 
     q = BigFraction.valueOf("+0.000");
     assertEquals(BigInteger.ZERO, q.getNumerator());
-    assertEquals(new BigInteger("1000"), q.getDenominator()); // ok
+    assertEquals(new BigInteger("1"), q.getDenominator());
     assertEquals(0, q.signum());
   }
 
@@ -222,8 +222,8 @@ public class BigFractionValueOfTest {
   public void testValueOf_Double() {
     Double doubleVal = Double.valueOf("-1.75");
     BigFraction q = BigFraction.valueOf(doubleVal);
-    assertEquals(new BigInteger("-175"), q.getNumerator());
-    assertEquals(new BigInteger("100"), q.getDenominator());
+    assertEquals(new BigInteger("-7"), q.getNumerator());
+    assertEquals(new BigInteger("4"), q.getDenominator());
     assertEquals(-1, q.signum());
 
     doubleVal = Double.valueOf(doubleVal.doubleValue() / 250.0);
@@ -260,8 +260,8 @@ public class BigFractionValueOfTest {
   @Test
   public void testValueOf_double() {
     BigFraction q = BigFraction.valueOf(-1.8549399020399203D);
-    assertEquals(new BigInteger("-18549399020399202"), q.getNumerator());
-    assertEquals(new BigInteger("10000000000000000"), q.getDenominator());
+    assertEquals(new BigInteger("-9274699510199601"), q.getNumerator());
+    assertEquals(new BigInteger("5000000000000000"), q.getDenominator());
     assertEquals(-1, q.signum());
   }
 
@@ -269,8 +269,8 @@ public class BigFractionValueOfTest {
   public void testValueOf_BigDecimal() {
     BigDecimal bigDecimal = new BigDecimal("-847292.1120022");
     BigFraction q = BigFraction.valueOf(bigDecimal);
-    assertEquals(new BigInteger("-8472921120022"), q.getNumerator());
-    assertEquals(new BigInteger("10000000"), q.getDenominator());
+    assertEquals(new BigInteger("-4236460560011"), q.getNumerator());
+    assertEquals(new BigInteger("5000000"), q.getDenominator());
     assertEquals(-1, q.signum());
   }
 
