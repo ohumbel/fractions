@@ -5,7 +5,7 @@
 
 # fractions
 
-Rational calculation: an attempt to `add`, `subtract`, `multiply`, `divide` and `pow(int)` with exact precision in Java.
+Rational calculation: `add`, `subtract`, `multiply`, `divide` and `pow(int)` with exact precision in Java.
 
 
 ## Motivation
@@ -30,13 +30,13 @@ Arithmetics with fractions can be reduced to *integer* multiplications, *integer
 Immutable arbitrary precision fractions.
 
 The implementation is based on a `BigInteger` value for both numerator and denominator.
-All operations on fractions can be performed through BigInteger multiplication, addition and subtraction. And these have exact precision.
+All operations on fractions can be performed through `BigInteger` multiplication, addition and subtraction. And these have exact precision.
 
-Cancellation is done on construction, using BigInteger.gcd(BigInteger).
+Cancellation is done on construction, using `BigInteger.gcd(BigInteger)`.
 
 
 
-### Use case 1: divison and multiplication with the same value
+### Use case 1: division and multiplication with the same value
 
 This is the most common source of rounding problems.
 
