@@ -42,7 +42,7 @@ jar {
     manifest {
         attributes 'Implementation-Title': projectName,
                    'Implementation-Version': version,
-                   'Built-By': System.getProperty('user.name'),
+                   'Built-By': 'Otmar Humbel <ohumbel@gmail.com>',
                    'Built-Date': new Date(),
                    'Built-JDK': System.getProperty('java.version'),
                    'Built-Gradle': gradle.gradleVersion
