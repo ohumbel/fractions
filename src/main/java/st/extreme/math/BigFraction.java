@@ -6,6 +6,89 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.regex.Pattern;
 
+/**
+ * Immutable arbitrary precision fractions.
+ * <p>
+ * The implementation is based on a {@link BigInteger} value for both numerator and denominator.<br>
+ * All operations on fractions can be performed through {@link BigInteger} multiplication, addition and subtraction. And these have
+ * <strong>exact</strong> precision.
+ * <p>
+ * Cancellation is done on construction, using {@link BigInteger#gcd(BigInteger)}.
+ * <p>
+ * <strong>Use case 1: division and multiplication with the same value</strong><br>
+ * This is the most common source of rounding problems.
+ * 
+ * <pre>
+ * &#64;Test
+ * public void testUseCase1() {
+ *   BigFraction start = BigFraction.valueOf("1000");
+ *   BigFraction divisor = BigFraction.valueOf("21");
+ *   BigFraction quotient = start.divide(divisor);
+ *   BigFraction result = quotient.multiply(divisor);
+ *   assertEquals("1000", result.toString());
+ *   assertEquals("1000", result.toFractionString());
+ *   assertEquals(start, result);
+ * }
+ * 
+ * &#64;Test
+ * public void testUseCase1_BigDecimal() {
+ *   BigDecimal start = new BigDecimal("1000");
+ *   BigDecimal divisor = new BigDecimal("21");
+ *   BigDecimal quotient = start.divide(divisor, new MathContext(30, RoundingMode.HALF_UP));
+ *   BigDecimal result = quotient.multiply(divisor);
+ *   assertEquals("1000", result.toPlainString());
+ *   assertEquals(start, result);
+ * }
+ * </pre>
+ * 
+ * While {@code testUseCase1()} passes, {@code testUseCase1_BigDecimal()} fails. It is very hard to find a {@link MathContext} so that the
+ * second test passes.
+ * <p>
+ * <strong>Use case 2: calculation with fractions</strong>
+ * 
+ * <pre>
+ * &#64;Test
+ * public void testUseCase2_multiply() {
+ *   BigFraction bf1 = BigFraction.valueOf("2/3");
+ *   BigFraction bf2 = BigFraction.valueOf("-6/7");
+ *   BigFraction result = bf1.multiply(bf2);
+ *   assertEquals("-4/7", result.toFractionString());
+ * }
+ * 
+ * &#64;Test
+ * public void testUseCase2_divide() {
+ *   BigFraction bf1 = BigFraction.valueOf("2/3");
+ *   BigFraction bf2 = BigFraction.valueOf("6/7");
+ *   BigFraction result = bf1.divide(bf2);
+ *   assertEquals("7/9", result.toFractionString());
+ * }
+ * 
+ * &#64;Test
+ * public void testUseCase2_add() {
+ *   BigFraction bf1 = BigFraction.valueOf("2/15");
+ *   BigFraction bf2 = BigFraction.valueOf("6/5");
+ *   BigFraction result = bf1.add(bf2);
+ *   assertEquals("4/3", result.toFractionString());
+ * }
+ * 
+ * &#64;Test
+ * public void testUseCase2_subtract() {
+ *   BigFraction bf1 = BigFraction.valueOf("8/15");
+ *   BigFraction bf2 = BigFraction.valueOf("6/5");
+ *   BigFraction result = bf1.subtract(bf2);
+ *   assertEquals("-2/3", result.toFractionString());
+ * }
+ * 
+ * &#64;Test
+ * public void testUseCase2_pow() {
+ *   BigFraction bf1 = BigFraction.valueOf("-2/3");
+ *   BigFraction result = bf1.pow(-3);
+ *   assertEquals("-27/8", result.toFractionString());
+ * }
+ * </pre>
+ * 
+ * @author Otmar Humbel
+ */
 public class BigFraction extends Number implements Comparable<BigFraction> {
 
   /**
@@ -25,8 +108,7 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
   static final Pattern FRACTION_PATTERN = Pattern.compile("(0|([-|+]?[1-9][0-9]*))/([-|+]?[1-9][0-9]*)");
 
   /**
-   * The default {@link MathContext} for conversions into {@link BigDecimal}.<br>
-   * Currently we use a precision of {@code 500}.
+   * The default {@link MathContext} for conversions into {@link BigDecimal}.
    */
   private static final MathContext DEFAULT_MATH_CONTEXT = new MathContext(500, RoundingMode.HALF_UP);
 
@@ -48,9 +130,9 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
    * Both values have to be accepted by {@link BigInteger#BigInteger(String)}.
    * 
    * @param numerator
-   *          numerator
+   *          The numerator
    * @param denominator
-   *          denominator
+   *          The denominator
    */
   public BigFraction(String numerator, String denominator) {
     this(new BigInteger(numerator), new BigInteger(denominator));
@@ -60,9 +142,9 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
    * Create a {@link BigFraction} from two {@link BigInteger} values.
    * 
    * @param numerator
-   *          numerator
+   *          The numerator
    * @param denominator
-   *          denominator
+   *          The denominator
    */
   public BigFraction(BigInteger numerator, BigInteger denominator) {
     if (BigInteger.ZERO.equals(denominator)) {
@@ -123,6 +205,13 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
     return bigDecimalValue().doubleValue();
   }
 
+  /**
+   * Compares this BigFraction with the specified {@link BigFraction}.
+   *
+   * @param other
+   *          {@link BigFraction} to which this BigFraction is to be compared.
+   * @return {@code -1}, {@code 0} or {@code 1} as this BigFraction is numerically less than, equal to, or greater than {@code other}.
+   */
   @Override
   public int compareTo(BigFraction other) {
     if (denominator.equals(other.denominator)) {
@@ -132,6 +221,13 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
     }
   }
 
+  /**
+   * Compares this BigFraction with the specified {@link Object} for equality.
+   *
+   * @param object
+   *          {@link Object} to which this BigFraction is to be compared.
+   * @return {@code true} if and only if the specified Object is a {@link Number} whose value is numerically equal to this BigFraction.
+   */
   @Override
   public boolean equals(Object object) {
     if (object instanceof BigFraction) {
@@ -143,41 +239,57 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
     }
   }
 
+  /**
+   * Returns the hash code for this BigFraction.
+   *
+   * @return hash code for this BigFraction.
+   */
   @Override
   public int hashCode() {
     return 31 * denominator.hashCode() + numerator.hashCode();
   }
 
   /**
-   * Create a {@link BigFraction} with the reciprocal value.
+   * Create a {@link BigFraction} with the reciprocal value of this BigFraction.
    * 
-   * @return a new {@link BigFraction} with the reciprocal value of this {@link BigFraction}
+   * @return a new {@link BigFraction} with the reciprocal value of this BigFraction.
    */
   public BigFraction reciprocal() {
     return new BigFraction(denominator, numerator);
   }
 
+  /**
+   * Returns the numerator of this BigFraction.
+   * 
+   * @return the numerator
+   */
   public BigInteger getNumerator() {
     return numerator;
   }
 
+  /**
+   * Returns the denominator of this BigFraction.
+   * 
+   * @return the denominator
+   */
   public BigInteger getDenominator() {
     return denominator;
   }
 
   /**
-   * Returns the signum function of this {@link BigFraction}.
+   * Returns the {@code signum} function of this BigFraction.
    *
-   * @return {@code -1}, {@code 0} or {@code 1} as the value of this {@link BigFraction} is negative, zero or positive.
+   * @return {@code -1}, {@code 0} or {@code 1} as the value of this BigFraction is negative, zero or positive.
    */
   public int signum() {
     return numerator.signum();
   }
 
   /**
-   * A {@link BigFraction} representation, such as {@code -2/3}.
+   * Returns a human readable fractional representation of this BigFraction, such as {@code -2/3}.<br>
+   * This representation is always exactly parseable by {@link #valueOf(String)}.
    * 
-   * @return a human readable representation of this {@link BigFraction}
+   * @return a fractional representation of this BigFraction.
    */
   public String toFractionString() {
     StringBuilder builder = new StringBuilder();
@@ -190,9 +302,13 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
   }
 
   /**
-   * A numerical representation of this {@link BigFraction}, such as -1.75, like in {@link BigDecimal#toPlainString()}.
+   * Returns a human readable numerical representation of this BigFraction, such as {@code -1.75}.<br>
+   * This representation might not always be exactly parseable by {@link #valueOf(String)}.
    * 
-   * @return a numerical representation of this {@link BigFraction}
+   * @see #bigDecimalValue()
+   * @see BigDecimal#toPlainString()
+   * 
+   * @return a numerical representation of this {@link BigFraction}.
    */
   public String toString() {
     return bigDecimalValue().toPlainString();
@@ -243,7 +359,7 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
   }
 
   /**
-   * Create a new {@link BigFraction} from {@link Number} input
+   * Create a new {@link BigFraction} from a {@link Number} input.
    * 
    * @param number
    *          a {@link Number} value.
@@ -276,7 +392,7 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
    * @param numberString
    *          in one of the formats described above
    * 
-   * @return The new {@link BigFraction} representing the passed in value
+   * @return a new {@code BigFraction} representing the passed in {@code numberString}.
    * 
    * @throws NumberFormatException
    *           if the input does not represent a valid fraction
@@ -303,26 +419,34 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
   }
 
   /**
-   * Convert to a {@link BigDecimal} value, using the {@link BigFraction#DEFAULT_MATH_CONTEXT}.
+   * Convert this {@code BigFraction } into a {@link BigDecimal} value, using the {@link BigFraction#DEFAULT_MATH_CONTEXT}.<br>
+   * The default {@link MathContext} uses precision {@code 500} and {@link RoundingMode#HALF_UP}
    * 
-   * @return a maybe <strong>not exact</strong> representation of this {@link BigFraction} as a {@link BigDecimal} value.
+   * @return a maybe <strong>not exact</strong> representation of this {@code BigFraction} as a {@link BigDecimal} value.
    */
   public BigDecimal bigDecimalValue() {
     return bigDecimalValue(DEFAULT_MATH_CONTEXT);
   }
 
   /**
-   * Convert to a {@link BigDecimal} value, using the given {@link MathContext}.
+   * Convert this {@code BigFraction } into a {@link BigDecimal} value, using the given {@link MathContext}.
    * 
    * @param mathContext
    *          The desired target {@link MathContext}
    * 
-   * @return a maybe <strong>not exact</strong> representation of this {@link BigFraction} as a {@link BigDecimal} value.
+   * @return a maybe <strong>not exact</strong> representation of this {@code BigFraction} as a {@link BigDecimal} value.
    */
   public BigDecimal bigDecimalValue(MathContext mathContext) {
     return new BigDecimal(numerator).divide(new BigDecimal(denominator), mathContext);
   }
 
+  /**
+   * Multiply this {@code BigFraction} by another {@link BigFraction} value.
+   * 
+   * @param value
+   *          The value this {@code BigFraction} is to be multiplied with.
+   * @return a new {@code BigFraction} representing the product of this {@code BigFraction} and {@code value}.
+   */
   public BigFraction multiply(BigFraction value) {
     boolean cancelUpperLeftLowerRight = false;
     boolean cancelLowerLeftUpperRight = false;
@@ -343,10 +467,24 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
     }
   }
 
+  /**
+   * Divide this {@code BigFraction} by another {@link BigFraction} value.
+   * 
+   * @param value
+   *          The value this {@code BigFraction} is to be divided with.
+   * @return a new {@code BigFraction} representing the quotient of this {@code BigFraction} and {@code value}.
+   */
   public BigFraction divide(BigFraction value) {
     return multiply(value.reciprocal());
   }
 
+  /**
+   * Add this {@code BigFraction} and another {@link BigFraction} value.
+   * 
+   * @param value
+   *          The value this {@code BigFraction} is to be added to.
+   * @return a new {@code BigFraction} representing sum of this {@code BigFraction} and {@code value}.
+   */
   public BigFraction add(BigFraction value) {
     if (denominator.equals(value.denominator)) {
       return new BigFraction(numerator.add(value.numerator), denominator);
@@ -355,6 +493,13 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
         denominator.multiply(value.denominator));
   }
 
+  /**
+   * Subtract another {@link BigFraction} value from this {@code BigFraction}.
+   * 
+   * @param value
+   *          The value to be subtracted from this {@code BigFraction}.
+   * @return a new {@code BigFraction} representing this {@code BigFraction} minus {@code value}.
+   */
   public BigFraction subtract(BigFraction value) {
     if (denominator.equals(value.denominator)) {
       return new BigFraction(numerator.subtract(value.numerator), denominator);
@@ -363,14 +508,31 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
         denominator.multiply(value.denominator));
   }
 
+  /**
+   * Negate this {@code BigFraction}.
+   * 
+   * @return a new {@code BigFraction} representing the product of this {@code BigFraction} and {@code -1}.
+   */
   public BigFraction negate() {
     return new BigFraction(numerator.negate(), denominator);
   }
 
+  /**
+   * Returns the absolute value of this {@code BigFraction}.
+   * 
+   * @return a new {@code BigFraction} representing the absolute value of this {@code BigFraction}.
+   */
   public BigFraction abs() {
     return new BigFraction(numerator.abs(), denominator);
   }
 
+  /**
+   * Returns the power of this {@code BigFraction} by an {@code int} exponent.
+   * 
+   * @param exponent
+   *          The exponent. Can be any {@code int}, including negative values.
+   * @return a new {@code BigFraction} representing {@code this}<sup>{@code exponent}</sup>.
+   */
   public BigFraction pow(int exponent) {
     if (exponent == 0) {
       return ONE;
@@ -384,6 +546,12 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
     return new BigFraction(numerator.pow(exponent), denominator.pow(exponent));
   }
 
+  /**
+   * Build the message for a {@link NumberFormatException}.
+   * 
+   * @param numberString
+   * @return the message
+   */
   private static String buildNumberFormatExceptionMessage(String numberString) {
     return "illegal number format '".concat(numberString).concat("'.");
   }
@@ -404,7 +572,7 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
   /**
    * @param decimalString
    *          The caller has to make sure that {@code decimalString} matches {@link DECIMAL_PATTERN}
-   * @return the new {@link BigFraction} with the value of {@code decimalString}
+   * @return a new {@link BigFraction} with the value of {@code decimalString}
    */
   private static BigFraction valueOfDecimalString(String decimalString) {
     String[] values = decimalString.split("\\.");
@@ -428,7 +596,7 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
   /**
    * @param fractionString
    *          The caller has to make sure that {@code fractionString} matches {@link FRACTION_PATTERN}
-   * @return the new {@link BigFraction} with the value of {@code fractionString}
+   * @return a new {@link BigFraction} with the value of {@code fractionString}
    */
   private static BigFraction valueOfFractionString(String fractionString) {
     String[] values = fractionString.split("/");
