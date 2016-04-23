@@ -116,6 +116,54 @@ public class BigFractionsComparisonTest {
   }
 
   @Test
+  public void testCompareTo_Number_Decimal() {
+    BigFraction bf;
+    bf = BigFraction.valueOf("1/4");
+
+    assertEquals(0, bf.compareTo(new BigDecimal("0.25")));
+    assertEquals(-1, bf.compareTo(new BigDecimal("0.26")));
+    assertEquals(1, bf.compareTo(new BigDecimal("0.24")));
+
+    assertEquals(0, bf.compareTo(Double.valueOf("0.25")));
+    assertEquals(0, bf.compareTo(0.25d));
+    assertEquals(-1, bf.compareTo(Double.valueOf("0.26")));
+    assertEquals(-1, bf.compareTo(0.26d));
+    assertEquals(1, bf.compareTo(Double.valueOf("0.24")));
+    assertEquals(1, bf.compareTo(0.24d));
+
+    assertEquals(0, bf.compareTo(Float.valueOf("0.25")));
+    assertEquals(0, bf.compareTo(0.25f));
+    assertEquals(-1, bf.compareTo(Float.valueOf("0.26")));
+    assertEquals(-1, bf.compareTo(0.26f));
+    assertEquals(1, bf.compareTo(Float.valueOf("0.24")));
+    assertEquals(1, bf.compareTo(0.24f));
+  }
+
+  @Test
+  public void testCompareTo_Number_Integer() {
+    BigFraction bf;
+    bf = BigFraction.valueOf("4");
+
+    assertEquals(0, bf.compareTo(new BigInteger("4")));
+    assertEquals(-1, bf.compareTo(new BigInteger("5")));
+    assertEquals(1, bf.compareTo(new BigInteger("3")));
+
+    assertEquals(0, bf.compareTo(Long.valueOf("4")));
+    assertEquals(0, bf.compareTo(4L));
+    assertEquals(-1, bf.compareTo(Long.valueOf("5")));
+    assertEquals(-1, bf.compareTo(5L));
+    assertEquals(1, bf.compareTo(Long.valueOf("3")));
+    assertEquals(1, bf.compareTo(3L));
+
+    assertEquals(0, bf.compareTo(Integer.valueOf("4")));
+    assertEquals(0, bf.compareTo(4));
+    assertEquals(-1, bf.compareTo(Integer.valueOf("5")));
+    assertEquals(-1, bf.compareTo(5));
+    assertEquals(1, bf.compareTo(Integer.valueOf("3")));
+    assertEquals(1, bf.compareTo(3));
+  }
+
+  @Test
   public void testEquals() {
     BigFraction q1 = new BigFraction("12", "40");
     BigFraction q2 = new BigFraction("12", "40");
@@ -144,38 +192,17 @@ public class BigFractionsComparisonTest {
   }
 
   @Test
-  public void testEquals_Number() {
-    BigFraction bf;
-
-    bf = BigFraction.valueOf("1/4");
-    assertEquals(bf, new BigDecimal("0.25"));
-    assertNotEquals(bf, new BigDecimal("-0.25"));
-    assertEquals(bf, Double.valueOf("0.25"));
-    assertEquals(bf, 0.25d);
-    assertNotEquals(bf, Double.valueOf("-0.25"));
-    assertNotEquals(bf, -0.25d);
-    assertEquals(bf, Float.valueOf("0.25"));
-    assertEquals(bf, 0.25f);
-    assertNotEquals(bf, Float.valueOf("-0.25"));
-    assertNotEquals(bf, -0.25f);
-
-    bf = BigFraction.valueOf("4");
-    assertEquals(bf, new BigInteger("4"));
-    assertNotEquals(bf, new BigInteger("-4"));
-    assertEquals(bf, Long.valueOf("4"));
-    assertNotEquals(bf, Long.valueOf("-4"));
-    assertEquals(bf, 4L);
-    assertNotEquals(bf, -4L);
-    assertEquals(bf, Integer.valueOf("4"));
-    assertNotEquals(bf, Integer.valueOf("-4"));
-    assertEquals(bf, 4);
-    assertNotEquals(bf, -4);
-  }
-
-  @Test
   public void testEquals_someCompletelyOtherObject() {
     BigFraction bf = BigFraction.valueOf("1/4");
     assertNotEquals(bf, "0.25");
+  }
+
+  @Test
+  public void testEquals_Number_shouldAlwaysReturnFalse() {
+    BigFraction bf = BigFraction.valueOf("4");
+    BigInteger bi = new BigInteger("4");
+    assertNotEquals(bf, bi);
+    assertNotEquals(bi, bf);
   }
 
   @Test

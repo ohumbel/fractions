@@ -89,7 +89,7 @@ import java.util.regex.Pattern;
  * 
  * @author Otmar Humbel
  */
-public class BigFraction extends Number implements Comparable<BigFraction> {
+public class BigFraction extends Number implements Comparable<Number> {
 
   /**
    * The {@link BigFraction} representing the value {@code 1}
@@ -206,14 +206,20 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
   }
 
   /**
-   * Compares this BigFraction with the specified {@link BigFraction}.
+   * Compares this {@code BigFraction} with the specified {@link Number}.
    *
-   * @param other
-   *          {@link BigFraction} to which this BigFraction is to be compared.
-   * @return {@code -1}, {@code 0} or {@code 1} as this BigFraction is numerically less than, equal to, or greater than {@code other}.
+   * @param number
+   *          {@link Number} to which this BigFraction is to be compared.
+   * @return {@code -1}, {@code 0} or {@code 1} as this BigFraction is numerically less than, equal to, or greater than {@code number}.
    */
   @Override
-  public int compareTo(BigFraction other) {
+  public int compareTo(Number number) {
+    final BigFraction other;
+    if (number instanceof BigFraction) {
+      other = (BigFraction) number;
+    } else {
+      other = BigFraction.valueOf(number);
+    }
     if (denominator.equals(other.denominator)) {
       return numerator.compareTo(other.numerator);
     } else {
@@ -222,18 +228,22 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
   }
 
   /**
-   * Compares this BigFraction with the specified {@link Object} for equality.
-   *
+   * Compares this {@code BigFraction} with the specified {@link Object} for equality.<br>
+   * Equality can only be reached by {@code object} being another {@link BigFraction}.
+   * <p>
+   * To determine if this {@code BigFraction} is numerically equal to a {@link Number}, use {@link #compareTo(Number)}.
+   * 
    * @param object
-   *          {@link Object} to which this BigFraction is to be compared.
-   * @return {@code true} if and only if the specified Object is a {@link Number} whose value is numerically equal to this BigFraction.
+   *          {@link Object} to which this {@code BigFraction} is to be compared.
+   * 
+   * @return {@code true} if and only if the specified Object is a {@link BigFraction} whose value is numerically equal to this BigFraction.
+   * 
+   * @see BigFraction#compareTo(Number)
    */
   @Override
   public boolean equals(Object object) {
     if (object instanceof BigFraction) {
       return compareTo((BigFraction) object) == 0;
-    } else if (object instanceof Number) {
-      return compareTo(BigFraction.valueOf((Number) object)) == 0;
     } else {
       return false;
     }
@@ -246,7 +256,10 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
    */
   @Override
   public int hashCode() {
-    return 31 * denominator.hashCode() + numerator.hashCode();
+    int hash = 17;
+    hash = 31 * hash + denominator.hashCode();
+    hash = 31 * hash + numerator.hashCode();
+    return hash;
   }
 
   /**
