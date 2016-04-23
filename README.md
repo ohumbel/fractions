@@ -2,6 +2,7 @@
 [![Code Coverage](https://img.shields.io/codecov/c/github/ohumbel/fractions/master.svg)](https://codecov.io/github/ohumbel/fractions?branch=master)
 [![Apache License](https://img.shields.io/badge/license-Apache%202.0-orange.svg)](https://github.com/ohumbel/fractions/blob/master/LICENSE)
 [![Supported Versions](https://img.shields.io/badge/Java-7%2C%208-blue.svg)](https://travis-ci.org/ohumbel/fractions)
+
 ![codecov.io](https://codecov.io/github/ohumbel/fractions/branch.svg?branch=master)
 
 # fractions
