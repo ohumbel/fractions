@@ -34,6 +34,9 @@ artifacts {
 
 signing {
     required { !version.contains('-SNAPSHOT') }
+    if (!project.hasProperty('signing.password')) {
+        return
+    }
     sign configurations.archives
 }
 
