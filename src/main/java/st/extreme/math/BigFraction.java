@@ -166,7 +166,7 @@ public class BigFraction extends Number implements Comparable<Number> {
   }
 
   /**
-   * Converts this {@code BigFraction} into an {@code int} value.
+   * Convert this {@code BigFraction} into an {@code int} value.
    * 
    * @see BigDecimal#intValue()
    */
@@ -176,7 +176,7 @@ public class BigFraction extends Number implements Comparable<Number> {
   }
 
   /**
-   * Converts this {@code BigFraction} into a {@code long} value.
+   * Convert this {@code BigFraction} into a {@code long} value.
    * 
    * @see BigDecimal#longValue()
    */
@@ -186,7 +186,7 @@ public class BigFraction extends Number implements Comparable<Number> {
   }
 
   /**
-   * Converts this {@code BigFraction} into a {@code float} value.
+   * Convert this {@code BigFraction} into a {@code float} value.
    * 
    * @see BigDecimal#floatValue()
    */
@@ -196,7 +196,7 @@ public class BigFraction extends Number implements Comparable<Number> {
   }
 
   /**
-   * Converts this {@code BigFraction} into a {@code double} value.
+   * Convert this {@code BigFraction} into a {@code double} value.
    * 
    * @see BigDecimal#doubleValue()
    */
@@ -206,7 +206,7 @@ public class BigFraction extends Number implements Comparable<Number> {
   }
 
   /**
-   * Compares this {@code BigFraction} with the specified {@link Number}.
+   * Compare this {@code BigFraction} with the specified {@link Number}.
    *
    * @param number
    *          {@link Number} to which this {@code BigFraction} is to be compared.
@@ -229,7 +229,7 @@ public class BigFraction extends Number implements Comparable<Number> {
   }
 
   /**
-   * Compares this {@code BigFraction} with the specified {@link Object} for equality.<br>
+   * Compare this {@code BigFraction} with the specified {@link Object} for equality.<br>
    * Equality can only be reached by {@code object} being another {@link BigFraction}.
    * <p>
    * To determine if this {@code BigFraction} is numerically equal to a {@link Number}, use {@link #compareTo(Number)}.
@@ -252,7 +252,7 @@ public class BigFraction extends Number implements Comparable<Number> {
   }
 
   /**
-   * Returns the hash code for this {@code BigFraction}.
+   * Calculate the hash code for this {@code BigFraction}.
    *
    * @return hash code for this {@code BigFraction}.
    */
@@ -274,7 +274,7 @@ public class BigFraction extends Number implements Comparable<Number> {
   }
 
   /**
-   * Returns the numerator of this {@code BigFraction}.
+   * Return the numerator of this {@code BigFraction}.
    * 
    * @return the numerator
    */
@@ -283,7 +283,7 @@ public class BigFraction extends Number implements Comparable<Number> {
   }
 
   /**
-   * Returns the denominator of this {@code BigFraction}.
+   * Return the denominator of this {@code BigFraction}.
    * 
    * @return the denominator
    */
@@ -292,7 +292,7 @@ public class BigFraction extends Number implements Comparable<Number> {
   }
 
   /**
-   * Returns the {@code signum} function of this {@code BigFraction}.
+   * Return the {@code signum} function of this {@code BigFraction}.
    *
    * @return {@code -1}, {@code 0} or {@code 1} as the value of this {@code BigFraction} is negative, zero or positive.
    */
@@ -301,8 +301,8 @@ public class BigFraction extends Number implements Comparable<Number> {
   }
 
   /**
-   * Returns a human readable fractional representation of this {@code BigFraction}, such as {@code -2/3}.<br>
-   * This representation is always exactly parseable by {@link #valueOf(String)}.
+   * Return a human readable fractional representation of this {@code BigFraction}, such as {@code -2/3}.<br>
+   * This representation can always be parsed exactly by {@link #valueOf(String)}.
    * 
    * @return a fractional representation of this {@code BigFraction}.
    */
@@ -317,8 +317,8 @@ public class BigFraction extends Number implements Comparable<Number> {
   }
 
   /**
-   * Returns a human readable numerical representation of this {@code BigFraction}, such as {@code -1.75}.<br>
-   * This representation might not always be exactly parseable by {@link #valueOf(String)}.
+   * Return a human readable numerical representation of this {@code BigFraction}, such as {@code -1.75}.<br>
+   * This representation might not always be able to be parsed exactly by {@link #valueOf(String)}.
    * 
    * @see #bigDecimalValue()
    * @see BigDecimal#toPlainString()
@@ -533,7 +533,7 @@ public class BigFraction extends Number implements Comparable<Number> {
   }
 
   /**
-   * Returns the absolute value of this {@code BigFraction}.
+   * Calculate the absolute value of this {@code BigFraction}.
    * 
    * @return a new {@code BigFraction} representing the absolute value of this {@code BigFraction}.
    */
@@ -542,7 +542,7 @@ public class BigFraction extends Number implements Comparable<Number> {
   }
 
   /**
-   * Returns the power of this {@code BigFraction} by an {@code int} exponent.
+   * Calculate the power of this {@code BigFraction} by an {@code int} exponent.
    * 
    * @param exponent
    *          The exponent. Can be any {@code int}, including negative values.
