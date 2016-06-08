@@ -254,7 +254,7 @@ public class BigFraction extends Number implements Comparable<Number> {
   /**
    * Calculate the hash code for this {@code BigFraction}.
    *
-   * @return hash code for this {@code BigFraction}.
+   * @return the hash code for this {@code BigFraction}.
    */
   @Override
   public int hashCode() {
@@ -294,7 +294,7 @@ public class BigFraction extends Number implements Comparable<Number> {
   /**
    * Return the {@code signum} function of this {@code BigFraction}.
    *
-   * @return {@code -1}, {@code 0} or {@code 1} as the value of this {@code BigFraction} is negative, zero or positive.
+   * @return {@code -1}, {@code 0} or {@code 1} as the value of this {@code BigFraction} is negative, zero, or positive.
    */
   public int signum() {
     return numerator.signum();
@@ -436,6 +436,8 @@ public class BigFraction extends Number implements Comparable<Number> {
   /**
    * Convert this {@code BigFraction } into a {@link BigDecimal} value, using the {@link BigFraction#DEFAULT_MATH_CONTEXT}.<br>
    * The default {@link MathContext} uses precision {@code 500} and {@link RoundingMode#HALF_UP}
+   * <p>
+   * This method is intended to round the final result into a {@link BigDecimal} .
    * 
    * @return a maybe <strong>not exact</strong> representation of this {@code BigFraction} as a {@link BigDecimal} value.
    */
@@ -445,6 +447,8 @@ public class BigFraction extends Number implements Comparable<Number> {
 
   /**
    * Convert this {@code BigFraction } into a {@link BigDecimal} value, using the given {@link MathContext}.
+   * <p>
+   * This method is intended to round the final result into a {@link BigDecimal} .
    * 
    * @param mathContext
    *          The desired target {@link MathContext}
@@ -498,7 +502,7 @@ public class BigFraction extends Number implements Comparable<Number> {
    * 
    * @param value
    *          The value this {@code BigFraction} is to be added to.
-   * @return a new {@code BigFraction} representing sum of this {@code BigFraction} and {@code value}.
+   * @return a new {@code BigFraction} representing the sum of this {@code BigFraction} and {@code value}.
    */
   public BigFraction add(BigFraction value) {
     if (denominator.equals(value.denominator)) {
