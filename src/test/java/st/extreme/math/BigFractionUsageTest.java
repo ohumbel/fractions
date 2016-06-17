@@ -18,22 +18,22 @@ public class BigFractionUsageTest {
     BigFraction result = BigFraction.valueOf(1000);
 
     BigFraction factor = quantity.divide(quantityOrigin);
-    assertEquals("23456/34567", factor.toFractionString());
+    assertEquals("23456/34567", factor.toString());
     result = result.multiply(factor);
-    assertEquals("23456000/34567", result.toFractionString());
+    assertEquals("23456000/34567", result.toString());
 
     BigFraction factor2 = quantityOrigin.divide(quantity);
-    assertEquals("34567/23456", factor2.toFractionString());
+    assertEquals("34567/23456", factor2.toString());
     result = result.multiply(factor2);
-    assertEquals("1000", result.toFractionString());
     assertEquals("1000", result.toString());
+    assertEquals("1000", result.toPlainString());
     assertEquals(BigFraction.valueOf("1000"), result);
   }
 
   @Test
   public void testReadmeValue() {
     BigFraction readmeValue = new BigFraction("123456789", "10000");
-    assertEquals("12345.6789", readmeValue.toString());
+    assertEquals("12345.6789", readmeValue.toPlainString());
   }
 
   @Test
@@ -42,8 +42,8 @@ public class BigFractionUsageTest {
     BigFraction divisor = BigFraction.valueOf("21");
     BigFraction quotient = start.divide(divisor);
     BigFraction result = quotient.multiply(divisor);
-    assertEquals("1000", result.toFractionString());
     assertEquals("1000", result.toString());
+    assertEquals("1000", result.toPlainString());
     assertEquals(start, result);
   }
 
@@ -63,7 +63,7 @@ public class BigFractionUsageTest {
     BigFraction bf1 = BigFraction.valueOf("2/3");
     BigFraction bf2 = BigFraction.valueOf("-6/7");
     BigFraction result = bf1.multiply(bf2);
-    assertEquals("-4/7", result.toFractionString());
+    assertEquals("-4/7", result.toString());
   }
 
   @Test
@@ -71,7 +71,7 @@ public class BigFractionUsageTest {
     BigFraction bf1 = BigFraction.valueOf("2/3");
     BigFraction bf2 = BigFraction.valueOf("6/7");
     BigFraction result = bf1.divide(bf2);
-    assertEquals("7/9", result.toFractionString());
+    assertEquals("7/9", result.toString());
   }
 
   @Test
@@ -79,7 +79,7 @@ public class BigFractionUsageTest {
     BigFraction bf1 = BigFraction.valueOf("2/15");
     BigFraction bf2 = BigFraction.valueOf("6/5");
     BigFraction result = bf1.add(bf2);
-    assertEquals("4/3", result.toFractionString());
+    assertEquals("4/3", result.toString());
   }
 
   @Test
@@ -87,13 +87,13 @@ public class BigFractionUsageTest {
     BigFraction bf1 = BigFraction.valueOf("8/15");
     BigFraction bf2 = BigFraction.valueOf("6/5");
     BigFraction result = bf1.subtract(bf2);
-    assertEquals("-2/3", result.toFractionString());
+    assertEquals("-2/3", result.toString());
   }
 
   @Test
   public void testUseCase2_pow() {
     BigFraction bf1 = BigFraction.valueOf("-2/3");
     BigFraction result = bf1.pow(-3);
-    assertEquals("-27/8", result.toFractionString());
+    assertEquals("-27/8", result.toString());
   }
 }

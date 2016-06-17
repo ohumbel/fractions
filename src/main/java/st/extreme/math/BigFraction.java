@@ -306,7 +306,7 @@ public class BigFraction extends Number implements Comparable<Number> {
    * 
    * @return a fractional representation of this {@code BigFraction}.
    */
-  public String toFractionString() {
+  public String toString() {
     StringBuilder builder = new StringBuilder();
     builder.append(numerator.toString());
     if (BigInteger.ONE.compareTo(denominator) != 0) {
@@ -325,7 +325,7 @@ public class BigFraction extends Number implements Comparable<Number> {
    * 
    * @return a numerical representation of this {@code BigFraction}.
    */
-  public String toString() {
+  public String toPlainString() {
     return bigDecimalValue().toPlainString();
   }
 

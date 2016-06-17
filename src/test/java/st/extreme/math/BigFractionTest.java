@@ -42,43 +42,43 @@ public class BigFractionTest {
   public void testMultiply() {
     BigFraction q1 = new BigFraction("2", "3");
     BigFraction q2 = new BigFraction("4", "5");
-    assertEquals("8/15", q1.multiply(q2).toFractionString());
+    assertEquals("8/15", q1.multiply(q2).toString());
 
     q1 = new BigFraction("-3", "7");
     q2 = new BigFraction("8", "9");
-    assertEquals("-8/21", q1.multiply(q2).toFractionString());
+    assertEquals("-8/21", q1.multiply(q2).toString());
   }
 
   @Test
   public void testMultiply_FullCancellation() {
     BigFraction q1 = BigFraction.valueOf("2/3");
     BigFraction q2 = BigFraction.valueOf("3/2");
-    assertEquals("1", q1.multiply(q2).toFractionString());
+    assertEquals("1", q1.multiply(q2).toString());
   }
 
   @Test
   public void testMultiply_UpperLeftLowerRightCancellation() {
     BigFraction q1 = BigFraction.valueOf("3/5");
     BigFraction q2 = BigFraction.valueOf("2/3");
-    assertEquals("2/5", q1.multiply(q2).toFractionString());
+    assertEquals("2/5", q1.multiply(q2).toString());
   }
 
   @Test
   public void testMultiply_LowerLeftUpperRightCancellation() {
     BigFraction q1 = BigFraction.valueOf("5/3");
     BigFraction q2 = BigFraction.valueOf("3/2");
-    assertEquals("5/2", q1.multiply(q2).toFractionString());
+    assertEquals("5/2", q1.multiply(q2).toString());
   }
 
   @Test
   public void testDivide() {
     BigFraction q1 = new BigFraction("2", "3");
     BigFraction q2 = new BigFraction("4", "5");
-    assertEquals("5/6", q1.divide(q2).toFractionString());
+    assertEquals("5/6", q1.divide(q2).toString());
 
     q1 = new BigFraction("3", "-7");
     q2 = new BigFraction("8", "9");
-    assertEquals("-27/56", q1.divide(q2).toFractionString());
+    assertEquals("-27/56", q1.divide(q2).toString());
   }
 
   @Test

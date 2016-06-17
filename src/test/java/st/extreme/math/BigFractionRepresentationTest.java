@@ -8,42 +8,16 @@ import org.junit.Test;
 public class BigFractionRepresentationTest {
 
   @Test
-  public void testToFractionString() {
-    BigFraction q;
-    q = new BigFraction("3", "4");
-    assertEquals("3/4", q.toFractionString());
-    q = new BigFraction("-3", "4");
-    assertEquals("-3/4", q.toFractionString());
-    q = new BigFraction("3", "-4");
-    assertEquals("-3/4", q.toFractionString());
-    q = new BigFraction("-3", "-4");
-    assertEquals("3/4", q.toFractionString());
-  }
-
-  @Test
-  public void testToFractionString_DenominatorOne() {
-    BigFraction q;
-    q = new BigFraction("8", "4");
-    assertEquals("2", q.toFractionString());
-    q = new BigFraction("-8", "4");
-    assertEquals("-2", q.toFractionString());
-    q = new BigFraction("8", "-4");
-    assertEquals("-2", q.toFractionString());
-    q = new BigFraction("-8", "-4");
-    assertEquals("2", q.toFractionString());
-  }
-
-  @Test
   public void testToString() {
     BigFraction q;
     q = new BigFraction("3", "4");
-    assertEquals("0.75", q.toString());
+    assertEquals("3/4", q.toString());
     q = new BigFraction("-3", "4");
-    assertEquals("-0.75", q.toString());
+    assertEquals("-3/4", q.toString());
     q = new BigFraction("3", "-4");
-    assertEquals("-0.75", q.toString());
+    assertEquals("-3/4", q.toString());
     q = new BigFraction("-3", "-4");
-    assertEquals("0.75", q.toString());
+    assertEquals("3/4", q.toString());
   }
 
   @Test
@@ -60,7 +34,33 @@ public class BigFractionRepresentationTest {
   }
 
   @Test
-  public void testToString_periodical() {
+  public void testToPlainString() {
+    BigFraction q;
+    q = new BigFraction("3", "4");
+    assertEquals("0.75", q.toPlainString());
+    q = new BigFraction("-3", "4");
+    assertEquals("-0.75", q.toPlainString());
+    q = new BigFraction("3", "-4");
+    assertEquals("-0.75", q.toPlainString());
+    q = new BigFraction("-3", "-4");
+    assertEquals("0.75", q.toPlainString());
+  }
+
+  @Test
+  public void testToPlainString_DenominatorOne() {
+    BigFraction q;
+    q = new BigFraction("8", "4");
+    assertEquals("2", q.toPlainString());
+    q = new BigFraction("-8", "4");
+    assertEquals("-2", q.toPlainString());
+    q = new BigFraction("8", "-4");
+    assertEquals("-2", q.toPlainString());
+    q = new BigFraction("-8", "-4");
+    assertEquals("2", q.toPlainString());
+  }
+
+  @Test
+  public void testToPlainString_periodical() {
     BigFraction q = new BigFraction("1", "7");
     String period = "142857";
     StringBuilder expected = new StringBuilder();
@@ -68,6 +68,6 @@ public class BigFractionRepresentationTest {
     for (int i = 0; i < 20; i++) {
       expected.append(period);
     }
-    assertTrue(q.toString().startsWith(expected.toString()));
+    assertTrue(q.toPlainString().startsWith(expected.toString()));
   }
 }
