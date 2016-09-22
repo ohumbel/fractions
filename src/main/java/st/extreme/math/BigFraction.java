@@ -102,10 +102,10 @@ public class BigFraction extends Number implements Comparable<Number> {
   public static final BigFraction ZERO = new BigFraction(BigInteger.ZERO, BigInteger.ONE);
 
   /** The pattern a decimal input String has to match */
-  static final Pattern DECIMAL_PATTERN = Pattern.compile("0|([-|+]?(0\\.[0-9][0-9]*))|([-|+]?([1-9][0-9]*)(\\.[0-9])?[0-9]*)");
+  static final Pattern DECIMAL_PATTERN = Pattern.compile("([-|+])?\\d+(\\.\\d+)?");
 
   /** The pattern a fraction input String has to match */
-  static final Pattern FRACTION_PATTERN = Pattern.compile("(0|([-|+]?[1-9][0-9]*))/([-|+]?[1-9][0-9]*)");
+  static final Pattern FRACTION_PATTERN = Pattern.compile("([-|+])?\\d+/([-|+])?\\d+");
 
   /**
    * The default {@link MathContext} for conversions into {@link BigDecimal}.
