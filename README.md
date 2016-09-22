@@ -12,7 +12,7 @@ Rational calculation: `add`, `subtract`, `multiply`, `divide` and `pow(int)` wit
 
 ## Motivation
 
-The handling of `BigDecimal` is a bit cumbersome. The programmer needs to specify the precision (or `MathContext`) for every arithmetic operation.
+The handling of `BigDecimal` is a bit cumbersome. The programmer needs to specify the precision (or `MathContext`) for almost every division, and - depending on the call chain - for the other arithmetic operations as well.
 
 My goal is to provide an easy to use class which frees the user of taking care about precision. 
 
