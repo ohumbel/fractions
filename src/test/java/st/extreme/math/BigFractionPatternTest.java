@@ -90,6 +90,11 @@ public class BigFractionPatternTest {
     assertFalse(matchesFractionPattern("01"));
     assertFalse(matchesFractionPattern("-01"));
     assertFalse(matchesFractionPattern("+01"));
+
+    assertTrue(matchesDecimalPattern("+0.0"));
+    assertTrue(matchesDecimalPattern("-0.0"));
+    assertTrue(matchesDecimalPattern("+0"));
+    assertTrue(matchesDecimalPattern("-0"));
   }
 
   @Test
@@ -193,13 +198,9 @@ public class BigFractionPatternTest {
 
   @Test
   public void testDecimalPattern_Questionable() {
-    assertTrue(matchesDecimalPattern("+0.0"));
     assertTrue(matchesDecimalPattern("+0.000"));
-    assertTrue(matchesDecimalPattern("-0.0"));
     assertTrue(matchesDecimalPattern("-0.000"));
     assertTrue(matchesDecimalPattern("01"));
-    assertTrue(matchesDecimalPattern("+0"));
-    assertTrue(matchesDecimalPattern("-0"));
   }
 
   @Test

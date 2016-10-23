@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
@@ -101,10 +103,14 @@ public class BigFraction extends Number implements Comparable<Number> {
    */
   public static final BigFraction ZERO = new BigFraction(BigInteger.ZERO, BigInteger.ONE);
 
-  /** The pattern a decimal input String has to match */
+  /**
+   * The pattern a decimal input String has to match
+   */
   static final Pattern DECIMAL_PATTERN = Pattern.compile("([-|+])?\\d+(\\.\\d+)?");
 
-  /** The pattern a fraction input String has to match */
+  /**
+   * The pattern a fraction input String has to match
+   */
   static final Pattern FRACTION_PATTERN = Pattern.compile("([-|+])?\\d+/([-|+])?\\d+");
 
   /**
@@ -112,16 +118,50 @@ public class BigFraction extends Number implements Comparable<Number> {
    */
   private static final MathContext DEFAULT_MATH_CONTEXT = new MathContext(500, RoundingMode.HALF_UP);
 
-  /** The serial version id */
+  /**
+   * The serial version id
+   */
   private static final long serialVersionUID = 1295910738820044783L;
 
-  /** String constant for the digit {@code 1} */
+  /**
+   * String constant for the digit {@code 1}
+   */
   private static final String STRING_ONE = "1";
 
-  /** String constant for the digit {@code 0} */
+  /**
+   * String constant for the digit {@code 0}
+   */
   private static final String STRING_ZERO = "0";
 
+  /**
+   * A Set of String values qualifying as {@code zero} input
+   */
+  private static final Set<String> ZERO_VALUES;
+  static {
+    ZERO_VALUES = new HashSet<>();
+    ZERO_VALUES.add("");
+    ZERO_VALUES.add("0");
+    ZERO_VALUES.add("+0");
+    ZERO_VALUES.add("-0");
+    ZERO_VALUES.add("0.0");
+    ZERO_VALUES.add("+0.0");
+    ZERO_VALUES.add("-0.0");
+    ZERO_VALUES.add("0.");
+    ZERO_VALUES.add("+0.");
+    ZERO_VALUES.add("-0.");
+    ZERO_VALUES.add(".0");
+    ZERO_VALUES.add("+.0");
+    ZERO_VALUES.add("-.0");
+  }
+
+  /**
+   * The numerator
+   */
   private final BigInteger numerator;
+
+  /**
+   * The denominator
+   */
   private final BigInteger denominator;
 
   /**
@@ -582,7 +622,7 @@ public class BigFraction extends Number implements Comparable<Number> {
    * @return {@code true} if the string is evaluated to zero, {@code false} otherwise.
    */
   private static boolean isZeroStringInput(String numberString) {
-    if (numberString == null || numberString.isEmpty() || STRING_ZERO.equals(numberString)) {
+    if (numberString == null || ZERO_VALUES.contains(numberString)) {
       return true;
     }
     return false;

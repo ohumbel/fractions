@@ -216,6 +216,16 @@ public class BigFractionValueOfTest {
     assertEquals(BigInteger.ONE, q.getDenominator());
     assertEquals(0, q.signum());
 
+    q = BigFraction.valueOf("+0");
+    assertEquals(BigInteger.ZERO, q.getNumerator());
+    assertEquals(BigInteger.ONE, q.getDenominator());
+    assertEquals(0, q.signum());
+
+    q = BigFraction.valueOf("-0");
+    assertEquals(BigInteger.ZERO, q.getNumerator());
+    assertEquals(BigInteger.ONE, q.getDenominator());
+    assertEquals(0, q.signum());
+
     q = BigFraction.valueOf("0/1");
     assertEquals(BigInteger.ZERO, q.getNumerator());
     assertEquals(BigInteger.ONE, q.getDenominator());
@@ -250,6 +260,51 @@ public class BigFractionValueOfTest {
     assertEquals(BigInteger.ZERO, q.getNumerator());
     assertEquals(BigInteger.ONE, q.getDenominator());
     assertEquals(0, q.signum());
+
+    q = BigFraction.valueOf("0.");
+    assertEquals(BigInteger.ZERO, q.getNumerator());
+    assertEquals(BigInteger.ONE, q.getDenominator());
+    assertEquals(0, q.signum());
+
+    q = BigFraction.valueOf("+0.");
+    assertEquals(BigInteger.ZERO, q.getNumerator());
+    assertEquals(BigInteger.ONE, q.getDenominator());
+    assertEquals(0, q.signum());
+
+    q = BigFraction.valueOf("-0.");
+    assertEquals(BigInteger.ZERO, q.getNumerator());
+    assertEquals(BigInteger.ONE, q.getDenominator());
+    assertEquals(0, q.signum());
+
+    q = BigFraction.valueOf(".0");
+    assertEquals(BigInteger.ZERO, q.getNumerator());
+    assertEquals(BigInteger.ONE, q.getDenominator());
+    assertEquals(0, q.signum());
+
+    q = BigFraction.valueOf("+.0");
+    assertEquals(BigInteger.ZERO, q.getNumerator());
+    assertEquals(BigInteger.ONE, q.getDenominator());
+    assertEquals(0, q.signum());
+
+    q = BigFraction.valueOf("-.0");
+    assertEquals(BigInteger.ZERO, q.getNumerator());
+    assertEquals(BigInteger.ONE, q.getDenominator());
+    assertEquals(0, q.signum());
+
+    q = BigFraction.valueOf("0.0");
+    assertEquals(BigInteger.ZERO, q.getNumerator());
+    assertEquals(BigInteger.ONE, q.getDenominator());
+    assertEquals(0, q.signum());
+
+    q = BigFraction.valueOf("+0.0");
+    assertEquals(BigInteger.ZERO, q.getNumerator());
+    assertEquals(BigInteger.ONE, q.getDenominator());
+    assertEquals(0, q.signum());
+
+    q = BigFraction.valueOf("-0.0");
+    assertEquals(BigInteger.ZERO, q.getNumerator());
+    assertEquals(BigInteger.ONE, q.getDenominator());
+    assertEquals(0, q.signum());
   }
 
   @Test
@@ -257,8 +312,6 @@ public class BigFractionValueOfTest {
     assertNumberFormatException("x");
     assertNumberFormatException(".");
     assertNumberFormatException("-");
-    assertNumberFormatException(".0");
-    assertNumberFormatException("0.");
     assertNumberFormatException("0-");
     assertNumberFormatException("0+");
 
@@ -268,14 +321,10 @@ public class BigFractionValueOfTest {
     assertNumberFormatException("-.");
     assertNumberFormatException("0.-");
     assertNumberFormatException("0.+");
-    assertNumberFormatException("+0.");
-    assertNumberFormatException("-0.");
     assertNumberFormatException(".-0");
     assertNumberFormatException(".+0");
     assertNumberFormatException(".0-");
     assertNumberFormatException(".0+");
-    assertNumberFormatException("+.0");
-    assertNumberFormatException("-.0");
 
     assertNumberFormatException("1x");
     assertNumberFormatException("1.");
@@ -357,8 +406,6 @@ public class BigFractionValueOfTest {
     assertNumberFormatException("0/");
     assertNumberFormatException("/0");
     assertNumberFormatException(".");
-    assertNumberFormatException("0.");
-    assertNumberFormatException(".0");
     assertNumberFormatException("-/+");
   }
 
