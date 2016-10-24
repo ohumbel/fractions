@@ -156,11 +156,15 @@ public class BigFraction extends Number implements Comparable<Number> {
 
   /**
    * The numerator
+   * <p>
+   * For easier calculation, the sign of the fraction is kept in the numerator.
    */
   private final BigInteger numerator;
 
   /**
    * The denominator
+   * <p>
+   * For easier calculation, the denominator is always kept positive (without a sign).
    */
   private final BigInteger denominator;
 
@@ -168,6 +172,9 @@ public class BigFraction extends Number implements Comparable<Number> {
    * Create a {@link BigFraction} from a {@link String} numerator and denominator.
    * <p>
    * Both values have to be accepted by {@link BigInteger#BigInteger(String)}.
+   * <p>
+   * Because the denominator is always kept positive, it is possible that the signs of both numerator and denominator are inverted on
+   * construction.
    * 
    * @param numerator
    *          The numerator
@@ -180,6 +187,9 @@ public class BigFraction extends Number implements Comparable<Number> {
 
   /**
    * Create a {@link BigFraction} from a {@link BigInteger} numerator and denominator.
+   * <p>
+   * Because the denominator is always kept positive, it is possible that the signs of both numerator and denominator are inverted on
+   * construction.
    * 
    * @param numerator
    *          The numerator
