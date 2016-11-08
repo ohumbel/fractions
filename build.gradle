@@ -78,25 +78,27 @@ uploadArchives {
                     url 'git@github.com:ohumbel/fractions.git'
                 }
 
-    			licenses {
+                licenses {
                     license {
                         name 'The Apache License, Version 2.0'
                         url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
                     }
-    			}
+                }
 
-                developers {[
-                    developer {
-                        id 'ohumbel'
-                        name 'Otmar Humbel'
-                        email 'ohumbel@gmail.com'
-                    },
-                    developer {
-                        id 'reinhapa'
-                        name 'Patrick Reinhart'
-                        email 'patrick@reini.net'
-                    }
-                ]}
+                developers {
+                    [
+                        developer {
+                            id 'ohumbel'
+                            name 'Otmar Humbel'
+                            email 'ohumbel@gmail.com'
+                        },
+                        developer {
+                            id 'reinhapa'
+                            name 'Patrick Reinhart'
+                            email 'patrick@reini.net'
+                        }
+                    ]
+                }
             }
         }
     }
