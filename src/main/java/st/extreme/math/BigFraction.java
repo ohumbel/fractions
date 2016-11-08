@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  * All operations on fractions can be performed through {@link BigInteger} multiplication, addition and subtraction. And these have
  * <strong>exact</strong> precision.
  * <p>
- * Cancellation is done on construction, using {@link BigInteger#gcd(BigInteger)}.
+ * Cancellation is always done on construction, using {@link BigInteger#gcd(BigInteger)}.
  * <p>
  * <strong>Use case 1: division and multiplication with the same value</strong><br>
  * This is the most common source of rounding problems.
@@ -175,6 +175,9 @@ public class BigFraction extends Number implements Comparable<Number> {
    * <p>
    * Because the denominator is always kept positive, it is possible that the signs of both numerator and denominator are inverted on
    * construction.
+   * <p>
+   * A {@link BigFraction} is always cancelled on construction, for example:<br>
+   * {@code 4/6} will be cancelled into {@code 2/3}.
    * 
    * @param numerator
    *          The numerator
@@ -190,6 +193,9 @@ public class BigFraction extends Number implements Comparable<Number> {
    * <p>
    * Because the denominator is always kept positive, it is possible that the signs of both numerator and denominator are inverted on
    * construction.
+   * <p>
+   * A {@link BigFraction} is always cancelled on construction, for example:<br>
+   * {@code 4/6} will be cancelled into {@code 2/3}.
    * 
    * @param numerator
    *          The numerator
@@ -205,7 +211,7 @@ public class BigFraction extends Number implements Comparable<Number> {
       numerator = numerator.negate();
       denominator = denominator.negate();
     }
-    // cancel if possible
+    // always cancel if necessary
     BigInteger gcd = numerator.gcd(denominator);
     if (gcd.compareTo(BigInteger.ONE) > 0) {
       numerator = numerator.divide(gcd);
