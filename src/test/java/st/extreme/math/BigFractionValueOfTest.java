@@ -327,23 +327,76 @@ public class BigFractionValueOfTest {
     assertNumberFormatException(".0+");
 
     assertNumberFormatException("1x");
-    assertNumberFormatException("1.");
     assertNumberFormatException("01x");
-    assertNumberFormatException("01.");
-    assertNumberFormatException(".1");
     assertNumberFormatException(".2-");
     assertNumberFormatException(".3+");
-    assertNumberFormatException(".10");
     assertNumberFormatException(".20-");
     assertNumberFormatException(".30+");
-    assertNumberFormatException("+.1");
-    assertNumberFormatException("-.1");
-    assertNumberFormatException("+.10");
-    assertNumberFormatException("-.10");
-    assertNumberFormatException("+1.");
-    assertNumberFormatException("-1.");
-    assertNumberFormatException("+01.");
-    assertNumberFormatException("-01.");
+  }
+
+  @Test
+  public void testValueOf_almostIllegal_but_parseableByBigDecimal() {
+    BigFraction q;
+
+    q = BigFraction.valueOf("1.");
+    assertEquals(BigInteger.ONE, q.getNumerator());
+    assertEquals(BigInteger.ONE, q.getDenominator());
+    assertEquals(1, q.signum());
+
+    q = BigFraction.valueOf("01.");
+    assertEquals(BigInteger.ONE, q.getNumerator());
+    assertEquals(BigInteger.ONE, q.getDenominator());
+    assertEquals(1, q.signum());
+
+    q = BigFraction.valueOf(".1");
+    assertEquals(BigInteger.ONE, q.getNumerator());
+    assertEquals(BigInteger.TEN, q.getDenominator());
+    assertEquals(1, q.signum());
+
+    q = BigFraction.valueOf(".10");
+    assertEquals(BigInteger.ONE, q.getNumerator());
+    assertEquals(BigInteger.TEN, q.getDenominator());
+    assertEquals(1, q.signum());
+
+    q = BigFraction.valueOf("+.1");
+    assertEquals(BigInteger.ONE, q.getNumerator());
+    assertEquals(BigInteger.TEN, q.getDenominator());
+    assertEquals(1, q.signum());
+
+    q = BigFraction.valueOf("-.1");
+    assertEquals(new BigInteger("-1"), q.getNumerator());
+    assertEquals(BigInteger.TEN, q.getDenominator());
+    assertEquals(-1, q.signum());
+
+    q = BigFraction.valueOf("+.10");
+    assertEquals(BigInteger.ONE, q.getNumerator());
+    assertEquals(BigInteger.TEN, q.getDenominator());
+    assertEquals(1, q.signum());
+
+    q = BigFraction.valueOf("-.10");
+    assertEquals(new BigInteger("-1"), q.getNumerator());
+    assertEquals(BigInteger.TEN, q.getDenominator());
+    assertEquals(-1, q.signum());
+
+    q = BigFraction.valueOf("+1.");
+    assertEquals(BigInteger.ONE, q.getNumerator());
+    assertEquals(BigInteger.ONE, q.getDenominator());
+    assertEquals(1, q.signum());
+
+    q = BigFraction.valueOf("-1.");
+    assertEquals(new BigInteger("-1"), q.getNumerator());
+    assertEquals(BigInteger.ONE, q.getDenominator());
+    assertEquals(-1, q.signum());
+
+    q = BigFraction.valueOf("+01.");
+    assertEquals(BigInteger.ONE, q.getNumerator());
+    assertEquals(BigInteger.ONE, q.getDenominator());
+    assertEquals(1, q.signum());
+
+    q = BigFraction.valueOf("-01.");
+    assertEquals(new BigInteger("-1"), q.getNumerator());
+    assertEquals(BigInteger.ONE, q.getDenominator());
+    assertEquals(-1, q.signum());
   }
 
   @Test
@@ -483,6 +536,51 @@ public class BigFractionValueOfTest {
     BigFraction q = BigFraction.valueOf(bigDecimal);
     assertEquals(new BigInteger("-4236460560011"), q.getNumerator());
     assertEquals(new BigInteger("5000000"), q.getDenominator());
+    assertEquals(-1, q.signum());
+  }
+
+  @Test
+  public void testValueOf_BigDecimal_toString() {
+    BigDecimal bigDecimal = new BigDecimal("-847292.1120022");
+    BigFraction q = BigFraction.valueOf(bigDecimal.toString());
+    assertEquals(new BigInteger("-4236460560011"), q.getNumerator());
+    assertEquals(new BigInteger("5000000"), q.getDenominator());
+    assertEquals(-1, q.signum());
+  }
+
+  @Test
+  public void testValueOf_BigDecimal_toString_Scientific() {
+    BigDecimal bigDecimal;
+    BigFraction q;
+
+    bigDecimal = new BigDecimal("-2.37e5");
+    q = BigFraction.valueOf(bigDecimal.toString());
+    assertEquals(new BigInteger("-237000"), q.getNumerator());
+    assertEquals(new BigInteger("1"), q.getDenominator());
+    assertEquals(-1, q.signum());
+
+    bigDecimal = new BigDecimal("-2.37e-2");
+    q = BigFraction.valueOf(bigDecimal.toString());
+    assertEquals(new BigInteger("-237"), q.getNumerator());
+    assertEquals(new BigInteger("10000"), q.getDenominator());
+    assertEquals(-1, q.signum());
+  }
+
+  @Test
+  public void testValueOf_BigDecimal_toEngineeringString() {
+    BigDecimal bigDecimal;
+    BigFraction q;
+
+    bigDecimal = new BigDecimal("-2.37e5");
+    q = BigFraction.valueOf(bigDecimal.toEngineeringString());
+    assertEquals(new BigInteger("-237000"), q.getNumerator());
+    assertEquals(new BigInteger("1"), q.getDenominator());
+    assertEquals(-1, q.signum());
+
+    bigDecimal = new BigDecimal("-2.37e-2");
+    q = BigFraction.valueOf(bigDecimal.toString());
+    assertEquals(new BigInteger("-237"), q.getNumerator());
+    assertEquals(new BigInteger("10000"), q.getDenominator());
     assertEquals(-1, q.signum());
   }
 

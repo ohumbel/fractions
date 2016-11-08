@@ -474,7 +474,12 @@ public class BigFraction extends Number implements Comparable<Number> {
       matchesFraction = FRACTION_PATTERN.matcher(numberString).matches();
     }
     if (!matchesDecimal && !matchesFraction) {
-      throw new NumberFormatException(buildNumberFormatExceptionMessage(numberString));
+      try {
+        numberString = new BigDecimal(numberString).toPlainString();
+        matchesDecimal = true;
+      } catch (NumberFormatException nfe) {
+        throw new NumberFormatException(buildNumberFormatExceptionMessage(numberString));
+      }
     }
     if (matchesDecimal) {
       return valueOfDecimalString(numberString);
