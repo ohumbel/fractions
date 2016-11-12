@@ -424,23 +424,23 @@ public class BigFractionValueOfTest {
     assertEquals(-1, q.signum());
 
     q = BigFraction.valueOf("2/-3");
-    assertEquals(new BigInteger("-2"), q.getNumerator());
-    assertEquals(new BigInteger("3"), q.getDenominator());
+    assertEquals(new BigInteger("2"), q.getNumerator());
+    assertEquals(new BigInteger("-3"), q.getDenominator());
     assertEquals(-1, q.signum());
 
     q = BigFraction.valueOf("02/-03");
-    assertEquals(new BigInteger("-2"), q.getNumerator());
-    assertEquals(new BigInteger("3"), q.getDenominator());
+    assertEquals(new BigInteger("2"), q.getNumerator());
+    assertEquals(new BigInteger("-3"), q.getDenominator());
     assertEquals(-1, q.signum());
 
     q = BigFraction.valueOf("-2/-3");
-    assertEquals(new BigInteger("2"), q.getNumerator());
-    assertEquals(new BigInteger("3"), q.getDenominator());
+    assertEquals(new BigInteger("-2"), q.getNumerator());
+    assertEquals(new BigInteger("-3"), q.getDenominator());
     assertEquals(1, q.signum());
 
     q = BigFraction.valueOf("-02/-03");
-    assertEquals(new BigInteger("2"), q.getNumerator());
-    assertEquals(new BigInteger("3"), q.getDenominator());
+    assertEquals(new BigInteger("-2"), q.getNumerator());
+    assertEquals(new BigInteger("-3"), q.getDenominator());
     assertEquals(1, q.signum());
   }
 

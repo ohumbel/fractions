@@ -53,14 +53,18 @@ public class BigFractionConstructionTest {
     BigFraction bf;
 
     bf = new BigFraction("2", "-3");
-    // expect the sign in the numerator
+    assertEquals(TWO, bf.getNumerator());
+    assertEquals(MINUS_THREE, bf.getDenominator());
+    assertEquals(-1, bf.signum());
+
+    bf = new BigFraction("-2", "3");
     assertEquals(MINUS_TWO, bf.getNumerator());
     assertEquals(THREE, bf.getDenominator());
     assertEquals(-1, bf.signum());
 
     bf = new BigFraction("-2", "-3");
-    assertEquals(TWO, bf.getNumerator());
-    assertEquals(THREE, bf.getDenominator());
+    assertEquals(MINUS_TWO, bf.getNumerator());
+    assertEquals(MINUS_THREE, bf.getDenominator());
     assertEquals(1, bf.signum());
   }
 
@@ -92,15 +96,24 @@ public class BigFractionConstructionTest {
   public void testBigIntegerConstructor_Sign() {
     BigFraction bf;
 
+    bf = new BigFraction(TWO, THREE);
+    assertEquals(TWO, bf.getNumerator());
+    assertEquals(THREE, bf.getDenominator());
+    assertEquals(1, bf.signum());
+
     bf = new BigFraction(TWO, MINUS_THREE);
-    // expect the sign in the numerator
+    assertEquals(TWO, bf.getNumerator());
+    assertEquals(MINUS_THREE, bf.getDenominator());
+    assertEquals(-1, bf.signum());
+
+    bf = new BigFraction(MINUS_TWO, THREE);
     assertEquals(MINUS_TWO, bf.getNumerator());
     assertEquals(THREE, bf.getDenominator());
     assertEquals(-1, bf.signum());
 
     bf = new BigFraction(MINUS_TWO, MINUS_THREE);
-    assertEquals(TWO, bf.getNumerator());
-    assertEquals(THREE, bf.getDenominator());
+    assertEquals(MINUS_TWO, bf.getNumerator());
+    assertEquals(MINUS_THREE, bf.getDenominator());
     assertEquals(1, bf.signum());
   }
 
@@ -114,13 +127,18 @@ public class BigFractionConstructionTest {
     assertEquals(1, bf.signum());
 
     bf = new BigFraction(FIVE, MINUS_TEN);
+    assertEquals(ONE, bf.getNumerator());
+    assertEquals(MINUS_TWO, bf.getDenominator());
+    assertEquals(-1, bf.signum());
+
+    bf = new BigFraction(MINUS_FIVE, TEN);
     assertEquals(MINUS_ONE, bf.getNumerator());
     assertEquals(TWO, bf.getDenominator());
     assertEquals(-1, bf.signum());
 
     bf = new BigFraction(MINUS_FIVE, MINUS_TEN);
-    assertEquals(ONE, bf.getNumerator());
-    assertEquals(TWO, bf.getDenominator());
+    assertEquals(MINUS_ONE, bf.getNumerator());
+    assertEquals(MINUS_TWO, bf.getDenominator());
     assertEquals(1, bf.signum());
   }
 

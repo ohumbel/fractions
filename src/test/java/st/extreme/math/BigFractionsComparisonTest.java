@@ -90,28 +90,136 @@ public class BigFractionsComparisonTest {
     q2 = new BigFraction("2", "4");
     assertEquals(0, q1.compareTo(q2));
 
+    q1 = new BigFraction("-1", "2");
+    q2 = new BigFraction("-2", "4");
+    assertEquals(0, q1.compareTo(q2));
+
+    q1 = new BigFraction("-1", "2");
+    q2 = new BigFraction("2", "-4");
+    assertEquals(0, q1.compareTo(q2));
+
+    q1 = new BigFraction("1", "-2");
+    q2 = new BigFraction("2", "-4");
+    assertEquals(0, q1.compareTo(q2));
+
     q1 = new BigFraction("2", "4");
     q2 = new BigFraction("3", "6");
+    assertEquals(0, q1.compareTo(q2));
+
+    q1 = new BigFraction("-2", "4");
+    q2 = new BigFraction("-3", "6");
+    assertEquals(0, q1.compareTo(q2));
+
+    q1 = new BigFraction("-2", "4");
+    q2 = new BigFraction("3", "-6");
+    assertEquals(0, q1.compareTo(q2));
+
+    q1 = new BigFraction("2", "-4");
+    q2 = new BigFraction("-3", "6");
+    assertEquals(0, q1.compareTo(q2));
+
+    q1 = new BigFraction("2", "-4");
+    q2 = new BigFraction("3", "-6");
     assertEquals(0, q1.compareTo(q2));
 
     q1 = new BigFraction("3", "6");
     q2 = new BigFraction("4", "8");
     assertEquals(0, q1.compareTo(q2));
 
+    q1 = new BigFraction("-3", "6");
+    q2 = new BigFraction("-4", "8");
+    assertEquals(0, q1.compareTo(q2));
+
+    q1 = new BigFraction("-3", "6");
+    q2 = new BigFraction("4", "-8");
+    assertEquals(0, q1.compareTo(q2));
+
+    q1 = new BigFraction("3", "-6");
+    q2 = new BigFraction("-4", "8");
+    assertEquals(0, q1.compareTo(q2));
+
+    q1 = new BigFraction("3", "-6");
+    q2 = new BigFraction("4", "-8");
+    assertEquals(0, q1.compareTo(q2));
+
     q1 = new BigFraction("4", "8");
     q2 = new BigFraction("5", "10");
+    assertEquals(0, q1.compareTo(q2));
+
+    q1 = new BigFraction("-4", "8");
+    q2 = new BigFraction("-5", "10");
+    assertEquals(0, q1.compareTo(q2));
+
+    q1 = new BigFraction("-4", "8");
+    q2 = new BigFraction("5", "-10");
+    assertEquals(0, q1.compareTo(q2));
+
+    q1 = new BigFraction("4", "-8");
+    q2 = new BigFraction("-5", "10");
+    assertEquals(0, q1.compareTo(q2));
+
+    q1 = new BigFraction("4", "-8");
+    q2 = new BigFraction("5", "-10");
     assertEquals(0, q1.compareTo(q2));
 
     q1 = new BigFraction("5", "10");
     q2 = new BigFraction("6", "12");
     assertEquals(0, q1.compareTo(q2));
 
+    q1 = new BigFraction("-5", "10");
+    q2 = new BigFraction("-6", "12");
+    assertEquals(0, q1.compareTo(q2));
+
+    q1 = new BigFraction("-5", "10");
+    q2 = new BigFraction("6", "-12");
+    assertEquals(0, q1.compareTo(q2));
+
+    q1 = new BigFraction("5", "-10");
+    q2 = new BigFraction("-6", "12");
+    assertEquals(0, q1.compareTo(q2));
+
+    q1 = new BigFraction("5", "-10");
+    q2 = new BigFraction("6", "-12");
+    assertEquals(0, q1.compareTo(q2));
+
     q1 = new BigFraction("6", "12");
     q2 = new BigFraction("7", "14");
     assertEquals(0, q1.compareTo(q2));
 
+    q1 = new BigFraction("-6", "12");
+    q2 = new BigFraction("-7", "14");
+    assertEquals(0, q1.compareTo(q2));
+
+    q1 = new BigFraction("-6", "12");
+    q2 = new BigFraction("7", "-14");
+    assertEquals(0, q1.compareTo(q2));
+
+    q1 = new BigFraction("6", "-12");
+    q2 = new BigFraction("-7", "14");
+    assertEquals(0, q1.compareTo(q2));
+
+    q1 = new BigFraction("6", "-12");
+    q2 = new BigFraction("7", "-14");
+    assertEquals(0, q1.compareTo(q2));
+
     q1 = new BigFraction("7", "14");
     q2 = new BigFraction("12341234", "24682468");
+    assertEquals(0, q1.compareTo(q2));
+
+    q1 = new BigFraction("-7", "14");
+    q2 = new BigFraction("-12341234", "24682468");
+    assertEquals(0, q1.compareTo(q2));
+
+    q1 = new BigFraction("-7", "14");
+    q2 = new BigFraction("12341234", "-24682468");
+    assertEquals(0, q1.compareTo(q2));
+
+    q1 = new BigFraction("7", "-14");
+    q2 = new BigFraction("-12341234", "24682468");
+    assertEquals(0, q1.compareTo(q2));
+
+    q1 = new BigFraction("7", "-14");
+    q2 = new BigFraction("12341234", "-24682468");
     assertEquals(0, q1.compareTo(q2));
   }
 
