@@ -23,8 +23,8 @@ public class BigFractionTest {
 
     q = new BigFraction("-3", "-4");
     r = q.reciprocal();
-    assertEquals(new BigInteger("-4"), r.getNumerator());
-    assertEquals(new BigInteger("-3"), r.getDenominator());
+    assertEquals(new BigInteger("4"), r.getNumerator());
+    assertEquals(new BigInteger("3"), r.getDenominator());
     assertEquals(q.signum(), r.signum());
   }
 
@@ -35,8 +35,8 @@ public class BigFractionTest {
 
     q = new BigFraction("-3", "4");
     r = q.reciprocal();
-    assertEquals(new BigInteger("4"), r.getNumerator());
-    assertEquals(new BigInteger("-3"), r.getDenominator());
+    assertEquals(new BigInteger("-4"), r.getNumerator());
+    assertEquals(new BigInteger("3"), r.getDenominator());
     assertEquals(q.signum(), r.signum());
 
     q = new BigFraction("3", "-4");

@@ -134,11 +134,6 @@ public class BigFraction extends Number implements Comparable<Number> {
   private static final String STRING_ZERO = "0";
 
   /**
-   * String constant for the minus sign {@code -}
-   */
-  private static final String STRING_MINUS = "-";
-
-  /**
    * A Set of String values qualifying as {@code zero} input
    */
   private static final Set<String> ZERO_VALUES;
@@ -168,6 +163,8 @@ public class BigFraction extends Number implements Comparable<Number> {
 
   /**
    * The denominator
+   * <p>
+   * For easier calculation, the denominator is always kept positive (without a sign).
    */
   private final BigInteger denominator;
 
@@ -175,6 +172,9 @@ public class BigFraction extends Number implements Comparable<Number> {
    * Create a {@link BigFraction} from a {@link String} numerator and denominator.
    * <p>
    * Both values have to be accepted by {@link BigInteger#BigInteger(String)}.
+   * <p>
+   * Because the denominator is always kept positive, it is possible that the signs of both numerator and denominator are inverted on
+   * construction.
    * <p>
    * A {@link BigFraction} is always cancelled on construction, for example:<br>
    * {@code 4/6} will be cancelled into {@code 2/3}.
@@ -191,6 +191,9 @@ public class BigFraction extends Number implements Comparable<Number> {
   /**
    * Create a {@link BigFraction} from a {@link BigInteger} numerator and denominator.
    * <p>
+   * Because the denominator is always kept positive, it is possible that the signs of both numerator and denominator are inverted on
+   * construction.
+   * <p>
    * A {@link BigFraction} is always cancelled on construction, for example:<br>
    * {@code 4/6} will be cancelled into {@code 2/3}.
    * 
@@ -202,6 +205,11 @@ public class BigFraction extends Number implements Comparable<Number> {
   public BigFraction(BigInteger numerator, BigInteger denominator) {
     if (BigInteger.ZERO.equals(denominator)) {
       throw new ArithmeticException("division by zero is not allowed.");
+    }
+    // always keep the denominator positive
+    if (denominator.signum() < 0) {
+      numerator = numerator.negate();
+      denominator = denominator.negate();
     }
     // always cancel if necessary
     BigInteger gcd = numerator.gcd(denominator);
@@ -272,11 +280,7 @@ public class BigFraction extends Number implements Comparable<Number> {
     if (denominator.equals(other.denominator)) {
       return numerator.compareTo(other.numerator);
     } else {
-      if (denominator.signum() == other.denominator.signum()) {
-        return numerator.multiply(other.denominator).compareTo(other.numerator.multiply(denominator));
-      } else {
-        return other.numerator.multiply(denominator).compareTo(numerator.multiply(other.denominator));
-      }
+      return numerator.multiply(other.denominator).compareTo(other.numerator.multiply(denominator));
     }
   }
 
@@ -349,7 +353,7 @@ public class BigFraction extends Number implements Comparable<Number> {
    * @return {@code -1}, {@code 0} or {@code 1} as the value of this {@code BigFraction} is negative, zero, or positive.
    */
   public int signum() {
-    return numerator.signum() * denominator.signum();
+    return numerator.signum();
   }
 
   /**
@@ -360,14 +364,10 @@ public class BigFraction extends Number implements Comparable<Number> {
    */
   public String toString() {
     StringBuilder builder = new StringBuilder();
-    if (signum() < 0) {
-      builder.append(STRING_MINUS);
-    }
-    builder.append(numerator.abs().toString());
-    BigInteger absDenominator = denominator.abs();
-    if (BigInteger.ONE.compareTo(absDenominator) != 0) {
+    builder.append(numerator.toString());
+    if (BigInteger.ONE.compareTo(denominator) != 0) {
       builder.append('/');
-      builder.append(absDenominator.toString());
+      builder.append(denominator.toString());
     }
     return builder.toString();
   }
@@ -603,7 +603,7 @@ public class BigFraction extends Number implements Comparable<Number> {
    * @return a new {@code BigFraction} representing the absolute value of this {@code BigFraction}.
    */
   public BigFraction abs() {
-    return new BigFraction(numerator.abs(), denominator.abs());
+    return new BigFraction(numerator.abs(), denominator);
   }
 
   /**

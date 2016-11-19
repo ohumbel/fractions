@@ -111,8 +111,8 @@ While `testUseCase1()` passes, `testUseCase1_BigDecimal()` fails. It is very har
   }
 ```
 
-## Changes since Release 0.9
+## Release 1.0 - Changes since last release
 - The implementation of `toString() ` and `toPlainString()` have switched. This reflects the benaviour of `BigDecimal.toSring()` and `BigDecimal.toPlainString()`.
 - The `.valueOf(String)` parsing of input can now handle more number-alike strings, especially `BigDecimal.toEngineeringString()` and `BigDecimal.toString()` with scientific notation.
-- Numerator and denominator now keep their signs. This saves two `BigInteger.negate()` calls if the denominator is negative.
+- Numerator and denominator now keep their signs. This will be reverted with the next release.
 
