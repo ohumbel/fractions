@@ -224,6 +224,16 @@ public class BigFractionsComparisonTest {
   }
 
   @Test
+  public void testCompareTo_equal_bothNumeratorAndDenominatorNegated() {
+    BigInteger nominator = new BigInteger("17");
+    BigInteger denominator = new BigInteger("29");
+
+    BigFraction q1 = new BigFraction(nominator, denominator);
+    BigFraction q2 = new BigFraction(nominator.negate(), denominator.negate());
+    assertEquals(0, q1.compareTo(q2));
+  }
+
+  @Test
   public void testCompareTo_Number_Decimal() {
     BigFraction bf;
     bf = BigFraction.valueOf("1/4");
