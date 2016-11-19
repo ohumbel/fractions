@@ -631,6 +631,18 @@ public class BigFractionTest {
     q2 = new BigFraction("-2", "-3");
     result = q1.add(q2);
     assertEquals("23/21", result.toString());
+
+    q1 = new BigFraction("2", "21");
+    q2 = new BigFraction("3", "35");
+    result = q1.add(q2);
+    assertEquals(new BigInteger("19"), result.getNumerator());
+    assertEquals(new BigInteger("105"), result.getDenominator());
+
+    q1 = new BigFraction("3", "21");
+    q2 = new BigFraction("4", "35");
+    result = q1.add(q2);
+    assertEquals(new BigInteger("9"), result.getNumerator());
+    assertEquals(new BigInteger("35"), result.getDenominator());
   }
 
   @Test
@@ -725,6 +737,18 @@ public class BigFractionTest {
     q2 = new BigFraction("-2", "-3");
     result = q1.subtract(q2);
     assertEquals("-5/21", result.toString());
+
+    q1 = new BigFraction("2", "21");
+    q2 = new BigFraction("3", "35");
+    result = q1.subtract(q2);
+    assertEquals(new BigInteger("1"), result.getNumerator());
+    assertEquals(new BigInteger("105"), result.getDenominator());
+
+    q1 = new BigFraction("4", "35");
+    q2 = new BigFraction("3", "21");
+    result = q1.subtract(q2);
+    assertEquals(new BigInteger("-1"), result.getNumerator());
+    assertEquals(new BigInteger("35"), result.getDenominator());
   }
 
   @Test

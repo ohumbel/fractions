@@ -569,8 +569,7 @@ public class BigFraction extends Number implements Comparable<Number> {
     if (denominator.equals(value.denominator)) {
       return new BigFraction(numerator.add(value.numerator), denominator);
     }
-    return new BigFraction(numerator.multiply(value.denominator).add(value.numerator.multiply(denominator)),
-        denominator.multiply(value.denominator));
+    return addOrSubtract(value, true);
   }
 
   /**
@@ -584,8 +583,7 @@ public class BigFraction extends Number implements Comparable<Number> {
     if (denominator.equals(value.denominator)) {
       return new BigFraction(numerator.subtract(value.numerator), denominator);
     }
-    return new BigFraction(numerator.multiply(value.denominator).subtract(value.numerator.multiply(denominator)),
-        denominator.multiply(value.denominator));
+    return addOrSubtract(value, false);
   }
 
   /**
@@ -681,6 +679,39 @@ public class BigFraction extends Number implements Comparable<Number> {
   private static BigFraction valueOfFractionString(String fractionString) {
     String[] values = fractionString.split("/");
     return new BigFraction(values[0], values[1]);
+  }
+
+  /**
+   * Internal helper method to perform either an addition or a subtraction.
+   * <p>
+   * Uses lcm as common denominator.
+   * <p>
+   * Keeps the values as small as possible, and tries to minimize the number of {@code BigInteger} operations.
+   * 
+   * @param value
+   *          The {@link BigFraction} added to (or subtracted from) this {@link BigFraction}
+   * @param add
+   *          if {@code true} an addition is performed, otherwise a subtraction
+   * @return a new {@code BigFraction} representing the result
+   */
+  private BigFraction addOrSubtract(BigFraction value, boolean add) {
+    BigInteger gcd = denominator.gcd(value.denominator); // both denominators are positive and non-zero
+    final BigInteger expansion;
+    final BigInteger valueExpansion;
+    if (BigInteger.ONE.equals(gcd)) {
+      expansion = value.denominator;
+      valueExpansion = denominator;
+    } else {
+      expansion = value.denominator.divide(gcd);
+      valueExpansion = denominator.divide(gcd);
+    }
+    final BigInteger resultNumerator;
+    if (add) {
+      resultNumerator = expansion.multiply(numerator).add(valueExpansion.multiply(value.numerator));
+    } else {
+      resultNumerator = expansion.multiply(numerator).subtract(valueExpansion.multiply(value.numerator));
+    }
+    return new BigFraction(resultNumerator, expansion.multiply(denominator));
   }
 
 }
