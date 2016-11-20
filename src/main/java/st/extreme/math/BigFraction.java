@@ -224,21 +224,21 @@ public class BigFraction extends Number implements Comparable<Number> {
   /**
    * Convert this {@code BigFraction} into an {@code int} value.
    * 
-   * @see BigDecimal#intValue()
+   * @see BigInteger#intValue()
    */
   @Override
   public int intValue() {
-    return bigDecimalValue().intValue();
+    return numerator.divide(denominator).intValue();
   }
 
   /**
    * Convert this {@code BigFraction} into a {@code long} value.
    * 
-   * @see BigDecimal#longValue()
+   * @see BigInteger#longValue()
    */
   @Override
   public long longValue() {
-    return bigDecimalValue().longValue();
+    return numerator.divide(denominator).longValue();
   }
 
   /**

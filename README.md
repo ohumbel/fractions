@@ -120,4 +120,4 @@ While `testUseCase1()` passes, `testUseCase1_BigDecimal()` fails. It is very har
 The following people gave very valuable advice - many thanks to them:
 - [1tchy](https://github.com/1tchy) suggested cancellation
 - [reinhapa](https://github.com/reinhapa) helped with gradle and maven central
-- [bk1](https://github.com/bk1) suggested using lcm
+- [bk1](https://github.com/bk1) suggested using lcm, and other range optimizations
