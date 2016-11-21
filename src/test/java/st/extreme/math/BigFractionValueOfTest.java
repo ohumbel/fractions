@@ -584,6 +584,16 @@ public class BigFractionValueOfTest {
     assertEquals(-1, q.signum());
   }
 
+  @Test
+  public void testValueOf_BigFraction() {
+    BigFraction q;
+    BigFraction r;
+
+    r = new BigFraction(BigInteger.ONE, BigInteger.TEN);
+    q = BigFraction.valueOf(r);
+    assertEquals(q, r);
+  }
+
   private void assertNumberFormatException(String input) {
     try {
       BigFraction.valueOf(input);

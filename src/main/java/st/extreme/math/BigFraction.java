@@ -443,6 +443,10 @@ public class BigFraction extends Number implements Comparable<Number> {
     if (number instanceof Integer || number instanceof Long) {
       return new BigFraction(BigInteger.valueOf(number.longValue()), BigInteger.ONE);
     }
+    if (number instanceof BigFraction) {
+      BigFraction other = (BigFraction) number;
+      return new BigFraction(other.numerator, other.denominator);
+    }
     return valueOf(number.toString());
   }
 
