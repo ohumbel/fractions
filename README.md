@@ -116,6 +116,9 @@ While `testUseCase1()` passes, `testUseCase1_BigDecimal()` fails. It is very har
 - The `.valueOf(String)` parsing of input can now handle more number-alike strings, especially `BigDecimal.toEngineeringString()` and `BigDecimal.toString()` with scientific notation.
 - Numerator and denominator now keep their signs. This will be reverted with the next release.
 
+## (upcoming) Release 1.1 - Changes since last release
+- Running this library now requires Java version 8 (aka `JDK 8`)
+
 ## Contributors
 The following people gave very valuable advice - many thanks to them:
 - [1tchy](https://github.com/1tchy) suggested cancellation
