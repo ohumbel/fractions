@@ -5,7 +5,6 @@ sudo: false
 dist: trusty
 
 jdk:
-  - oraclejdk7
   - oraclejdk8
   - oraclejdk9
 
@@ -14,11 +13,9 @@ addons:
     packages:
       - oracle-java9-installer
 
-env:
-  - GRADLE_OPTS="--add-opens java.base/java.lang=ALL-UNNAMED --permit-illegal-access"
-
 before_cache:
-  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 cache:
   directories:
     - $HOME/.gradle/caches/
