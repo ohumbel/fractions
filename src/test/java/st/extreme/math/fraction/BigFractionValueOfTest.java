@@ -1,4 +1,4 @@
-package st.extreme.math;
+package st.extreme.math.fraction;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -7,6 +7,8 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import org.junit.Test;
+
+import st.extreme.math.fraction.BigFraction;
 
 public class BigFractionValueOfTest {
 

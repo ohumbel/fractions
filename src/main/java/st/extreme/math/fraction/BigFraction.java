@@ -1,4 +1,4 @@
-package st.extreme.math;
+package st.extreme.math.fraction;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
