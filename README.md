@@ -118,6 +118,8 @@ While `testUseCase1()` passes, `testUseCase1_BigDecimal()` fails. It is very har
 
 ## (upcoming) Release 1.1 - Changes since last release
 - Running this library now requires Java version 8 (aka `JDK 8`)
+- The `MANIFEST.MF` file now has an attribute `Automatic-Module-Name` with the value `st.extreme.math.fraction`, in order to ease the transition to `JDK 9`
+- Due to the automatic module name, the package for `BigFraction` is now `st.extreme.math.fraction`, instead of `st.extreme.math` before
 
 ## Contributors
 The following people gave very valuable advice - many thanks to them:
