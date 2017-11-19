@@ -1,4 +1,4 @@
-package st.extreme.math;
+package st.extreme.math.fraction;
 
 import static org.junit.Assert.assertEquals;
 
@@ -8,6 +8,8 @@ import java.math.RoundingMode;
 
 import org.junit.Ignore;
 import org.junit.Test;
+
+import st.extreme.math.fraction.BigFraction;
 
 public class BigFractionUsageTest {
 

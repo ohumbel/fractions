@@ -1,4 +1,4 @@
-package st.extreme.math;
+package st.extreme.math.fraction;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

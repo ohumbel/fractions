@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/ohumbel/fractions.svg)](https://travis-ci.org/ohumbel/fractions)
 [![Code Coverage](https://img.shields.io/codecov/c/github/ohumbel/fractions/master.svg)](https://codecov.io/github/ohumbel/fractions?branch=master)
 [![Apache License](https://img.shields.io/badge/license-Apache%202.0-orange.svg)](https://github.com/ohumbel/fractions/blob/master/LICENSE)
-[![Supported Versions](https://img.shields.io/badge/Java-7%2C%208-blue.svg)](https://travis-ci.org/ohumbel/fractions)
+[![Supported Versions](https://img.shields.io/badge/Java-8%2C%209-blue.svg)](https://travis-ci.org/ohumbel/fractions)
 
 ![codecov.io](https://codecov.io/github/ohumbel/fractions/branch.svg?branch=master)
 
@@ -115,6 +115,11 @@ While `testUseCase1()` passes, `testUseCase1_BigDecimal()` fails. It is very har
 - The implementation of `toString() ` and `toPlainString()` have switched. This reflects the benaviour of `BigDecimal.toSring()` and `BigDecimal.toPlainString()`.
 - The `.valueOf(String)` parsing of input can now handle more number-alike strings, especially `BigDecimal.toEngineeringString()` and `BigDecimal.toString()` with scientific notation.
 - Numerator and denominator now keep their signs. This will be reverted with the next release.
+
+## (upcoming) Release 1.1 - Changes since last release
+- Running this library now requires Java version 8 (aka `JDK 8`)
+- The `MANIFEST.MF` file now has an attribute `Automatic-Module-Name` with the value `st.extreme.math.fraction`, in order to ease the transition to `JDK 9`
+- Due to the automatic module name, the package for `BigFraction` is now `st.extreme.math.fraction`, instead of `st.extreme.math` before
 
 ## Contributors
 The following people gave very valuable advice - many thanks to them:
