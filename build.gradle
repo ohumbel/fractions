@@ -45,6 +45,7 @@ jar {
     manifest {
         attributes 'Implementation-Title': projectName,
                    'Implementation-Version': version,
+                   'Automatic-Module-Name': 'st.extreme.math.fraction',
                    'Built-By': 'Otmar Humbel <ohumbel@gmail.com>',
                    'Built-Date': new Date(),
                    'Built-JDK': System.getProperty('java.version'),
