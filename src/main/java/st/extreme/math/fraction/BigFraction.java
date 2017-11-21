@@ -179,10 +179,8 @@ public class BigFraction extends Number implements Comparable<Number> {
    * A {@link BigFraction} is always cancelled on construction, for example:<br>
    * {@code 4/6} will be cancelled into {@code 2/3}.
    * 
-   * @param numerator
-   *          The numerator
-   * @param denominator
-   *          The denominator
+   * @param numerator The numerator
+   * @param denominator The denominator
    */
   public BigFraction(String numerator, String denominator) {
     this(new BigInteger(numerator), new BigInteger(denominator));
@@ -197,10 +195,8 @@ public class BigFraction extends Number implements Comparable<Number> {
    * A {@link BigFraction} is always cancelled on construction, for example:<br>
    * {@code 4/6} will be cancelled into {@code 2/3}.
    * 
-   * @param numerator
-   *          The numerator
-   * @param denominator
-   *          The denominator
+   * @param numerator The numerator
+   * @param denominator The denominator
    */
   public BigFraction(BigInteger numerator, BigInteger denominator) {
     if (BigInteger.ZERO.equals(denominator)) {
@@ -264,10 +260,9 @@ public class BigFraction extends Number implements Comparable<Number> {
   /**
    * Compare this {@code BigFraction} with the specified {@link Number}.
    *
-   * @param number
-   *          {@link Number} to which this {@code BigFraction} is to be compared.
+   * @param number {@link Number} to which this {@code BigFraction} is to be compared.
    * @return {@code -1}, {@code 0} or {@code 1} as this {@code BigFraction} is numerically less than, equal to, or greater than
-   *         {@code number}.
+   * {@code number}.
    */
   @Override
   public int compareTo(Number number) {
@@ -290,11 +285,10 @@ public class BigFraction extends Number implements Comparable<Number> {
    * <p>
    * To determine if this {@code BigFraction} is numerically equal to a {@link Number}, use {@link #compareTo(Number)}.
    * 
-   * @param object
-   *          {@link Object} to which this {@code BigFraction} is to be compared.
+   * @param object {@link Object} to which this {@code BigFraction} is to be compared.
    * 
    * @return {@code true} if and only if the specified Object is a {@link BigFraction} whose value is numerically equal to this
-   *         {@code BigFraction}.
+   * {@code BigFraction}.
    * 
    * @see BigFraction#compareTo(Number)
    */
@@ -388,8 +382,7 @@ public class BigFraction extends Number implements Comparable<Number> {
   /**
    * Create a new {@code BigFraction} from an {@code int} input
    * 
-   * @param i
-   *          an {@code int} value.
+   * @param i an {@code int} value.
    * @return a {@code BigFraction} instance representing {@code i}.
    */
   public static BigFraction valueOf(int i) {
@@ -399,8 +392,7 @@ public class BigFraction extends Number implements Comparable<Number> {
   /**
    * Create a new {@code BigFraction} from a {@code long} input
    * 
-   * @param l
-   *          a {@code long} value.
+   * @param l a {@code long} value.
    * @return a {@code BigFraction} instance representing {@code l}.
    */
   public static BigFraction valueOf(long l) {
@@ -410,8 +402,7 @@ public class BigFraction extends Number implements Comparable<Number> {
   /**
    * Create a new {@code BigFraction} from a {@code double} input
    * 
-   * @param d
-   *          a {@code double} value.
+   * @param d a {@code double} value.
    * @return a {@code BigFraction} instance representing {@code d}.
    */
   public static BigFraction valueOf(double d) {
@@ -421,8 +412,7 @@ public class BigFraction extends Number implements Comparable<Number> {
   /**
    * Create a new {@code BigFraction} from a {@code float} input
    * 
-   * @param f
-   *          a {@code float} value.
+   * @param f a {@code float} value.
    * @return a {@code BigFraction} instance representing {@code f}.
    */
   public static BigFraction valueOf(float f) {
@@ -432,8 +422,7 @@ public class BigFraction extends Number implements Comparable<Number> {
   /**
    * Create a new {@code BigFraction} from a {@link Number} input.
    * 
-   * @param number
-   *          a {@link Number} value.
+   * @param number a {@link Number} value.
    * @return a {@code BigFraction} instance representing {@code number}.
    */
   public static BigFraction valueOf(Number number) {
@@ -464,13 +453,11 @@ public class BigFraction extends Number implements Comparable<Number> {
    * <li>{@code -2/-3}
    * </ul>
    * 
-   * @param numberString
-   *          in one of the formats described above
+   * @param numberString in one of the formats described above
    * 
    * @return a new {@code BigFraction} representing the passed in {@code numberString}.
    * 
-   * @throws NumberFormatException
-   *           if the input does not represent a valid fraction
+   * @throws NumberFormatException if the input does not represent a valid fraction
    */
   public static BigFraction valueOf(String numberString) {
     if (isZeroStringInput(numberString)) {
@@ -515,8 +502,7 @@ public class BigFraction extends Number implements Comparable<Number> {
    * <p>
    * This method is intended to round the final result into a {@link BigDecimal} .
    * 
-   * @param mathContext
-   *          The desired target {@link MathContext}
+   * @param mathContext The desired target {@link MathContext}
    * 
    * @return a maybe <strong>not exact</strong> representation of this {@code BigFraction} as a {@link BigDecimal} value.
    */
@@ -527,8 +513,7 @@ public class BigFraction extends Number implements Comparable<Number> {
   /**
    * Multiply this {@code BigFraction} by another {@link BigFraction} value.
    * 
-   * @param value
-   *          The value this {@code BigFraction} is to be multiplied with.
+   * @param value The value this {@code BigFraction} is to be multiplied with.
    * @return a new {@code BigFraction} representing the product of this {@code BigFraction} and {@code value}.
    */
   public BigFraction multiply(BigFraction value) {
@@ -554,8 +539,7 @@ public class BigFraction extends Number implements Comparable<Number> {
   /**
    * Divide this {@code BigFraction} by another {@link BigFraction} value.
    * 
-   * @param value
-   *          The value this {@code BigFraction} is to be divided with.
+   * @param value The value this {@code BigFraction} is to be divided with.
    * @return a new {@code BigFraction} representing the quotient of this {@code BigFraction} and {@code value}.
    */
   public BigFraction divide(BigFraction value) {
@@ -565,8 +549,7 @@ public class BigFraction extends Number implements Comparable<Number> {
   /**
    * Add this {@code BigFraction} and another {@link BigFraction} value.
    * 
-   * @param value
-   *          The value this {@code BigFraction} is to be added to.
+   * @param value The value this {@code BigFraction} is to be added to.
    * @return a new {@code BigFraction} representing the sum of this {@code BigFraction} and {@code value}.
    */
   public BigFraction add(BigFraction value) {
@@ -579,8 +562,7 @@ public class BigFraction extends Number implements Comparable<Number> {
   /**
    * Subtract another {@link BigFraction} value from this {@code BigFraction}.
    * 
-   * @param value
-   *          The value to be subtracted from this {@code BigFraction}.
+   * @param value The value to be subtracted from this {@code BigFraction}.
    * @return a new {@code BigFraction} representing this {@code BigFraction} minus {@code value}.
    */
   public BigFraction subtract(BigFraction value) {
@@ -611,8 +593,7 @@ public class BigFraction extends Number implements Comparable<Number> {
   /**
    * Calculate the power of this {@code BigFraction} by an {@code int} exponent.
    * 
-   * @param exponent
-   *          The exponent. Can be any {@code int}, including negative values.
+   * @param exponent The exponent. Can be any {@code int}, including negative values.
    * @return a new {@code BigFraction} representing {@code this}<sup>{@code exponent}</sup>.
    */
   public BigFraction pow(int exponent) {
@@ -652,8 +633,7 @@ public class BigFraction extends Number implements Comparable<Number> {
   }
 
   /**
-   * @param decimalString
-   *          The caller has to make sure that {@code decimalString} matches {@link DECIMAL_PATTERN}
+   * @param decimalString The caller has to make sure that {@code decimalString} matches {@link DECIMAL_PATTERN}
    * @return a new {@code BigFraction} with the value of {@code decimalString}
    */
   private static BigFraction valueOfDecimalString(String decimalString) {
@@ -676,8 +656,7 @@ public class BigFraction extends Number implements Comparable<Number> {
   }
 
   /**
-   * @param fractionString
-   *          The caller has to make sure that {@code fractionString} matches {@link FRACTION_PATTERN}
+   * @param fractionString The caller has to make sure that {@code fractionString} matches {@link FRACTION_PATTERN}
    * @return a new {@code BigFraction} with the value of {@code fractionString}
    */
   private static BigFraction valueOfFractionString(String fractionString) {
@@ -692,10 +671,8 @@ public class BigFraction extends Number implements Comparable<Number> {
    * <p>
    * Keeps the values as small as possible, and tries to minimize the number of {@code BigInteger} operations.
    * 
-   * @param value
-   *          The {@link BigFraction} added to (or subtracted from) this {@link BigFraction}
-   * @param add
-   *          if {@code true} an addition is performed, otherwise a subtraction
+   * @param value The {@link BigFraction} added to (or subtracted from) this {@link BigFraction}
+   * @param add if {@code true} an addition is performed, otherwise a subtraction
    * @return a new {@code BigFraction} representing the result
    */
   private BigFraction addOrSubtract(BigFraction value, boolean add) {
