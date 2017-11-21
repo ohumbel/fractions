@@ -1,6 +1,7 @@
 package st.extreme.math.fraction;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -333,6 +334,12 @@ public class BigFractionsComparisonTest {
     assertNotEquals(q1, q2);
     q2 = new BigFraction("11", "-40");
     assertNotEquals(q1, q2);
+  }
+
+  @Test
+  public void testEquals_null() {
+    BigFraction q1 = new BigFraction("3", "4");
+    assertFalse(q1.equals(null));
   }
 
   @Test
