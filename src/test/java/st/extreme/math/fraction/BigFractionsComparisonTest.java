@@ -9,8 +9,6 @@ import java.math.BigInteger;
 
 import org.junit.Test;
 
-import st.extreme.math.fraction.BigFraction;
-
 public class BigFractionsComparisonTest {
 
   @Test
@@ -20,6 +18,8 @@ public class BigFractionsComparisonTest {
 
     q1 = new BigFraction("12", "40");
     q2 = new BigFraction("12", "40");
+    assertEquals(q1, q1);
+    assertEquals(q2, q2);
     assertEquals(0, q1.compareTo(q2));
     assertEquals(0, q2.compareTo(q1));
     BigFraction q3 = new BigFraction("12", "40");
@@ -236,51 +236,75 @@ public class BigFractionsComparisonTest {
   }
 
   @Test
-  public void testCompareTo_Number_Decimal() {
+  public void testCompareTo_null() {
     BigFraction bf;
     bf = BigFraction.valueOf("1/4");
-
-    assertEquals(0, bf.compareTo(new BigDecimal("0.25")));
-    assertEquals(-1, bf.compareTo(new BigDecimal("0.26")));
-    assertEquals(1, bf.compareTo(new BigDecimal("0.24")));
-
-    assertEquals(0, bf.compareTo(Double.valueOf("0.25")));
-    assertEquals(0, bf.compareTo(0.25d));
-    assertEquals(-1, bf.compareTo(Double.valueOf("0.26")));
-    assertEquals(-1, bf.compareTo(0.26d));
-    assertEquals(1, bf.compareTo(Double.valueOf("0.24")));
-    assertEquals(1, bf.compareTo(0.24d));
-
-    assertEquals(0, bf.compareTo(Float.valueOf("0.25")));
-    assertEquals(0, bf.compareTo(0.25f));
-    assertEquals(-1, bf.compareTo(Float.valueOf("0.26")));
-    assertEquals(-1, bf.compareTo(0.26f));
-    assertEquals(1, bf.compareTo(Float.valueOf("0.24")));
-    assertEquals(1, bf.compareTo(0.24f));
+    assertNotEquals(0, bf.compareTo(null));
   }
 
   @Test
-  public void testCompareTo_Number_Integer() {
+  public void testCompareToNumber_Decimal() {
+    BigFraction bf;
+    bf = BigFraction.valueOf("1/4");
+
+    assertEquals(0, bf.compareToNumber(new BigDecimal("0.25")));
+    assertEquals(-1, bf.compareToNumber(new BigDecimal("0.26")));
+    assertEquals(1, bf.compareToNumber(new BigDecimal("0.24")));
+
+    assertEquals(0, bf.compareToNumber(Double.valueOf("0.25")));
+    assertEquals(0, bf.compareToNumber(0.25d));
+    assertEquals(-1, bf.compareToNumber(Double.valueOf("0.26")));
+    assertEquals(-1, bf.compareToNumber(0.26d));
+    assertEquals(1, bf.compareToNumber(Double.valueOf("0.24")));
+    assertEquals(1, bf.compareToNumber(0.24d));
+
+    assertEquals(0, bf.compareToNumber(Float.valueOf("0.25")));
+    assertEquals(0, bf.compareToNumber(0.25f));
+    assertEquals(-1, bf.compareToNumber(Float.valueOf("0.26")));
+    assertEquals(-1, bf.compareToNumber(0.26f));
+    assertEquals(1, bf.compareToNumber(Float.valueOf("0.24")));
+    assertEquals(1, bf.compareToNumber(0.24f));
+  }
+
+  @Test
+  public void testCompareToNumber_Integer() {
     BigFraction bf;
     bf = BigFraction.valueOf("4");
 
-    assertEquals(0, bf.compareTo(new BigInteger("4")));
-    assertEquals(-1, bf.compareTo(new BigInteger("5")));
-    assertEquals(1, bf.compareTo(new BigInteger("3")));
+    assertEquals(0, bf.compareToNumber(new BigInteger("4")));
+    assertEquals(-1, bf.compareToNumber(new BigInteger("5")));
+    assertEquals(1, bf.compareToNumber(new BigInteger("3")));
 
-    assertEquals(0, bf.compareTo(Long.valueOf("4")));
-    assertEquals(0, bf.compareTo(4L));
-    assertEquals(-1, bf.compareTo(Long.valueOf("5")));
-    assertEquals(-1, bf.compareTo(5L));
-    assertEquals(1, bf.compareTo(Long.valueOf("3")));
-    assertEquals(1, bf.compareTo(3L));
+    assertEquals(0, bf.compareToNumber(Long.valueOf("4")));
+    assertEquals(0, bf.compareToNumber(4L));
+    assertEquals(-1, bf.compareToNumber(Long.valueOf("5")));
+    assertEquals(-1, bf.compareToNumber(5L));
+    assertEquals(1, bf.compareToNumber(Long.valueOf("3")));
+    assertEquals(1, bf.compareToNumber(3L));
 
-    assertEquals(0, bf.compareTo(Integer.valueOf("4")));
-    assertEquals(0, bf.compareTo(4));
-    assertEquals(-1, bf.compareTo(Integer.valueOf("5")));
-    assertEquals(-1, bf.compareTo(5));
-    assertEquals(1, bf.compareTo(Integer.valueOf("3")));
-    assertEquals(1, bf.compareTo(3));
+    assertEquals(0, bf.compareToNumber(Integer.valueOf("4")));
+    assertEquals(0, bf.compareToNumber(4));
+    assertEquals(-1, bf.compareToNumber(Integer.valueOf("5")));
+    assertEquals(-1, bf.compareToNumber(5));
+    assertEquals(1, bf.compareToNumber(Integer.valueOf("3")));
+    assertEquals(1, bf.compareToNumber(3));
+  }
+
+  @Test
+  public void testCompareToNumber_null() {
+    BigFraction bf;
+    bf = BigFraction.valueOf("1/4");
+    assertNotEquals(0, bf.compareToNumber(null));
+  }
+
+  @Test
+  public void testCompareToNumber_BigFraction() {
+    BigFraction q1 = BigFraction.valueOf("1/4");
+    BigFraction q2 = BigFraction.valueOf("3/4");
+
+    assertEquals(0, q1.compareToNumber(q1));
+    assertEquals(1, q2.compareToNumber(q1));
+    assertEquals(-1, q1.compareToNumber(q2));
   }
 
   @Test

@@ -91,7 +91,7 @@ import java.util.regex.Pattern;
  * 
  * @author Otmar Humbel
  */
-public class BigFraction extends Number implements Comparable<Number> {
+public class BigFraction extends Number implements Comparable<BigFraction> {
 
   /**
    * The {@link BigFraction} representing the value {@code 1}
@@ -264,13 +264,33 @@ public class BigFraction extends Number implements Comparable<Number> {
    * @return {@code -1}, {@code 0} or {@code 1} as this {@code BigFraction} is numerically less than, equal to, or greater than
    * {@code number}.
    */
-  @Override
-  public int compareTo(Number number) {
+  public int compareToNumber(Number number) {
+    if (number == null) {
+      return 1;
+    }
     final BigFraction other;
     if (number instanceof BigFraction) {
       other = (BigFraction) number;
     } else {
       other = BigFraction.valueOf(number);
+    }
+    return compareTo(other);
+  }
+
+  /**
+   * Compare this {@code BigFraction} with the specified {@link BigFraction}.
+   *
+   * @param other {@code BigFraction} to which this {@code BigFraction} is to be compared.
+   * @return {@code -1}, {@code 0} or {@code 1} as this {@code BigFraction} is numerically less than, equal to, or greater
+   * than{@code number}.
+   */
+  @Override
+  public int compareTo(BigFraction other) {
+    if (other == this) {
+      return 0;
+    }
+    if (other == null) {
+      return 1;
     }
     if (denominator.equals(other.denominator)) {
       return numerator.compareTo(other.numerator);
