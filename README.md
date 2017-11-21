@@ -120,6 +120,8 @@ While `testUseCase1()` passes, `testUseCase1_BigDecimal()` fails. It is very har
 - Running this library now requires Java version 8 (aka `JDK 8`)
 - The `MANIFEST.MF` file now has an attribute `Automatic-Module-Name` with the value `st.extreme.math.fraction`, in order to ease the transition to `JDK 9`
 - Due to the automatic module name, the package for `BigFraction` is now `st.extreme.math.fraction`, instead of `st.extreme.math` before
+- The `compareTo()` method now only accepts `BigFraction` (everything else would violate the comparator contract)
+- The new `compareToNumber()` method allows comparisons to `java.lang.Number`
 
 ## Contributors
 The following people gave very valuable advice - many thanks to them:
