@@ -279,10 +279,14 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
 
   /**
    * Compare this {@code BigFraction} with the specified {@link BigFraction}.
+   * <p>
+   * To determine if this {@code BigFraction} is numerically equal to a {@link Number}, use {@link #compareToNumber(Number)}.
    *
    * @param other {@code BigFraction} to which this {@code BigFraction} is to be compared.
    * @return {@code -1}, {@code 0} or {@code 1} as this {@code BigFraction} is numerically less than, equal to, or greater
    * than{@code number}.
+   * 
+   * @see BigFraction#compareToNumber(Number)
    */
   @Override
   public int compareTo(BigFraction other) {
@@ -303,14 +307,14 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
    * Compare this {@code BigFraction} with the specified {@link Object} for equality.<br>
    * Equality can only be reached by {@code object} being another {@link BigFraction}.
    * <p>
-   * To determine if this {@code BigFraction} is numerically equal to a {@link Number}, use {@link #compareTo(Number)}.
+   * To determine if this {@code BigFraction} is numerically equal to a {@link Number}, use {@link #compareToNumber(Number)}.
    * 
    * @param object {@link Object} to which this {@code BigFraction} is to be compared.
    * 
    * @return {@code true} if and only if the specified Object is a {@link BigFraction} whose value is numerically equal to this
    * {@code BigFraction}.
    * 
-   * @see BigFraction#compareTo(Number)
+   * @see BigFraction#compareTo(BigFraction)
    */
   @Override
   public boolean equals(Object object) {
