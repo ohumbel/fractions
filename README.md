@@ -112,7 +112,7 @@ While `testUseCase1()` passes, `testUseCase1_BigDecimal()` fails. It is very har
 ```
 
 ## Release 1.0 - Changes since last release
-- The implementation of `toString() ` and `toPlainString()` have switched. This reflects the benaviour of `BigDecimal.toSring()` and `BigDecimal.toPlainString()`.
+- The implementation of `toString() ` and `toPlainString()` have switched. This reflects the benaviour of `BigDecimal.toString()` and `BigDecimal.toPlainString()`.
 - The `.valueOf(String)` parsing of input can now handle more number-alike strings, especially `BigDecimal.toEngineeringString()` and `BigDecimal.toString()` with scientific notation.
 - Numerator and denominator now keep their signs. This will be reverted with the next release.
 
@@ -123,6 +123,7 @@ While `testUseCase1()` passes, `testUseCase1_BigDecimal()` fails. It is very har
 - `equals()` is now properly implemented and verified by [EqualsVerifier](http://jqno.nl/equalsverifier/). As a consequence, the `BigFraction` class is now `final`.
 - The `compareTo()` method now only accepts `BigFraction` any more (everything else would violate the `Comparable` contract). Thanks to cancellation, the natural ordering of `BigFraction` is now consistent with `equals()`.
 - The new `compareToNumber()` method allows comparisons to `java.lang.Number` types.
+- The `denominator` now is always kept positive (again). Some optimizations required this, so it is likely to stay this way.
 
 
 ## Contributors
