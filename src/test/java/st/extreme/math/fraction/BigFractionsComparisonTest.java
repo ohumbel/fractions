@@ -10,6 +10,8 @@ import java.math.BigInteger;
 
 import org.junit.Test;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
+
 public class BigFractionsComparisonTest {
 
   @Test
@@ -362,8 +364,8 @@ public class BigFractionsComparisonTest {
     BigFraction q2;
     BigFraction q3;
     q1 = new BigFraction("-8", "7");
-    q2 = new BigFraction("-8000", "7000");
-    q3 = new BigFraction("-24", "21");
+    q2 = new BigFraction("-8", "7");
+    q3 = new BigFraction("-8", "7");
     assertTrue(q1.equals(q2));
     assertTrue(q2.equals(q3));
     assertEquals(q1.hashCode(), q2.hashCode());
@@ -379,4 +381,18 @@ public class BigFractionsComparisonTest {
     assertEquals(firstHash, q1.hashCode());
   }
 
+  @Test
+  public void testNumericallyEqual_but_not_equal() {
+    // the only way to theoretically reach this is both numerators = 0 and different denominators
+    BigFraction f1 = new BigFraction("0", "2");
+    BigFraction f2 = new BigFraction("0", "3");
+    // but in practice cancellation makes sure that the denominator is 1 in both cases
+    assertEquals(f1, f2);
+    assertEquals(f2, f1);
+  }
+
+  @Test
+  public void testEqualsContract() {
+    EqualsVerifier.forClass(BigFraction.class).verify();
+  }
 }

@@ -5,6 +5,7 @@ import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -91,7 +92,7 @@ import java.util.regex.Pattern;
  * 
  * @author Otmar Humbel
  */
-public class BigFraction extends Number implements Comparable<BigFraction> {
+public final class BigFraction extends Number implements Comparable<BigFraction> {
 
   /**
    * The {@link BigFraction} representing the value {@code 1}
@@ -307,19 +308,26 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
    * Compare this {@code BigFraction} with the specified {@link Object} for equality.<br>
    * Equality can only be reached by {@code object} being another {@link BigFraction}.
    * <p>
+   * To determine if this {@code BigFraction} is numerically equal to a {@code BigFraction}, use {@link #compareTo(BigFraction)}.
+   * <p>
    * To determine if this {@code BigFraction} is numerically equal to a {@link Number}, use {@link #compareToNumber(Number)}.
    * 
    * @param object {@link Object} to which this {@code BigFraction} is to be compared.
    * 
-   * @return {@code true} if and only if the specified Object is a {@link BigFraction} whose value is numerically equal to this
-   * {@code BigFraction}.
+   * @return {@code true} if and only if the specified Object is a {@link BigFraction} whose {@code numerator} and {@code denominator} are
+   * equal to this {@code BigFraction}'s.
    * 
    * @see BigFraction#compareTo(BigFraction)
+   * @see BigFraction#compareToNumber(Number)
    */
   @Override
   public boolean equals(Object object) {
     if (object instanceof BigFraction) {
-      return compareTo((BigFraction) object) == 0;
+      if (object == this) {
+        return true;
+      }
+      BigFraction other = (BigFraction) object;
+      return Objects.equals(denominator, other.denominator) && Objects.equals(numerator, other.numerator);
     } else {
       return false;
     }
@@ -333,8 +341,8 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
   @Override
   public int hashCode() {
     int hash = 17;
-    hash = 31 * hash + denominator.hashCode();
-    hash = 31 * hash + numerator.hashCode();
+    hash = 31 * hash + Objects.hashCode(denominator);
+    hash = 31 * hash + Objects.hashCode(numerator);
     return hash;
   }
 
