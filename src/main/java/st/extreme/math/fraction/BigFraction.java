@@ -267,7 +267,7 @@ public final class BigFraction extends Number implements Comparable<BigFraction>
    */
   public int compareToNumber(Number number) {
     if (number == null) {
-      return 1;
+      throw new NullPointerException("Comparison to a null value is not possible, see java.lang.Comparable");
     }
     final BigFraction other;
     if (number instanceof BigFraction) {
@@ -295,7 +295,7 @@ public final class BigFraction extends Number implements Comparable<BigFraction>
       return 0;
     }
     if (other == null) {
-      return 1;
+      throw new NullPointerException("Comparison to a null value is not possible, see java.lang.Comparable");
     }
     if (denominator.equals(other.denominator)) {
       return numerator.compareTo(other.numerator);

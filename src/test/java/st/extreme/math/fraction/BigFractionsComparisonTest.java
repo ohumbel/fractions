@@ -238,11 +238,11 @@ public class BigFractionsComparisonTest {
     assertEquals(0, q1.compareTo(q2));
   }
 
-  @Test
+  @Test(expected = NullPointerException.class)
   public void testCompareTo_null() {
     BigFraction bf;
     bf = BigFraction.valueOf("1/4");
-    assertNotEquals(0, bf.compareTo(null));
+    bf.compareTo(null);
   }
 
   @Test
@@ -293,11 +293,11 @@ public class BigFractionsComparisonTest {
     assertEquals(1, bf.compareToNumber(3));
   }
 
-  @Test
+  @Test(expected = NullPointerException.class)
   public void testCompareToNumber_null() {
     BigFraction bf;
     bf = BigFraction.valueOf("1/4");
-    assertNotEquals(0, bf.compareToNumber(null));
+    bf.compareToNumber(null);
   }
 
   @Test
