@@ -8,8 +8,6 @@ import java.math.BigInteger;
 
 import org.junit.Test;
 
-import st.extreme.math.fraction.BigFraction;
-
 public class BigFractionConstructionTest {
 
   private static final BigInteger MINUS_TEN = new BigInteger("-10");

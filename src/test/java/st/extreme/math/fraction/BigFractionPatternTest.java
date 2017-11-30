@@ -5,8 +5,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import st.extreme.math.fraction.BigFraction;
-
 public class BigFractionPatternTest {
 
   @Test

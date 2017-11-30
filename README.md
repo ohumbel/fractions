@@ -117,9 +117,13 @@ While `testUseCase1()` passes, `testUseCase1_BigDecimal()` fails. It is very har
 - Numerator and denominator now keep their signs. This will be reverted with the next release.
 
 ## (upcoming) Release 1.1 - Changes since last release
-- Running this library now requires Java version 8 (aka `JDK 8`)
-- The `MANIFEST.MF` file now has an attribute `Automatic-Module-Name` with the value `st.extreme.math.fraction`, in order to ease the transition to `JDK 9`
-- Due to the automatic module name, the package for `BigFraction` is now `st.extreme.math.fraction`, instead of `st.extreme.math` before
+- Running this library now requires Java 8.
+- The `MANIFEST.MF` file now has an attribute `Automatic-Module-Name` with the value `st.extreme.math.fraction`, in order to ease the transition to Java 9.
+- Due to the automatic module name, the package for `BigFraction` is now `st.extreme.math.fraction`, instead of `st.extreme.math` before.
+- `equals()` is now properly implemented and verified by [EqualsVerifier](http://jqno.nl/equalsverifier/). As a consequence, the `BigFraction` class is now `final`.
+- The `compareTo()` method now only accepts `BigFraction` any more (everything else would violate the `Comparable` contract). Thanks to cancellation, the natural ordering of `BigFraction` is now consistent with `equals()`.
+- The new `compareToNumber()` method allows comparisons to `java.lang.Number` types.
+
 
 ## Contributors
 The following people gave very valuable advice - many thanks to them:

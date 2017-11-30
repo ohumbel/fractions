@@ -8,8 +8,6 @@ import java.math.BigInteger;
 
 import org.junit.Test;
 
-import st.extreme.math.fraction.BigFraction;
-
 public class BigFractionTest {
 
   @Test
