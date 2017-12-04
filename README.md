@@ -26,6 +26,17 @@ Every decimal value in the form `12345.6789` can be represented as a rational nu
 Arithmetics with fractions can be reduced to *integer* multiplications, *integer* additions and *integer* subtractions. And those can be performed with **exact** precision.
 
 
+## Get it from maven central
+```xml
+<dependency>
+  <groupId>st.extreme</groupId>
+  <artifactId>fractions</artifactId>
+  <version>1.1</version>
+</dependency>
+```
+Please adapt to your build system of choice. For more information, see [Releases](https://github.com/ohumbel/fractions/releases).
+
+
 ## Implementation
 
 
@@ -116,7 +127,7 @@ While `testUseCase1()` passes, `testUseCase1_BigDecimal()` fails. It is very har
 - The `.valueOf(String)` parsing of input can now handle more number-alike strings, especially `BigDecimal.toEngineeringString()` and `BigDecimal.toString()` with scientific notation.
 - Numerator and denominator now keep their signs. This will be reverted with the next release.
 
-## (upcoming) Release 1.1 - Changes since last release
+## Release 1.1 - Changes since last release
 - Running this library now requires Java 8.
 - The `MANIFEST.MF` file now has an attribute `Automatic-Module-Name` with the value `st.extreme.math.fraction`, in order to ease the transition to Java 9.
 - Due to the automatic module name, the package for `BigFraction` is now `st.extreme.math.fraction`, instead of `st.extreme.math` before.
